@@ -1,3 +1,4 @@
+import MarcaResourceClient from "./MarcaResourceClient.js";
 class selfComplementary extends  HTMLElement {
   constructor() {
   super();
@@ -26,4 +27,11 @@ class selfComplementary extends  HTMLElement {
   }
 }
 window.customElements.define('self-complementary',selfComplementary);
-//export< default selfComplementary;
+
+window.onload = function(){
+  this.mrc = new MarcaResourceClient();
+  this.mrc.findByName("d")
+   .then(response => response.json())
+   .then(marcas => console.log(marcas));
+}
+export default selfComplementary;
