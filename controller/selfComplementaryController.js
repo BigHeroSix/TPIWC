@@ -2,7 +2,7 @@ import MarcaResourceClient from "./MarcaResourceClient.js";
 class selfComplementary extends  HTMLElement {
     constructor() {
         super();
-        this._root = this.attachShadow({mode: 'open'});
+        this._root = this.attachShadow({mode: 'open'});        
     }
 
     connectedCallback() {
@@ -25,7 +25,7 @@ class selfComplementary extends  HTMLElement {
         div.appendChild(this.search);
         div.appendChild(list);
 
-        this.search.onkeyup = _ => {
+        this.search.oninput = _ => {
 
             list.innerHTML = "";
 
@@ -44,6 +44,11 @@ class selfComplementary extends  HTMLElement {
                             }));
             }
         };
+        
+        list.onselect = _ => {
+            let evn = new CustomEvent('complete', {'composed': true, 'bubbles': true, 'detail': {marca: response.json}});
+            this.dispatchEvent(evn);
+        }
     }
 }
 //    realizado() {
