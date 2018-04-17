@@ -2,17 +2,18 @@ import MarcaResourceClient from "./MarcaResourceClient.js";
 class selfComplementary extends  HTMLElement {
     constructor() {
         super();
-        this._root = this.attachShadow({mode: 'open'});        
+        this._root = this.attachShadow({mode: 'open'});
+        this.response;        
     }
 
     connectedCallback() {
         //declaracion de variables de elementos
         this.search = document.createElement('input');
 
-        let div = document.createElement('div');
-        let list = document.createElement('datalist');
+        this.div = document.createElement('div');
+        this.list = document.createElement('datalist');
         //configuracion de atributos
-        list.setAttribute('id', 'list');
+        this.list.setAttribute('id', 'list');
         this.search.setAttribute('id', 'search');
         this.search.setAttribute('type', 'text');
         this.search.setAttribute('placeholder', 'Buscar una marca');
@@ -21,34 +22,41 @@ class selfComplementary extends  HTMLElement {
 
 
         //configuracion de tree
-        this._root.appendChild(div);
-        div.appendChild(this.search);
-        div.appendChild(list);
+        this._root.appendChild(this.div);
+        this.div.appendChild(this.search);
+        this.div.appendChild(this.list);
 
         this.search.oninput = _ => {
 
-            list.innerHTML = "";
+            this.list.innerHTML = "";
 
-            let charSequence = this.search.value;
+            this.charSequence = this.search.value;
             this.mrc = new MarcaResourceClient();
-            if (charSequence !== "") {
-                this.mrc.findByNameLike(`${charSequence}?pagesize=5`)
+            if (this.charSequence !== "") {
+                this.mrc.findByNameLike(`${this.charSequence}?pagesize=5`)
                         .then(response => response.json())
-                        .then(marcas => marcas.forEach((value, index) => {
+                        .then(marcas => {marcas.forEach((value, index) => {
                                 let node = document.createElement("OPTION");
                                 let textnode = document.createTextNode(value.nombre);
                                 node.appendChild(textnode);
                                 node.setAttribute("id", value.idMarca);
                                 node.setAttribute("name", value.nombre);
-                                list.appendChild(node);
-                            }));
+                                this.list.appendChild(node);
+
+                            });
+                          this.response=marcas;}
+                        );
             }
         };
         
-        list.onselect = _ => {
-            let evn = new CustomEvent('complete', {'composed': true, 'bubbles': true, 'detail': {marca: response.json}});
-            this.dispatchEvent(evn);
-        }
+        this.search.onchange = _ => {
+//          let marcaSelected=this.response.find(e => {
+//            e.name === this.search.value;
+//          });
+          console.log("se selecciono "+ this.response);
+            this.evn = new CustomEvent('complete', {'composed': true, 'bubbles': true, 'detail': {'marca': this.search.value}});
+            this.dispatchEvent(this.evn);
+        };
     }
 }
 //    realizado() {
