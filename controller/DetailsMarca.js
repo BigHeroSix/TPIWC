@@ -12,6 +12,12 @@ class DetailsMarca extends  HTMLElement {
     connectedCallback() {
         
         this.div = document.createElement('div');
+//        this.div.setAttribute('style',`
+//            
+//            margin: 0 auto; 
+//            width: 600px; 
+//            background-color: #fff;            
+//        `);
         
         this.txtID = document.createElement('label');
         this.inputID = document.createElement('input');
