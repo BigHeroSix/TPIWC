@@ -46,7 +46,7 @@ class selfComplementary extends  HTMLElement {
         };
         
         list.onselect = _ => {
-            let evn = new CustomEvent('complete', {'composed': true, 'bubbles': true, 'detail': {marca: response.json}});
+            let evn = new CustomEvent('complete', {'composed': true, 'bubbles': true, 'detail': {marca: response.json()}});
             this.dispatchEvent(evn);
         }
     }
