@@ -1,49 +1,59 @@
-class SelfComplementary extends HTMLElement {
+import MarcaResourceClient from "./MarcaResourceClient.js";
+class selfComplementary extends  HTMLElement {
     constructor() {
         super();
-        this.root=this.attachShadow({mode: 'open'});
+        this._root = this.attachShadow({mode: 'open'});
     }
-    
-    get path(){
-        return this.getAttribute("path");
-    }
-    
-    
+
     connectedCallback() {
         //declaracion de variables de elementos
+        this.search = document.createElement('input');
+
         let div = document.createElement('div');
-        let search = document.createElement('input');
         let list = document.createElement('datalist');
         //configuracion de atributos
         list.setAttribute('id', 'list');
-        search.setAttribute('id', 'search');
-        search.setAttribute('type', 'text');
-        search.setAttribute('placeholder', 'Buscar por...');
-        search.setAttribute('list', 'list');
-        search.onkeypress=_=>event;
+        this.search.setAttribute('id', 'search');
+        this.search.setAttribute('type', 'text');
+        this.search.setAttribute('placeholder', 'Buscar una marca');
+        this.search.setAttribute('list', 'list');
+
+
+
         //configuracion de tree
-        div.appendChild(search);
+        this._root.appendChild(div);
+        div.appendChild(this.search);
         div.appendChild(list);
-                this.root.appendChild(div);
 
+        this.search.onkeyup = _ => {
 
-//            fetch("http://localhost:8080/MantenimientoMiddleWare-web-1.0-SNAPSHOT/webresources/marca")
-//            .then(response => response.json())
-//            .then(marcas => console.log(marcas));
-                
+            list.innerHTML = "";
+
+            let charSequence = this.search.value;
+            this.mrc = new MarcaResourceClient();
+            if (charSequence !== "") {
+                this.mrc.findByNameLike(`${charSequence}?pagesize=5`)
+                        .then(response => response.json())
+                        .then(marcas => marcas.forEach((value, index) => {
+                                let node = document.createElement("OPTION");
+                                let textnode = document.createTextNode(value.nombre);
+                                node.appendChild(textnode);
+                                node.setAttribute("id", value.idMarca);
+                                node.setAttribute("name", value.nombre);
+                                list.appendChild(node);
+                            }));
+            }
+        };
     }
-
-    event(){
-        console.log("aquiiii");
-       if(document.querySelector("#search").value!==null){
-           let evn=new CustomEvent('complete',{'composed':true,'bubbles':true,'detail':{ name:'it work'}});
-           this.dispatchEvent(evn);
-    }
-    
-    
-    
 }
-}
-        window.customElements.define('auto-complete',SelfComplementary);
+//    realizado() {
+//        if (this.querySelector("#search") !== "") {
+//            let evn = new CustomEvent('complete', {'composed': true, 'bubbles': true, 'detail': {name: 'it work'}});
+//            this.dispatchEvent(evn);
+//        }
+//    }
 
-export default SelfComplementary;
+customElements.define('self-complementary', selfComplementary);
+
+export default selfComplementary;
+
