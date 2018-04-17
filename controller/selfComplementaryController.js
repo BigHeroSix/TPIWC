@@ -57,6 +57,7 @@ class selfComplementary extends  HTMLElement {
             this.evn = new CustomEvent('complete', {'composed': true, 'bubbles': true, 'detail': {'marca': this.search.value}});
             this.dispatchEvent(this.evn);
         };
+
     }
 }
 //    realizado() {
