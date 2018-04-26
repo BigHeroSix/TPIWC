@@ -17,9 +17,6 @@ class selfComplementary extends  HTMLElement {
         this.search.setAttribute('type', 'text');
         this.search.setAttribute('placeholder', 'Buscar una marca');
         this.search.setAttribute('list', 'list');
-
-
-
         //configuracion de tree
         this._root.appendChild(div);
         div.appendChild(this.search);
