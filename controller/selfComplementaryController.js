@@ -1,56 +1,74 @@
-import MarcaResourceClient from "./MarcaResourceClient.js";
 class selfComplementary extends  HTMLElement {
     constructor() {
         super();
         this._root = this.attachShadow({mode: 'open'});
+        this.response;        
     }
 
+    static get observedAttributes() {
+        return ['options'];
+      }
+
+    get legend(){
+        this.getAttribute("legend");
+    }
+
+    get options(){
+        this.getAttribute("options");
+    }
+
+    get findtag(){
+        this.getAttribute("findtag");
+    }
+    
     connectedCallback() {
-        //declaracion de variables de elementos
-        this.search = document.createElement('input');
+    this.parent=document.createElement("div");
+    this.input=document.createElement("input");
 
-        let div = document.createElement('div');
-        let list = document.createElement('datalist');
-        //configuracion de atributos
-        list.setAttribute('id', 'list');
-        this.search.setAttribute('id', 'search');
-        this.search.setAttribute('type', 'text');
-        this.search.setAttribute('placeholder', 'Buscar una marca');
-        this.search.setAttribute('list', 'list');
-        //configuracion de tree
-        this._root.appendChild(div);
-        div.appendChild(this.search);
-        div.appendChild(list);
-
-        this.search.onkeyup = _ => {
-
-            list.innerHTML = "";
-
-            let charSequence = this.search.value;
-            this.mrc = new MarcaResourceClient();
-            if (charSequence !== "") {
-                this.mrc.findByNameLike(`${charSequence}?pagesize=5`)
-                        .then(response => response.json())
-                        .then(marcas => marcas.forEach((value, index) => {
-                                let node = document.createElement("OPTION");
-                                let textnode = document.createTextNode(value.nombre);
-                                node.appendChild(textnode);
-                                node.setAttribute("id", value.idMarca);
-                                node.setAttribute("name", value.nombre);
-                                list.appendChild(node);
-                            }));
+    this.input.setAttribute("id","search");
+    this.dataList=document.createElement("datalist");
+    this.dataList.setAttribute("id","lista");
+    this.input.setAttribute("list","lista");
+    this.input.setAttribute("placeholder",this.getAttribute("legend"));
+    this.input.onkeyup=_=>{
+        let charSequence=this.input.value.trim();
+        if(charSequence){
+            var event=new CustomEvent(
+                "complete",
+            {
+                bubbles: true,
+                composed:true,
+                detail:{
+                    char: charSequence
+                }
+              
             }
-        };
+        )
+        this.dispatchEvent(event);
+
+        }
+    }
+    this.parent.appendChild(this.input);
+    this.parent.appendChild(this.dataList);    
+    this._root.appendChild(this.parent);
+
+
+    }
+
+    attributeChangedCallback(attrName, oldVal, newVal) {
+        this.dataList.innerHTML=undefined;
+        let options=JSON.parse(this.getAttribute("options"));     
+        console.log(options);
+        options.forEach((value,index) => {
+            let nodo=document.createElement("option");
+            let textNode = document.createTextNode(value[this.getAttribute("findtag")]);
+            nodo.appendChild(textNode);
+            nodo.setAttribute("id",value.idMarca);
+            this.dataList.appendChild(nodo);
+        });
     }
 }
-//    realizado() {
-//        if (this.querySelector("#search") !== "") {
-//            let evn = new CustomEvent('complete', {'composed': true, 'bubbles': true, 'detail': {name: 'it work'}});
-//            this.dispatchEvent(evn);
-//        }
-//    }
 
-customElements.define('self-complementary', selfComplementary);
+customElements.define('auto-complete', selfComplementary);
 
 export default selfComplementary;
-

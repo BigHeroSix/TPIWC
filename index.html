@@ -3,13 +3,25 @@
   <head>
     <meta charset="utf-8">
     <title>self-complementary</title>
+     
   </head>
   <body>
 
-    <self-complementary></self-complementary>
+<marcas-form>
+
+  <auto-complete legend="Buscar Marcas" findtag="nombre"></auto-complete>
+
+</marcas-form>
     <script type="module">
-  import selfComplementary from './controller/selfComplementaryController.js';
-  
-  </script>
+     import selfComplementary from './controller/selfComplementaryController.js';
+    </script> 
+    <script type="module">
+    import MarcasForm from './controller/MarcasForm.js';
+    </script>
+
+   <!-- <script type="module">
+     import DetailsMarca from './controller/DetailsMarca.js';
+    </script>
+  -->
   </body>
 </html>
