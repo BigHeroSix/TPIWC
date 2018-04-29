@@ -21,7 +21,7 @@ class modalDialog extends HTMLElement {
     }
 
     set width(width) {
-        this.setAttribute("width", tittle);
+        this.setAttribute("width", width);
     }
 
     connectedCallback() {
