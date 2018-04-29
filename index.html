@@ -8,18 +8,15 @@
   </head>
   <body>
 
-    <button><span class="icon-list"></span>Insertar</button>
-
-    <wc-button legend="Insertar" icon="icon-list"></wc-button>
-
-    <script type="module">
-      import WCButton from './controller/button.js';
-    </script>
-
+    <wc-button legend="Insertar" icon="icon-pencil"></wc-button>
 
     <marcas-form>
       <auto-complete legend="Buscar Marcas" findtag="nombre"></auto-complete>
     </marcas-form>
+
+    <script type="module">
+      import WCButton from './controller/button.js';
+    </script>
     
     <script type="module">
       import selfComplementary from './controller/selfComplementaryController.js';
