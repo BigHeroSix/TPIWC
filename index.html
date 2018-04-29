@@ -3,20 +3,27 @@
   <head>
     <meta charset="utf-8">
     <title>self-complementary</title>
+    <link rel="stylesheet" href="resources/iconos/style.css">
      
   </head>
   <body>
 
-<marcas-form>
+    <wc-button legend="Insertar" icon="icon-pencil"></wc-button>
 
-  <auto-complete legend="Buscar Marcas" findtag="nombre"></auto-complete>
+    <marcas-form>
+      <auto-complete legend="Buscar Marcas" findtag="nombre"></auto-complete>
+    </marcas-form>
 
-</marcas-form>
     <script type="module">
-     import selfComplementary from './controller/selfComplementaryController.js';
+      import WCButton from './controller/button.js';
+    </script>
+    
+    <script type="module">
+      import selfComplementary from './controller/selfComplementaryController.js';
     </script> 
+
     <script type="module">
-    import MarcasForm from './controller/MarcasForm.js';
+      import MarcasForm from './controller/MarcasForm.js';
     </script>
 
    <!-- <script type="module">
