@@ -16,8 +16,48 @@ class Table extends HTMLElement {
 
 
     setLista(lista) {
-
+        var pagesize = 5;
         this.lista = lista;
+        //paginador
+        if (this.paginator) {
+
+            //select paginador
+            let select = document.createElement("select");
+            if (this.pagesizeTemplate) {
+                let tamanios = this.pagesizeTemplate.split(",");
+                pagesize = parseInt(tamanios[0]);
+                console.log(pagesize);
+                tamanios.forEach((value) => {
+                    let option = document.createElement("option");
+                    option.innerText = value;
+                    option.setAttribute("value", value);
+                    select.appendChild(option);
+                });
+            } else {
+                for (let i = 1; i <= 5; i++) {
+                    let option = document.createElement("option");
+                    option.innerText = i * 5;
+                    option.setAttribute("value", i * 5);
+                    select.appendChild(option);
+                }
+            }
+            select.onchange = () => {
+                pagesize = parseInt(select.options[select.selectedIndex].value);
+                this.recargarTabla(0, pagesize);
+                this.crearPaginador(pagesize);
+            };
+
+            let divPaginador = document.createElement("div");
+            divPaginador.className = "divPaginador";
+            let divBotones = document.createElement("div");
+            divBotones.className = "divBotones";
+            divPaginador.appendChild(divBotones);
+            divPaginador.appendChild(select);
+            this._root.appendChild(divPaginador);
+            this.crearPaginador(pagesize);
+        }
+
+
         this.columns = this.querySelectorAll("wc-table-column");
         let table = document.createElement("table");
         let thead = document.createElement("thead");
@@ -39,10 +79,12 @@ class Table extends HTMLElement {
         });
         thead.appendChild(tr);
 
+
         //METODO
         var tbody;
+        console.log(pagesize);
         if (this.paginator) {
-            tbody = this.llenarTabla(0, 5);
+            tbody = this.llenarTabla(0, pagesize);
         } else {
             tbody = this.llenarTabla(0, this.lista.length);
         }
@@ -52,6 +94,29 @@ class Table extends HTMLElement {
         table.appendChild(thead);
         table.appendChild(tbody);
         this._root.appendChild(table);
+    }
+
+
+    crearPaginador(pagesize) {
+        let divBotones = document.createElement("div");
+        let numPaginadores = Math.ceil(this.lista.length / pagesize);
+        for (let i = 0; i < numPaginadores; i++) {
+            let btnPaginador = document.createElement("button");
+            btnPaginador.innerText = i + 1;
+            btnPaginador.onclick = () => {
+                this.recargarTabla((i) * pagesize, pagesize)
+            };
+            divBotones.appendChild(btnPaginador);
+        }
+        divBotones.className = "divBotones";
+
+        this._root.querySelector(".divPaginador").replaceChild(divBotones, this._root.querySelector(".divBotones"))
+    }
+
+
+    recargarTabla(first, pagesize) {
+        this._root.querySelector("table").replaceChild(this.llenarTabla(first, pagesize), this._root.querySelector("tbody"));
+        //this._root.querySelector("table").appendChild();
     }
 
 
@@ -145,6 +210,9 @@ class Table extends HTMLElement {
                 }
             }
         }
+    }
+    get pagesizeTemplate() {
+        return this.getAttribute("pagesizeTemplate");
     }
 
 
