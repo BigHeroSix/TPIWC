@@ -28,9 +28,21 @@ class Table extends HTMLElement {
         this.columns.forEach((column) => {
             let th = document.createElement("th");
             th.innerText = column.getAttribute("header");
+
+            
             //style
-            th.style.border = "black 1px solid";
-            th.style.padding = "3px"
+            this.style.padding="8px";
+            this.style.textAlign="center";
+            this.style.border= "1px solid #ddd";
+            this.style.fontSize="24px";
+            this.style.font="18px arial,serif";
+            table.style.borderCollapse="collapse";
+            this.style.backgroundcolor= "#fff";
+            table.style.width= "100%";
+            th.style.padding = "8px";
+            th.style.backgroundColor="black";
+            th.style.color= "white";
+
 
             tr.appendChild(th);
         });
