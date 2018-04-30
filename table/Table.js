@@ -8,15 +8,16 @@ class Table extends HTMLElement {
     connectedCallback() {
         if (this.tittle) {
             let tittleDiv = document.createElement("div");
-            //let tittleText = document.createAttribute("h4");
-            //tittleText.innerText = this.tittle;
             tittleDiv.innerText = this.tittle;
+            tittleDiv.style.fontSize= "25px";
+            tittleDiv.style.color= "gray";
             this._root.appendChild(tittleDiv);
         }
     }
 
 
     setLista(lista) {
+        var estilo = document.createElement("style");
         var pagesize = 5;
         this.lista = lista;
        
@@ -53,10 +54,41 @@ class Table extends HTMLElement {
             divPaginador.className = "divPaginador";
             let divBotones = document.createElement("div");
             divBotones.className = "divBotones";
+            estilo.innerText += `
+            .divBotones{
+                display: inline-block;
+            }
+            .divPaginador select {
+                color: black;
+                float: center;
+                padding: 8px 16px;
+                text-decoration: none;
+                margin:6px;
+            }
+            .divPaginador option:hover {
+                background-color:gray;
+                color: black;
+                border-radius: 5px;
+            }
+
+            .divBotones button {
+                color: black;
+                float: center;
+                padding: 8px 16px;
+                text-decoration: none;
+            }
+            
+            .divBotones button:hover {
+                background-color:black;
+                color: white;
+                border-radius: 5px;
+            }
+                    `
             divPaginador.appendChild(divBotones);
             divPaginador.appendChild(select);
             this._root.appendChild(divPaginador);
             this.crearPaginador(pagesize);
+            
         }
 
 
@@ -70,16 +102,51 @@ class Table extends HTMLElement {
             if (column.getAttribute("sortable") !== null) {
                 th.onclick = (e) => this.sortTable(column.getAttribute('value'));
             }
-
-
             th.innerText = column.getAttribute("header");
+                      
+    
             //style
-            th.style.border = "black 1px solid";
-            th.style.padding = "3px";
+            estilo.innerText += `
+            table{
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            
+            table td, table th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+            
+            table tr:nth-child(even){background-color: #f2f2f2;}
+            
+            table tr:hover {background-color: #ddd;}
+            
+            table th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                background-color: #4CAF50;
+                color: white;
+                }
+                `
+            this.style.padding="8px";
+            this.style.textAlign="center";
+            this.style.border= "1px solid #ddd";
+            this.style.fontSize="24px";
+            this.style.font="18px arial,serif";
+            table.style.borderCollapse="collapse";
+            this.style.backgroundcolor= "#fff";
+            table.style.width= "100%";
+            th.style.padding = "8px";
+            th.style.backgroundColor="black";
+            th.style.color= "white";
+                
+                this._root.appendChild(estilo);
 
             tr.appendChild(th);
         });
         thead.appendChild(tr);
+
 
 
         //METODO
@@ -96,10 +163,9 @@ class Table extends HTMLElement {
         table.appendChild(thead);
         table.appendChild(tbody);
         this._root.appendChild(table);
+              
     }
-
-
-    crearPaginador(pagesize) {
+    crearPaginador(pagesize){
         let divBotones = document.createElement("div");
         let numPaginadores = Math.ceil(this.lista.length / pagesize);
         for (let i = 0; i < numPaginadores; i++) {
@@ -229,6 +295,7 @@ class Table extends HTMLElement {
             }
         } */
     }
+
     get pagesizeTemplate() {
         return this.getAttribute("pagesizeTemplate");
     }
@@ -249,6 +316,7 @@ class Table extends HTMLElement {
         this.setAttribute("tittle", tittle);
     }
 }
+
 
 customElements.define("wc-table", Table);
 export default Table;
