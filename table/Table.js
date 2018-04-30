@@ -11,16 +11,54 @@ class Table extends HTMLElement {
             //tittleText.innerText = this.tittle;
             tittleDiv.innerText = this.tittle;
             this._root.appendChild(tittleDiv);
-             
-            
+
         }
-    
     }
 
 
-    setLista(lista){
-        
+    setLista(lista) {
+        var pagesize = 5;
         this.lista = lista;
+        //paginador
+        if (this.paginator) {
+
+            //select paginador
+            let select = document.createElement("select");
+            if (this.pagesizeTemplate) {
+                let tamanios = this.pagesizeTemplate.split(",");
+                pagesize = parseInt(tamanios[0]);
+                console.log(pagesize);
+                tamanios.forEach((value) => {
+                    let option = document.createElement("option");
+                    option.innerText = value;
+                    option.setAttribute("value", value);
+                    select.appendChild(option);
+                });
+            } else {
+                for (let i = 1; i <= 5; i++) {
+                    let option = document.createElement("option");
+                    option.innerText = i * 5;
+                    option.setAttribute("value", i * 5);
+                    select.appendChild(option);
+                }
+            }
+            select.onchange = () => {
+                pagesize = parseInt(select.options[select.selectedIndex].value);
+                this.recargarTabla(0, pagesize);
+                this.crearPaginador(pagesize);
+            };
+
+            let divPaginador = document.createElement("div");
+            divPaginador.className = "divPaginador";
+            let divBotones = document.createElement("div");
+            divBotones.className = "divBotones";
+            divPaginador.appendChild(divBotones);
+            divPaginador.appendChild(select);
+            this._root.appendChild(divPaginador);
+            this.crearPaginador(pagesize);
+        }
+
+
         this.columns = this.querySelectorAll("wc-table-column");
         let table = document.createElement("table");
         let thead = document.createElement("thead");
@@ -36,40 +74,67 @@ class Table extends HTMLElement {
         });
         thead.appendChild(tr);
 
+
         //METODO
         var tbody;
-        if(this.paginator){
-            tbody = this.llenarTabla(0,5); 
-        }else{
-            tbody = this.llenarTabla(0,this.lista.length);
+        console.log(pagesize);
+        if (this.paginator) {
+            tbody = this.llenarTabla(0, pagesize);
+        } else {
+            tbody = this.llenarTabla(0, this.lista.length);
         }
-        
-        table.style.borderCollapse="collapse";
-        
+
+
+
+        table.style.borderCollapse = "collapse";
+
         table.appendChild(thead);
         table.appendChild(tbody);
         this._root.appendChild(table);
     }
 
 
-    llenarTabla(first,pagesize){
-        let tbody = document.createElement("tbody");
+    crearPaginador(pagesize) {
+        let divBotones = document.createElement("div");
+        let numPaginadores = Math.ceil(this.lista.length / pagesize);
+        for (let i = 0; i < numPaginadores; i++) {
+            let btnPaginador = document.createElement("button");
+            btnPaginador.innerText = i + 1;
+            btnPaginador.onclick = () => {
+                this.recargarTabla((i) * pagesize, pagesize)
+            };
+            divBotones.appendChild(btnPaginador);
+        }
+        divBotones.className = "divBotones";
         
+        this._root.querySelector(".divPaginador").replaceChild(divBotones,this._root.querySelector(".divBotones"))
+    }
+
+
+    recargarTabla(first, pagesize) {
+        this._root.querySelector("table").replaceChild(this.llenarTabla(first, pagesize), this._root.querySelector("tbody"));
+        //this._root.querySelector("table").appendChild();
+    }
+
+
+    llenarTabla(first, pagesize) {
+        let tbody = document.createElement("tbody");
+
         //first y pagesize diferentes
         for (let i = first; i < pagesize + first; i++) {
             if (this.lista[i] == undefined) { break; }
             let tr = document.createElement("tr");
-            tr.onclick=(e)=>{
-                let rows=this._root.querySelectorAll("tr");
+            tr.onclick = (e) => {
+                let rows = this._root.querySelectorAll("tr");
 
-                rows.forEach((value)=>{
-                value.style.background="inherit";
+                rows.forEach((value) => {
+                    value.style.background = "inherit";
                 });
-                tr.style.background="#C1E5EB"
-                let rowSelected=tr.sectionRowIndex;
-                console.log("ID Marca seleccionada: "+this.lista[rowSelected].idMarca);
+                tr.style.background = "#C1E5EB"
+                let rowSelected = tr.sectionRowIndex;
+                console.log("ID Marca seleccionada: " + this.lista[rowSelected].idMarca);
             }
-            this.columns.forEach( (column)=>{
+            this.columns.forEach((column) => {
                 let td = document.createElement("td");
                 //style
                 td.style.border = "black 1px solid";
@@ -88,13 +153,17 @@ class Table extends HTMLElement {
                 tr.appendChild(td);
             });
             tbody.appendChild(tr);
-            
+
         }
         return tbody;
     }
 
+    get pagesizeTemplate() {
+        return this.getAttribute("pagesizeTemplate");
+    }
 
-    get paginator(){
+
+    get paginator() {
         return this.getAttribute("paginator");
     }
 
