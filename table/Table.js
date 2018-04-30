@@ -2,6 +2,7 @@ class Table extends HTMLElement {
     constructor(lista) {
         super();
         this._root = this.attachShadow({ mode: 'open' });
+        this._asc=true;
     }
 
     connectedCallback() {
@@ -18,6 +19,7 @@ class Table extends HTMLElement {
     setLista(lista) {
         var pagesize = 5;
         this.lista = lista;
+       
         //paginador
         if (this.paginator) {
 
@@ -66,7 +68,7 @@ class Table extends HTMLElement {
 
             let th = document.createElement("th");
             if (column.getAttribute("sortable") !== null) {
-                th.onclick = (e) => this.sortTable(index);
+                th.onclick = (e) => this.sortTable(column.getAttribute('value'));
             }
 
 
@@ -135,7 +137,7 @@ class Table extends HTMLElement {
                 });
                 tr.style.background = "#C1E5EB"
                 let rowSelected = tr.sectionRowIndex;
-                console.log("ID Marca seleccionada: " + this.lista[rowSelected].idMarca);
+                console.log("Marca seleccionada: " +tr.getElementsByTagName("td"));
             }
             this.columns.forEach((column) => {
                 let td = document.createElement("td");
@@ -161,8 +163,24 @@ class Table extends HTMLElement {
         return tbody;
     }
 
-    sortTable(n) {
-        let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    sortTable(n){
+        
+        if(this._asc){
+            this.lista.sort((a, b)=>{
+                this._asc=!this._asc;
+                return a[n]<b[n] ? -1:1;
+                
+            });
+            console.log(this.lista);
+        }else{
+            this.lista.sort((a, b)=>{
+                this._asc=!this._asc;
+                 return b[n]<a[n] ? -1:1;
+                });}
+                console.log(this._root.querySelector("select").value);
+        this.recargarTabla(0,parseInt(this._root.querySelector("select").value));
+        
+        /* let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
         table = this._root.querySelector("table");
         switching = true;
         dir = "asc";
@@ -209,7 +227,7 @@ class Table extends HTMLElement {
                     switching = true;
                 }
             }
-        }
+        } */
     }
     get pagesizeTemplate() {
         return this.getAttribute("pagesizeTemplate");
