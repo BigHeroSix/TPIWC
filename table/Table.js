@@ -135,7 +135,6 @@ class Table extends HTMLElement {
                 });
                 tr.style.background = "#C1E5EB"
                 let rowSelected = tr.sectionRowIndex;
-                console.log("ID Marca seleccionada: " + this.lista[rowSelected].idMarca);
             }
             this.columns.forEach((column) => {
                 let td = document.createElement("td");
