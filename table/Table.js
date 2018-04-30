@@ -28,9 +28,33 @@ class Table extends HTMLElement {
         this.columns.forEach((column) => {
             let th = document.createElement("th");
             th.innerText = column.getAttribute("header");
-
-            
+                      
+    
             //style
+            var estilo = document.createElement("style");
+            estilo.innerText = `
+            table{
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            
+            table td, table th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+            
+            table tr:nth-child(even){background-color: #f2f2f2;}
+            
+            table tr:hover {background-color: #ddd;}
+            
+            table th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #4CAF50;
+                color: white;
+                `
             this.style.padding="8px";
             this.style.textAlign="center";
             this.style.border= "1px solid #ddd";
@@ -42,8 +66,8 @@ class Table extends HTMLElement {
             th.style.padding = "8px";
             th.style.backgroundColor="black";
             th.style.color= "white";
-
-
+                
+                this._root.appendChild(estilo);
             tr.appendChild(th);
         });
         thead.appendChild(tr);
@@ -54,16 +78,17 @@ class Table extends HTMLElement {
             tbody = this.llenarTabla(0,5); 
         }else{
             tbody = this.llenarTabla(0,this.lista.length);
-        }
-        
-        table.style.borderCollapse="collapse";
-        
+        }     
         table.appendChild(thead);
         table.appendChild(tbody);
         this._root.appendChild(table);
+              
+
+        
+        
     }
-
-
+    
+          
     llenarTabla(first,pagesize){
         let tbody = document.createElement("tbody");
         
