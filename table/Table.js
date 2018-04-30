@@ -12,6 +12,7 @@ class Table extends HTMLElement {
             tittleDiv.innerText = this.tittle;
             this._root.appendChild(tittleDiv);
         }
+
     }
 
     setLista(lista) {
@@ -39,6 +40,10 @@ class Table extends HTMLElement {
         this.columns.forEach((column) => {
             let th = document.createElement("th");
             th.innerText = column.getAttribute("header");
+            //style
+            th.style.border = "black 1px solid";
+            th.style.padding = "3px"
+
             tr.appendChild(th);
         });
         thead.appendChild(tr);
@@ -67,6 +72,10 @@ class Table extends HTMLElement {
             let tr = document.createElement("tr");
             this.columns.forEach((column) => {
                 let td = document.createElement("td");
+                //style
+                td.style.border = "black 1px solid";
+                td.style.padding = "3px";
+
                 let campos = column.getAttribute('value').split(".");
                 var campo = this.lista[i][`${campos[0]}`];
 
