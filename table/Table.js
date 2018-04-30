@@ -7,15 +7,16 @@ class Table extends HTMLElement {
     connectedCallback() {
         if (this.tittle) {
             let tittleDiv = document.createElement("div");
-            //let tittleText = document.createAttribute("h4");
-            //tittleText.innerText = this.tittle;
             tittleDiv.innerText = this.tittle;
+            tittleDiv.style.fontSize= "25px";
+            tittleDiv.style.color= "gray";
             this._root.appendChild(tittleDiv);
         }
     }
 
 
     setLista(lista) {
+        var estilo = document.createElement("style");
         var pagesize = 5;
         this.lista = lista;
         //paginador
@@ -51,10 +52,41 @@ class Table extends HTMLElement {
             divPaginador.className = "divPaginador";
             let divBotones = document.createElement("div");
             divBotones.className = "divBotones";
+            estilo.innerText += `
+            .divBotones{
+                display: inline-block;
+            }
+            .divPaginador select {
+                color: black;
+                float: center;
+                padding: 8px 16px;
+                text-decoration: none;
+                margin:6px;
+            }
+            .divPaginador option:hover {
+                background-color:gray;
+                color: black;
+                border-radius: 5px;
+            }
+
+            .divBotones button {
+                color: black;
+                float: center;
+                padding: 8px 16px;
+                text-decoration: none;
+            }
+            
+            .divBotones button:hover {
+                background-color:black;
+                color: white;
+                border-radius: 5px;
+            }
+                    `
             divPaginador.appendChild(divBotones);
             divPaginador.appendChild(select);
             this._root.appendChild(divPaginador);
             this.crearPaginador(pagesize);
+            
         }
 
 
@@ -68,15 +100,11 @@ class Table extends HTMLElement {
             if (column.getAttribute("sortable") !== null) {
                 th.onclick = (e) => this.sortTable(index);
             }
-
-
             th.innerText = column.getAttribute("header");
                       
     
             //style
-
-            var estilo = document.createElement("style");
-            estilo.innerText = `
+            estilo.innerText += `
             table{
                 font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
                 border-collapse: collapse;
@@ -95,9 +123,9 @@ class Table extends HTMLElement {
             table th {
                 padding-top: 12px;
                 padding-bottom: 12px;
-                text-align: left;
                 background-color: #4CAF50;
                 color: white;
+                }
                 `
             this.style.padding="8px";
             this.style.textAlign="center";
