@@ -1,24 +1,24 @@
-class TableColumn extends HTMLElement{
-    constructor(){
+class TableColumn extends HTMLElement {
+    constructor() {
         super();
 
     }
 
-    get header(){
+    get header() {
         return this.getAttribute("header");
     }
 
-    set header(header){
-        this.setAttribute("header",header);
+    set header(header) {
+        this.setAttribute("header", header);
     }
-    get value(){
+    get value() {
         return this.getAttribute("value");
     }
 
-    set value(value){
-        this.setAttribute("value",value);
+    set value(value) {
+        this.setAttribute("value", value);
     }
 }
 
-customElements.define("wc-table-column",TableColumn);
+customElements.define("wc-table-column", TableColumn);
 export default TableColumn;
