@@ -1,14 +1,10 @@
-import llenarLista from "./main.js";
-
 class Table extends HTMLElement{
     constructor(lista){
         super();
-        this._root = this.attachShadow({mode:'open'});
-        
+        this._root = this.attachShadow({mode:'open'});        
     }
 
     connectedCallback(){
-        
         if(this.tittle){
             let tittleDiv = document.createElement("div");
             //let tittleText = document.createAttribute("h4");
@@ -16,11 +12,10 @@ class Table extends HTMLElement{
             tittleDiv.innerText = this.tittle;
             this._root.appendChild(tittleDiv);
         }
-
-
     }
 
     setLista(lista){
+        console.log(lista[0].idModelo.idModelo);
         
         this.lista = lista;
         console.log("lista "+this.lista[0].nombre);
@@ -40,7 +35,16 @@ class Table extends HTMLElement{
             let tr = document.createElement("tr");
             columns.forEach( (column)=>{
                 let td = document.createElement("td");
-                td.innerText = row[`${column.getAttribute('value')}`];
+                let campos = column.getAttribute('value').split(".");
+                var campo = row[`${campos[0]}`];
+                console.log("campo "+campo);
+                if(campos.length > 1){
+                    for(let i = 0 ; i<campos.length-1; i++){
+                        campo = campo[`${campos[i+1]}`];
+                        if(campo.length===1){break;}
+                    }
+                }
+                td.innerText = campo;
                 tr.appendChild(td);
             });
             tbody.appendChild(tr);
@@ -49,17 +53,12 @@ class Table extends HTMLElement{
         table.appendChild(tbody);
         this._root.appendChild(table);
     }
+
+
+
     get getLista(){
         return this.lista;
     }
-
-
-
-
-
-
-
-
 
     get tittle(){
         return this.getAttribute("tittle");
