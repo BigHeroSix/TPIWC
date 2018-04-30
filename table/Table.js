@@ -12,13 +12,11 @@ class Table extends HTMLElement{
             tittleDiv.innerText = this.tittle;
             this._root.appendChild(tittleDiv);
         }
+
     }
 
     setLista(lista){
-        console.log(lista[0].idModelo.idModelo);
-        
         this.lista = lista;
-        console.log("lista "+this.lista[0].nombre);
         let columns = this.querySelectorAll("wc-table-column");
         let table = document.createElement("table");
         let thead = document.createElement("thead");
@@ -26,6 +24,10 @@ class Table extends HTMLElement{
         columns.forEach( (column)=>{
             let th = document.createElement("th");
             th.innerText = column.getAttribute("header");
+            //style
+            th.style.border = "black 1px solid";
+            th.style.padding = "3px"
+
             tr.appendChild(th);
         } );
         thead.appendChild(tr);
@@ -35,6 +37,10 @@ class Table extends HTMLElement{
             let tr = document.createElement("tr");
             columns.forEach( (column)=>{
                 let td = document.createElement("td");
+                //style
+                td.style.border = "black 1px solid";
+                td.style.padding = "3px";
+
                 let campos = column.getAttribute('value').split(".");
                 var campo = row[`${campos[0]}`];
                 console.log("campo "+campo);
@@ -49,6 +55,10 @@ class Table extends HTMLElement{
             });
             tbody.appendChild(tr);
         });
+
+        table.style.borderCollapse = "collapse";
+        
+
         table.appendChild(thead);
         table.appendChild(tbody);
         this._root.appendChild(table);
