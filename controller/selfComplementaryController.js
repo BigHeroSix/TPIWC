@@ -58,7 +58,6 @@ class selfComplementary extends  HTMLElement {
     attributeChangedCallback(attrName, oldVal, newVal) {
         this.dataList.innerHTML=undefined;
         let options=JSON.parse(this.getAttribute("options"));     
-        console.log(options);
         options.forEach((value,index) => {
             let nodo=document.createElement("option");
             let textNode = document.createTextNode(value[this.getAttribute("findtag")]);
