@@ -1,3 +1,5 @@
 FROM httpd
+ENTRYPOINT ["rm", "-rf", "/usr/local/apache2/htdocs"]
+#ENTRYPOINT /bin/sh
 COPY ./TPIWCComponents/ /usr/local/apache2/htdocs/
 
