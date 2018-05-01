@@ -181,6 +181,15 @@ class Table extends HTMLElement {
                     }
                 }
                 @media (max-width: 600px){
+                    table tr:nth-child(odd){
+                        background-color: #d8d8d8;
+                    }
+                    table tr:nth-child(even){
+                        background-color: #fff;
+                    }
+                    tbody{
+                        max-height: none;
+                    }
                     thead{
                         display: none;
                     }
@@ -421,7 +430,7 @@ class Table extends HTMLElement {
     get tittle() {
         return this.getAttribute("tittle");
     }
-    set ttitle(tittle) {
+    set tittle(tittle) {
         this.setAttribute("tittle", tittle);
     }
 }
