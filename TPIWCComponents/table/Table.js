@@ -146,6 +146,30 @@ class Table extends HTMLElement {
                 background-color: #4CAF50;
                 color: white;
                 }
+            @media (max-width: 650px){
+                .divNum{
+                    display: none;
+                }
+            }
+            @media (max-width: 600px){
+                thead{
+                    display: none;
+                }
+                tbody td{
+                    border: 0;
+                    border-bottom: 1px solid #aaa; 
+                    padding-left: 40%;
+                    padding-right: 10px;
+                    display: block;
+                    text-align: left;
+                }
+                tbody td:before{
+                    position: absolute;
+                    left: 10px;
+                    content: attr(header);
+                    display: inline-block;
+                }
+            }
                 `
             this.style.padding = "8px";
             this.style.textAlign = "center";
@@ -289,9 +313,10 @@ class Table extends HTMLElement {
             }
             this.columns.forEach((column) => {
                 let td = document.createElement("td");
+                td.setAttribute("header", column.getAttribute("header"));
                 //style
-                td.style.border = "black 1px solid";
-                td.style.padding = "3px";
+                //td.style.border = "black 1px solid";
+                //td.style.padding = "3px";
 
                 let campos = column.getAttribute('value').split(".");
                 var campo = this.lista[i][`${campos[0]}`];
