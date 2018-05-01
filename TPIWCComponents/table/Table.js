@@ -150,6 +150,7 @@ class Table extends HTMLElement {
                 font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
                 border-collapse: collapse;
                 width: 100%;
+                border: 1px solid #000;
             }
             
             thead tr th {
@@ -186,8 +187,12 @@ class Table extends HTMLElement {
                     }
                 }
                 @media (max-width: 600px){
+                    table{
+                        border: 1px solid #bbb;
+                        border-bottom: 0;
+                    }
                     table tr:nth-child(odd){
-                        background-color: #d8d8d8;
+                        background-color: #ddd;
                     }
                     table tr:nth-child(even){
                         background-color: #fff;
@@ -200,14 +205,17 @@ class Table extends HTMLElement {
                     }
                     tbody td{
                         border: 0;
-                        border-bottom: 1px solid #aaa; 
+                        border-bottom: 1px solid #bbb; 
                         padding-left: 40%;
                         padding-right: 10px;
+                        padding-top: 4px;
+                        padding-bottom:4px;
                         display: block;
                         text-align: left;
-                        width: 100% !important;
+                        width: 58% !important;
                     }
                     tbody td:before{
+                        padding-left: 5px;
                         position: absolute;
                         left: 10px;
                         content: attr(header);
@@ -230,7 +238,6 @@ class Table extends HTMLElement {
 
         this.style.padding="8px";
             this.style.textAlign="center";
-            this.style.border= "1px solid #ddd";
             this.style.fontSize="24px";
             this.style.font="18px arial,serif";
             table.style.borderCollapse="collapse";
