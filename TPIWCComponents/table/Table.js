@@ -47,7 +47,7 @@ class Table extends HTMLElement {
             select.onchange = () => {
                 pagesize = parseInt(select.options[select.selectedIndex].value);
                 this.recargarTabla(0, pagesize);
-                this.crearPaginador(pagesize);
+                this.crearPaginador(0, pagesize);
             };
 
             let divPaginador = document.createElement("div");
@@ -78,17 +78,22 @@ class Table extends HTMLElement {
                 text-decoration: none;
             }
             
-            .divBotones button:hover {
+            .divBotones button:hover:not(:disabled) {
                 background-color:black;
                 color: white;
                 border-radius: 5px;
             }
-                    `
+            .divBotones button:disabled {
+                background-color: #aaa;
+                
+                border-radius: 5px;
+
+            }
+                    `;
             divPaginador.appendChild(divBotones);
             divPaginador.appendChild(select);
             this._root.appendChild(divPaginador);
-            this.crearPaginador(pagesize);
-            
+            this.crearPaginador(0, pagesize);
         }
 
 
@@ -165,19 +170,67 @@ class Table extends HTMLElement {
         this._root.appendChild(table);
               
     }
-    crearPaginador(pagesize){
+
+
+    crearPaginador(first, pagesize) {
+        console.log("first "+first);
+        //console.log("first: "+first);
         let divBotones = document.createElement("div");
         let numPaginadores = Math.ceil(this.lista.length / pagesize);
+
+        //crear botones < <<
+        let btnAnterior = document.createElement("button");
+        let btnPrimero = document.createElement("button");
+        btnAnterior.innerText = "<";
+        btnPrimero.innerText = "<<";
+        if (first > 0) {
+            btnPrimero.onclick = () => {
+                this.crearPaginador(0, pagesize);
+                this.recargarTabla(0, pagesize);
+            };
+            btnAnterior.onclick = () => {
+                this.recargarTabla(first - pagesize, pagesize);
+                this.crearPaginador(first - pagesize, pagesize);
+            };
+        } else {
+            btnAnterior.disabled = true;
+            btnPrimero.disabled = true;
+        }
+        let btnSiguiente = document.createElement("button");
+        let btnUltimo = document.createElement("button");
+        btnSiguiente.innerText = ">";
+        btnUltimo.innerText = ">>";
+        if (first/numPaginadores < numPaginadores-1) {
+            btnUltimo.onclick = () => {
+                this.crearPaginador(pagesize*(numPaginadores-1), pagesize);
+                this.recargarTabla(pagesize*(numPaginadores-1), pagesize);
+            };
+            btnSiguiente.onclick = () => {
+                this.recargarTabla(first + pagesize, pagesize);
+                this.crearPaginador(first + pagesize, pagesize);
+            };
+        } else {
+            btnSiguiente.disabled = true;
+            btnUltimo.disabled = true;
+        }
+        divBotones.appendChild(btnPrimero);
+        divBotones.appendChild(btnAnterior);
+
+        //crear botones nums
+        //let i = 0;
         for (let i = 0; i < numPaginadores; i++) {
             let btnPaginador = document.createElement("button");
             btnPaginador.innerText = i + 1;
             btnPaginador.onclick = () => {
+                this.crearPaginador((i) * pagesize, pagesize);
                 this.recargarTabla((i) * pagesize, pagesize)
             };
             divBotones.appendChild(btnPaginador);
         }
-        divBotones.className = "divBotones";
+        divBotones.appendChild(btnSiguiente);
+        divBotones.appendChild(btnUltimo);
 
+        divBotones.className = "divBotones";
         this._root.querySelector(".divPaginador").replaceChild(divBotones, this._root.querySelector(".divBotones"))
     }
 
