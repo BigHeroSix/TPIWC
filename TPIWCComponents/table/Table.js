@@ -29,7 +29,6 @@ class Table extends HTMLElement {
             if (this.pagesizeTemplate) {
                 let tamanios = this.pagesizeTemplate.split(",");
                 pagesize = parseInt(tamanios[0]);
-                console.log(pagesize);
                 tamanios.forEach((value) => {
                     let option = document.createElement("option");
                     option.innerText = value;
@@ -101,30 +100,7 @@ class Table extends HTMLElement {
             .divNum{
                 display: inline-block;
             }
-                    
-            `;
-            divPaginador.appendChild(divBotones);
-            divPaginador.appendChild(select);
-            this._root.appendChild(divPaginador);
-            this.crearPaginador(0, pagesize);
-        }
 
-
-        this.columns = this.querySelectorAll("wc-table-column");
-        let table = document.createElement("table");
-        let thead = document.createElement("thead");
-        let tr = document.createElement("tr");
-        this.columns.forEach((column, index) => {
-
-            let th = document.createElement("th");
-            if (column.getAttribute("sortable") !== null) {
-                th.onclick = (e) => this.sortTable(column.getAttribute('value'));
-            }
-            th.innerText = column.getAttribute("header");
-
-
-            //style
-            estilo.innerText += `
             table{
                 font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
                 border-collapse: collapse;
@@ -170,7 +146,28 @@ class Table extends HTMLElement {
                     display: inline-block;
                 }
             }
-                `
+                    
+            `;
+            divPaginador.appendChild(divBotones);
+            divPaginador.appendChild(select);
+            this._root.appendChild(divPaginador);
+            this.crearPaginador(0, pagesize);
+        }
+
+
+        this.columns = this.querySelectorAll("wc-table-column");
+        let table = document.createElement("table");
+        let thead = document.createElement("thead");
+        let tr = document.createElement("tr");
+        this.columns.forEach((column, index) => {
+
+            let th = document.createElement("th");
+            if (column.getAttribute("sortable") !== null) {
+                th.onclick = (e) => this.sortTable(column.getAttribute('value'));
+            }
+            th.innerText = column.getAttribute("header");
+
+
             this.style.padding = "8px";
             this.style.textAlign = "center";
             this.style.border = "1px solid #ddd";
@@ -193,7 +190,6 @@ class Table extends HTMLElement {
 
         //METODO
         var tbody;
-        console.log(pagesize);
         if (this.paginator) {
             tbody = this.llenarTabla(0, pagesize);
         } else {
@@ -210,8 +206,6 @@ class Table extends HTMLElement {
 
 
     crearPaginador(first, pagesize) {
-        console.log("first " + first);
-        //console.log("first: "+first);
         let divBotones = document.createElement("div");
         let numPaginadores = Math.ceil(this.lista.length / pagesize);
 
@@ -256,21 +250,15 @@ class Table extends HTMLElement {
         divBotones.appendChild(btnAnterior);
 
         //crear botones nums
-        //let i = 0;
         var inicio = Math.floor((first + 1) / pagesize) - 3;
-        console.log("inicio " + inicio);
         if (inicio < 1) { inicio = 1; }
         let divNum = document.createElement('div');
         divNum.className = 'divNum';
         for (let i = inicio - 1; i < numPaginadores; i++) {
             let btnPaginador = document.createElement("button");
             btnPaginador.innerText = i + 1;
-            console.log("i" + i);
-            console.log("math " + ((first) / pagesize));
-
             if ((i === Math.floor((first) / pagesize))) {
                 btnPaginador.className = "btnActual";
-                console.log("Entre");
             }
             btnPaginador.onclick = () => {
                 this.crearPaginador((i) * pagesize, pagesize);
@@ -410,7 +398,7 @@ class Table extends HTMLElement {
 
 
     get paginator() {
-        return this.getAttribute("paginator")!==null;
+        return this.getAttribute("paginator") !== null;
     }
 
     get getLista() {
