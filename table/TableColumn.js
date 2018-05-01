@@ -7,6 +7,10 @@ class TableColumn extends HTMLElement {
     get header() {
         return this.getAttribute("header");
     }
+    
+    get sortable(){
+         return this.getAttribute("sortable");
+    }
 
     set header(header) {
         this.setAttribute("header", header);
