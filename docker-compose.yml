@@ -1,0 +1,33 @@
+version: '3'
+services:
+  frontend:
+    build:
+     context: .
+     dockerfile: dockerfileApache
+    depends_on:
+      - middleware
+    ports:
+      - "80:80"
+  middleware:
+    build:
+     context: .
+     dockerfile: dockerfilePayara    
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+  postgres:
+    build: 
+     context: .
+     dockerfile: dockerfilePostgres
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: tpiPassword
+      POSTGRES_USER: tpi
+      POSTGRES_DB: tpitest
+volumes:
+  pgdata:
