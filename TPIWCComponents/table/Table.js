@@ -59,10 +59,6 @@ class Table extends HTMLElement {
                 display: inline-block;
             }
 
-            .btnActual {
-                background-color: #0040FF;
-            }
-
             .divPaginador select {
                 background-color: #81BEF7;
                 color: black;
@@ -96,7 +92,17 @@ class Table extends HTMLElement {
                 border-radius: 5px;
                 border: 0;
             }
-                    `;
+            
+            .btnActual {
+                background-color: #0040FF !important;
+                color: white !important;
+            }
+
+            .divNum{
+                display: inline-block;
+            }
+                    
+            `;
             divPaginador.appendChild(divBotones);
             divPaginador.appendChild(select);
             this._root.appendChild(divPaginador);
@@ -209,7 +215,7 @@ class Table extends HTMLElement {
         let btnUltimo = document.createElement("button");
         btnSiguiente.innerText = ">";
         btnUltimo.innerText = ">>";
-        if (Math.ceil((first+1)/pagesize)  < numPaginadores) {
+        if (Math.ceil((first + 1) / pagesize) < numPaginadores) {
             btnUltimo.onclick = () => {
                 this.crearPaginador(pagesize * (numPaginadores - 1), pagesize);
                 this.recargarTabla(pagesize * (numPaginadores - 1), pagesize);
@@ -227,25 +233,29 @@ class Table extends HTMLElement {
 
         //crear botones nums
         //let i = 0;
-        var inicio = Math.floor((first + 1) / pagesize)-3;
+        var inicio = Math.floor((first + 1) / pagesize) - 3;
         console.log("inicio " + inicio);
         if (inicio < 1) { inicio = 1; }
+        let divNum = document.createElement('div');
+        divNum.className = 'divNum';
         for (let i = inicio - 1; i < numPaginadores; i++) {
             let btnPaginador = document.createElement("button");
             btnPaginador.innerText = i + 1;
-            console.log("i"+i);
-            console.log("math"+Math.floor((first + 1) / pagesize));
-            
-            if( (i === Math.floor((first + 1) / pagesize)) ){
+            console.log("i" + i);
+            console.log("math " + ((first) / pagesize));
+
+            if ((i === Math.floor((first) / pagesize))) {
                 btnPaginador.className = "btnActual";
+                console.log("Entre");
             }
             btnPaginador.onclick = () => {
                 this.crearPaginador((i) * pagesize, pagesize);
                 this.recargarTabla((i) * pagesize, pagesize)
             };
-            divBotones.appendChild(btnPaginador);
+            divNum.appendChild(btnPaginador);
             if ((i - inicio) > 4) { break; }
         }
+        divBotones.appendChild(divNum);
         divBotones.appendChild(btnSiguiente);
         divBotones.appendChild(btnUltimo);
 
@@ -375,7 +385,7 @@ class Table extends HTMLElement {
 
 
     get paginator() {
-        return this.getAttribute("paginator");
+        return this.getAttribute("paginator")!==null;
     }
 
     get getLista() {
