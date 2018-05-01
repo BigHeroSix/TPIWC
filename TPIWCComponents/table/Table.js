@@ -141,6 +141,11 @@ class Table extends HTMLElement {
           ::-webkit-scrollbar-thumb {
             background-color: rgba(48, 101, 201, 0.7);
       } 
+      th{
+        padding: 8px;
+        background-color: black;
+        color: white;
+      }
             table{
                 font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
                 border-collapse: collapse;
@@ -200,6 +205,7 @@ class Table extends HTMLElement {
                         padding-right: 10px;
                         display: block;
                         text-align: left;
+                        width: 100% !important;
                     }
                     tbody td:before{
                         position: absolute;
@@ -220,18 +226,9 @@ class Table extends HTMLElement {
         let table = document.createElement("table");
         let thead = document.createElement("thead");
         let tr = document.createElement("tr");
-        this.columns.forEach((column, index) => {
-
-            let th = document.createElement("th");
-            if (column.getAttribute("sortable")!==null) {
-                th.onclick = (e) => this.sortTable(column.getAttribute('value'));
-            }
-            th.innerText = column.getAttribute("header");
 
 
-            //style
-          
-            this.style.padding="8px";
+        this.style.padding="8px";
             this.style.textAlign="center";
             this.style.border= "1px solid #ddd";
             this.style.fontSize="24px";
@@ -239,9 +236,17 @@ class Table extends HTMLElement {
             table.style.borderCollapse="collapse";
             this.style.backgroundcolor= "#fff";
             table.style.width= "100%";
-            th.style.padding = "8px";
-            th.style.backgroundColor = "black";
-            th.style.color = "white";
+            
+        this.columns.forEach((column, index) => {
+
+            let th = document.createElement("th");
+            if (column.getAttribute("sortable")!==null) {
+                th.onclick = (e) => this.sortTable(column.getAttribute('value'));
+            }
+            th.innerText = column.getAttribute("header");
+            if(column.getAttribute("width")){
+                th.style.width = column.getAttribute("width");
+            }
 
             this._root.appendChild(estilo);
 
@@ -389,6 +394,9 @@ class Table extends HTMLElement {
                     }
                 }
                 td.innerText = campo;
+                if(column.getAttribute("width")){
+                    td.style.width = column.getAttribute("width");
+                }
                 tr.appendChild(td);
             });
             tbody.appendChild(tr);
