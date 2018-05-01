@@ -21,13 +21,9 @@ services:
      context: .
      dockerfile: dockerfilePostgres
     restart: always
-    volumes:
-      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: tpiPassword
       POSTGRES_USER: tpi
       POSTGRES_DB: tpitest
-volumes:
-  pgdata:
