@@ -15,6 +15,10 @@ class Table extends HTMLElement {
             this._root.appendChild(tittleDiv);
 
         }
+        this.link = document.createElement('link');
+        this.link.setAttribute('rel', 'stylesheet');
+        this.link.setAttribute('href', '../resources/iconos/style.css');
+        this._root.appendChild(this.link);
     }
 
     keypressHandler(e){
@@ -154,11 +158,17 @@ class Table extends HTMLElement {
           }
           ::-webkit-scrollbar-thumb {
             background-color: rgba(48, 101, 201, 0.7);
-      } 
+            } 
+            th{
+                padding: 8px;
+                background-color: black;
+                color: white;
+            }
             table{
                 font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
                 border-collapse: collapse;
                 width: 100%;
+                border: 1px solid #000;
             }
             
             thead tr th {
@@ -180,7 +190,7 @@ class Table extends HTMLElement {
                     display:block;
                 }
                 tbody{
-                    max-height: 300px;
+                    max-height: ${this.getAttribute("maxHeight")};
                     overflow-y: auto;
                     overflow-x:hidden;
                 }
@@ -195,18 +205,35 @@ class Table extends HTMLElement {
                     }
                 }
                 @media (max-width: 600px){
+                    table{
+                        border: 1px solid #bbb;
+                        border-bottom: 0;
+                    }
+                    table tr:nth-child(odd){
+                        background-color: #ddd;
+                    }
+                    table tr:nth-child(even){
+                        background-color: #fff;
+                    }
+                    tbody{
+                        max-height: none;
+                    }
                     thead{
                         display: none;
                     }
                     tbody td{
                         border: 0;
-                        border-bottom: 1px solid #aaa; 
+                        border-bottom: 1px solid #bbb; 
                         padding-left: 40%;
                         padding-right: 10px;
+                        padding-top: 4px;
+                        padding-bottom:4px;
                         display: block;
                         text-align: left;
+                        width: 58% !important;
                     }
                     tbody td:before{
+                        padding-left: 5px;
                         position: absolute;
                         left: 10px;
                         content: attr(header);
@@ -225,28 +252,38 @@ class Table extends HTMLElement {
         let table = document.createElement("table");
         let thead = document.createElement("thead");
         let tr = document.createElement("tr");
-        this.columns.forEach((column, index) => {
-
-            let th = document.createElement("th");
-            if (column.getAttribute("sortable")!==null) {
-                th.onclick = (e) => this.sortTable(column.getAttribute('value'));
-            }
-            th.innerText = column.getAttribute("header");
 
 
-            //style
-          
+        
+
             this.style.padding="8px";
             this.style.textAlign="center";
-            this.style.border= "1px solid #ddd";
             this.style.fontSize="24px";
             this.style.font="18px arial,serif";
             table.style.borderCollapse="collapse";
             this.style.backgroundcolor= "#fff";
             table.style.width= "100%";
-            th.style.padding = "8px";
-            th.style.backgroundColor = "black";
-            th.style.color = "white";
+
+
+            
+        this.columns.forEach((column, index) => {
+
+            let th = document.createElement("th");
+            th.innerText = column.getAttribute("header");
+            if (column.getAttribute("sortable")!==null) {
+                let span = document.createElement('span');
+              span.setAttribute('class', 'icon-circle-down');
+              span.style.color = "#fff";
+              span.style.display="inline";
+              span.style.paddingLeft = "10px";
+
+              th.appendChild(span);
+              th.onclick = (e) => this.sortTable(column.getAttribute('value'));
+          }
+            
+            if(column.getAttribute("width")){
+                th.style.width = column.getAttribute("width");
+            }
 
             this._root.appendChild(estilo);
 
@@ -407,6 +444,9 @@ class Table extends HTMLElement {
                     }
                 }
                 td.innerText = campo;
+                if(column.getAttribute("width")){
+                    td.style.width = column.getAttribute("width");
+                }
                 tr.appendChild(td);
             });
             tbody.appendChild(tr);
@@ -447,9 +487,14 @@ class Table extends HTMLElement {
     get tittle() {
         return this.getAttribute("tittle");
     }
-    set ttitle(tittle) {
+    set tittle(tittle) {
         this.setAttribute("tittle", tittle);
     }
+
+    get maxHeight(){
+        return this.getAttribute("maxHeight");
+    }
+    
 }
 
 
