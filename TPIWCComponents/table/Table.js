@@ -57,7 +57,6 @@ class Table extends HTMLElement {
             if (this.pagesizeTemplate) {
                 let tamanios = this.pagesizeTemplate.split(",");
                 pagesize = parseInt(tamanios[0]);
-                console.log(pagesize);
                 tamanios.forEach((value) => {
                     let option = document.createElement("option");
                     option.innerText = value;
@@ -176,6 +175,30 @@ class Table extends HTMLElement {
                     width:100%;
                     table-layout:fixed;
                 }
+                @media (max-width: 650px){
+                    .divNum{
+                        display: none;
+                    }
+                }
+                @media (max-width: 600px){
+                    thead{
+                        display: none;
+                    }
+                    tbody td{
+                        border: 0;
+                        border-bottom: 1px solid #aaa; 
+                        padding-left: 40%;
+                        padding-right: 10px;
+                        display: block;
+                        text-align: left;
+                    }
+                    tbody td:before{
+                        position: absolute;
+                        left: 10px;
+                        content: attr(header);
+                        display: inline-block;
+                    }
+                }
                     `;
             divPaginador.appendChild(divBotones);
             divPaginador.appendChild(select);
@@ -221,7 +244,6 @@ class Table extends HTMLElement {
 
         //METODO
         var tbody;
-        console.log(pagesize);
         if (this.paginator) {
             tbody = this.llenarTabla(0, pagesize);
         } else {
@@ -243,8 +265,6 @@ class Table extends HTMLElement {
     }
 
     crearPaginador(first, pagesize) {
-        console.log("first " + first);
-        //console.log("first: "+first);
         let divBotones = document.createElement("div");
         let numPaginadores = Math.ceil(this.lista.length / pagesize);
 
@@ -294,21 +314,15 @@ class Table extends HTMLElement {
         divBotones.appendChild(btnAnterior);
 
         //crear botones nums
-        //let i = 0;
         var inicio = Math.floor((first + 1) / pagesize) - 3;
-        console.log("inicio " + inicio);
         if (inicio < 1) { inicio = 1; }
         let divNum = document.createElement('div');
         divNum.className = 'divNum';
         for (let i = inicio - 1; i < numPaginadores; i++) {
             let btnPaginador = document.createElement("button");
             btnPaginador.innerText = i + 1;
-            console.log("i" + i);
-            console.log("math " + ((first) / pagesize));
-
             if ((i === Math.floor((first) / pagesize))) {
                 btnPaginador.className = "btnActual";
-                console.log("Entre");
             }
             btnPaginador.onclick = () => {
                 this._rowIndex=0;
@@ -351,9 +365,10 @@ class Table extends HTMLElement {
             }
             this.columns.forEach((column) => {
                 let td = document.createElement("td");
+                td.setAttribute("header", column.getAttribute("header"));
                 //style
-                td.style.border = "black 1px solid";
-                td.style.padding = "3px";
+                //td.style.border = "black 1px solid";
+                //td.style.padding = "3px";
 
                 let campos = column.getAttribute('value').split(".");
                 var campo = this.lista[i][`${campos[0]}`];
@@ -396,7 +411,7 @@ class Table extends HTMLElement {
 
 
     get paginator() {
-        return this.getAttribute("paginator")!==null;
+        return this.getAttribute("paginator") !== null;
     }
 
     get getLista() {
