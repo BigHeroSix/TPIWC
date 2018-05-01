@@ -2,15 +2,15 @@ class Table extends HTMLElement {
     constructor(lista) {
         super();
         this._root = this.attachShadow({ mode: 'open' });
-        this._asc=true;
+        this._asc = true;
     }
 
     connectedCallback() {
         if (this.tittle) {
             let tittleDiv = document.createElement("div");
             tittleDiv.innerText = this.tittle;
-            tittleDiv.style.fontSize= "25px";
-            tittleDiv.style.color= "gray";
+            tittleDiv.style.fontSize = "25px";
+            tittleDiv.style.color = "gray";
             this._root.appendChild(tittleDiv);
         }
     }
@@ -20,7 +20,7 @@ class Table extends HTMLElement {
         var estilo = document.createElement("style");
         var pagesize = 5;
         this.lista = lista;
-       
+
         //paginador
         if (this.paginator) {
 
@@ -58,36 +58,43 @@ class Table extends HTMLElement {
             .divBotones{
                 display: inline-block;
             }
+
+            .btnActual {
+                background-color: #0040FF;
+            }
+
             .divPaginador select {
+                background-color: #81BEF7;
                 color: black;
                 float: center;
                 padding: 8px 16px;
                 text-decoration: none;
                 margin:6px;
-            }
-            .divPaginador option:hover {
-                background-color:gray;
-                color: black;
+                border: 0;
                 border-radius: 5px;
+                height: 33px;
+                cursor: pointer;
             }
 
             .divBotones button {
+                background-color: #81BEF7;
                 color: black;
                 float: center;
                 padding: 8px 16px;
                 text-decoration: none;
+                border: 0;
             }
             
             .divBotones button:hover:not(:disabled) {
-                background-color:black;
+                background-color: #084B8A;
                 color: white;
-                border-radius: 5px;
+                cursor: pointer;
             }
             .divBotones button:disabled {
-                background-color: #aaa;
-                
+                background-color: #eee;
+                color: #aaa
                 border-radius: 5px;
-
+                border: 0;
             }
                     `;
             divPaginador.appendChild(divBotones);
@@ -108,8 +115,8 @@ class Table extends HTMLElement {
                 th.onclick = (e) => this.sortTable(column.getAttribute('value'));
             }
             th.innerText = column.getAttribute("header");
-                      
-    
+
+
             //style
             estilo.innerText += `
             table{
@@ -134,19 +141,19 @@ class Table extends HTMLElement {
                 color: white;
                 }
                 `
-            this.style.padding="8px";
-            this.style.textAlign="center";
-            this.style.border= "1px solid #ddd";
-            this.style.fontSize="24px";
-            this.style.font="18px arial,serif";
-            table.style.borderCollapse="collapse";
-            this.style.backgroundcolor= "#fff";
-            table.style.width= "100%";
+            this.style.padding = "8px";
+            this.style.textAlign = "center";
+            this.style.border = "1px solid #ddd";
+            this.style.fontSize = "24px";
+            this.style.font = "18px arial,serif";
+            table.style.borderCollapse = "collapse";
+            this.style.backgroundcolor = "#fff";
+            table.style.width = "100%";
             th.style.padding = "8px";
-            th.style.backgroundColor="black";
-            th.style.color= "white";
-                
-                this._root.appendChild(estilo);
+            th.style.backgroundColor = "black";
+            th.style.color = "white";
+
+            this._root.appendChild(estilo);
 
             tr.appendChild(th);
         });
@@ -168,12 +175,12 @@ class Table extends HTMLElement {
         table.appendChild(thead);
         table.appendChild(tbody);
         this._root.appendChild(table);
-              
+
     }
 
 
     crearPaginador(first, pagesize) {
-        console.log("first "+first);
+        console.log("first " + first);
         //console.log("first: "+first);
         let divBotones = document.createElement("div");
         let numPaginadores = Math.ceil(this.lista.length / pagesize);
@@ -181,6 +188,7 @@ class Table extends HTMLElement {
         //crear botones < <<
         let btnAnterior = document.createElement("button");
         let btnPrimero = document.createElement("button");
+        btnAnterior.style.marginRight = "10px";
         btnAnterior.innerText = "<";
         btnPrimero.innerText = "<<";
         if (first > 0) {
@@ -197,13 +205,14 @@ class Table extends HTMLElement {
             btnPrimero.disabled = true;
         }
         let btnSiguiente = document.createElement("button");
+        btnSiguiente.style.marginLeft = "10px";
         let btnUltimo = document.createElement("button");
         btnSiguiente.innerText = ">";
         btnUltimo.innerText = ">>";
-        if (first/numPaginadores < numPaginadores-1) {
+        if (first+1/pagesize  < numPaginadores) {
             btnUltimo.onclick = () => {
-                this.crearPaginador(pagesize*(numPaginadores-1), pagesize);
-                this.recargarTabla(pagesize*(numPaginadores-1), pagesize);
+                this.crearPaginador(pagesize * (numPaginadores - 1), pagesize);
+                this.recargarTabla(pagesize * (numPaginadores - 1), pagesize);
             };
             btnSiguiente.onclick = () => {
                 this.recargarTabla(first + pagesize, pagesize);
@@ -218,14 +227,19 @@ class Table extends HTMLElement {
 
         //crear botones nums
         //let i = 0;
-        for (let i = 0; i < numPaginadores; i++) {
+        var inicio = Math.floor((first + 1) / pagesize)-3;
+        console.log("inicio " + inicio);
+        if (inicio < 1) { inicio = 1; }
+        for (let i = inicio - 1; i < numPaginadores; i++) {
             let btnPaginador = document.createElement("button");
             btnPaginador.innerText = i + 1;
+            btnPaginador.className = "btnActual";
             btnPaginador.onclick = () => {
                 this.crearPaginador((i) * pagesize, pagesize);
                 this.recargarTabla((i) * pagesize, pagesize)
             };
             divBotones.appendChild(btnPaginador);
+            if ((i - inicio) > 4) { break; }
         }
         divBotones.appendChild(btnSiguiente);
         divBotones.appendChild(btnUltimo);
@@ -256,7 +270,7 @@ class Table extends HTMLElement {
                 });
                 tr.style.background = "#C1E5EB"
                 let rowSelected = tr.sectionRowIndex;
-                console.log("Marca seleccionada: " +tr.getElementsByTagName("td"));
+                console.log("Marca seleccionada: " + tr.getElementsByTagName("td"));
             }
             this.columns.forEach((column) => {
                 let td = document.createElement("td");
@@ -282,23 +296,24 @@ class Table extends HTMLElement {
         return tbody;
     }
 
-    sortTable(n){
-        
-        if(this._asc){
-            this.lista.sort((a, b)=>{
-                this._asc=!this._asc;
-                return a[n]<b[n] ? -1:1;
-                
+    sortTable(n) {
+
+        if (this._asc) {
+            this.lista.sort((a, b) => {
+                this._asc = !this._asc;
+                return a[n] < b[n] ? -1 : 1;
+
             });
             console.log(this.lista);
-        }else{
-            this.lista.sort((a, b)=>{
-                this._asc=!this._asc;
-                 return b[n]<a[n] ? -1:1;
-                });}
-                console.log(this._root.querySelector("select").value);
-        this.recargarTabla(0,parseInt(this._root.querySelector("select").value));
-        
+        } else {
+            this.lista.sort((a, b) => {
+                this._asc = !this._asc;
+                return b[n] < a[n] ? -1 : 1;
+            });
+        }
+        console.log(this._root.querySelector("select").value);
+        this.recargarTabla(0, parseInt(this._root.querySelector("select").value));
+
         /* let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
         table = this._root.querySelector("table");
         switching = true;
