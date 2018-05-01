@@ -209,7 +209,7 @@ class Table extends HTMLElement {
         let btnUltimo = document.createElement("button");
         btnSiguiente.innerText = ">";
         btnUltimo.innerText = ">>";
-        if (first+1/pagesize  < numPaginadores) {
+        if (Math.ceil((first+1)/pagesize)  < numPaginadores) {
             btnUltimo.onclick = () => {
                 this.crearPaginador(pagesize * (numPaginadores - 1), pagesize);
                 this.recargarTabla(pagesize * (numPaginadores - 1), pagesize);
@@ -233,7 +233,12 @@ class Table extends HTMLElement {
         for (let i = inicio - 1; i < numPaginadores; i++) {
             let btnPaginador = document.createElement("button");
             btnPaginador.innerText = i + 1;
-            btnPaginador.className = "btnActual";
+            console.log("i"+i);
+            console.log("math"+Math.floor((first + 1) / pagesize));
+            
+            if( (i === Math.floor((first + 1) / pagesize)) ){
+                btnPaginador.className = "btnActual";
+            }
             btnPaginador.onclick = () => {
                 this.crearPaginador((i) * pagesize, pagesize);
                 this.recargarTabla((i) * pagesize, pagesize)
