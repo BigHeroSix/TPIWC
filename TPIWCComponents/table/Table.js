@@ -20,6 +20,7 @@ class Table extends HTMLElement {
     keypressHandler(e){
         let rows = this._root.querySelectorAll("tr");
         
+       
     
         if(e.keyCode===40){
             if(this._rowIndex<rows.length-1)
@@ -37,11 +38,24 @@ class Table extends HTMLElement {
             rows[this._rowIndex].className="selectedRow";
             }
         }
-        console.log("Key press: "+this._rowIndex);
         if(e.keyCode===13&&rows[this._rowIndex].hasAttribute("class")){
-            console.log(rows[this._rowIndex].getElementsByTagName("td")[0].textContent);
+            let event=new CustomEvent(
+                "selectedRow",
+            {
+                bubbles: true,
+                composed:true,
+                detail:{
+                    headers:rows[0].getElementsByTagName("th"),
+                    source: rows[this._rowIndex].getElementsByTagName("td")
+                }
+              
+            }
+        )
+        this.dispatchEvent(event);
+
         }
-    }
+        }
+    
     
 
     setLista(lista) {
@@ -77,7 +91,7 @@ class Table extends HTMLElement {
                 this.blur();
                 this.crearPaginador(0, pagesize);
                 this._rowIndex=0;
-            
+              
             };
             window.onkeydown=(e)=>this.keypressHandler(e);
             
@@ -362,6 +376,19 @@ class Table extends HTMLElement {
               this.manejoSeleccion(rows);
                 tr.className="selectedRow";
                 this._rowIndex=tr.sectionRowIndex+1;
+                let event=new CustomEvent(
+                    "selectedRow",
+                {
+                    bubbles: true,
+                    composed:true,
+                    detail:{
+                        headers:rows[0].getElementsByTagName("th"),
+                        source: rows[this._rowIndex].getElementsByTagName("td")
+                    }
+                  
+                }
+            )
+            this.dispatchEvent(event);
             }
             this.columns.forEach((column) => {
                 let td = document.createElement("td");
@@ -389,7 +416,6 @@ class Table extends HTMLElement {
     }
 
     sortTable(n) {
-
         if (this._asc) {
             this.lista.sort((a, b) => {
                 this._asc = !this._asc;

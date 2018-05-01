@@ -1,8 +1,6 @@
-class modalDialog extends HTMLElement {
+class ModalDialog extends HTMLElement {
     constructor() {
         super();
-        this._info = this.innerHTML;
-        this.innerHTML = "";
         this._root = this.attachShadow({ mode: 'open' });
         this.style.display = "none";
 
@@ -24,8 +22,16 @@ class modalDialog extends HTMLElement {
         this.setAttribute("width", width);
     }
 
-    connectedCallback() {
+    connectedCallback(){
 
+    }
+
+    init(){
+
+        this._info = this.innerHTML;
+        this.innerHTML = "";
+        
+      
         this.containerDiv = document.createElement("div");
         this.contentDiv = document.createElement("div");
         this.tittleText = document.createElement("h2");
@@ -105,6 +111,6 @@ class modalDialog extends HTMLElement {
 
 }
 
-customElements.define('wc-modal-dialog', modalDialog);
+customElements.define('wc-modal-dialog', ModalDialog);
 
-export default modalDialog;
+export default ModalDialog;
