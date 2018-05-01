@@ -2,22 +2,53 @@ class Table extends HTMLElement {
     constructor(lista) {
         super();
         this._root = this.attachShadow({ mode: 'open' });
+        this._asc=true;
+        this._rowIndex=0;
     }
 
     connectedCallback() {
         if (this.tittle) {
             let tittleDiv = document.createElement("div");
-            //let tittleText = document.createAttribute("h4");
-            //tittleText.innerText = this.tittle;
             tittleDiv.innerText = this.tittle;
+            tittleDiv.style.fontSize= "25px";
+            tittleDiv.style.color= "gray";
             this._root.appendChild(tittleDiv);
+
         }
     }
 
+    keypressHandler(e){
+        let rows = this._root.querySelectorAll("tr");
+        
+    
+        if(e.keyCode===40){
+            if(this._rowIndex<rows.length-1)
+            {this._rowIndex++;
+            this.manejoSeleccion(rows);
+            rows[this._rowIndex].className="selectedRow";
+            }
+        }
+        else if(e.keyCode===38){
+            if(this._rowIndex>1)
+            {
+            this._rowIndex--;
+            this.manejoSeleccion(rows);
+
+            rows[this._rowIndex].className="selectedRow";
+            }
+        }
+        console.log("Key press: "+this._rowIndex);
+        if(e.keyCode===13&&rows[this._rowIndex].hasAttribute("class")){
+            console.log(rows[this._rowIndex].getElementsByTagName("td")[0].textContent);
+        }
+    }
+    
 
     setLista(lista) {
+        var estilo = document.createElement("style");
         var pagesize = 5;
         this.lista = lista;
+       
         //paginador
         if (this.paginator) {
 
@@ -44,17 +75,99 @@ class Table extends HTMLElement {
             select.onchange = () => {
                 pagesize = parseInt(select.options[select.selectedIndex].value);
                 this.recargarTabla(0, pagesize);
-                this.crearPaginador(pagesize);
+                this.crearPaginador(0, pagesize);
+                this.blur();
+                
             };
+            window.onkeydown=(e)=>this.keypressHandler(e);
 
             let divPaginador = document.createElement("div");
             divPaginador.className = "divPaginador";
             let divBotones = document.createElement("div");
             divBotones.className = "divBotones";
+            estilo.innerText += `
+            .divBotones{
+                display: inline-block;
+            }
+            .divPaginador select {
+                color: black;
+                float: center;
+                padding: 8px 16px;
+                text-decoration: none;
+                margin:6px;
+            }
+            .divPaginador option:hover {
+                background-color:gray;
+                color: black;
+                border-radius: 5px;
+            }
+
+            .divBotones button {
+                color: black;
+                float: center;
+                padding: 8px 16px;
+                text-decoration: none;
+            }
+            
+            .divBotones button:hover:not(:disabled) {
+                background-color:black;
+                color: white;
+                border-radius: 5px;
+            }
+            .selectedRow{
+                background: #C1E5EB !important;
+            }
+            .divBotones button:disabled {
+                background-color: #aaa;
+                
+                border-radius: 5px;
+
+            }
+            ::-webkit-scrollbar {
+                width: 3px;
+          }
+          ::-webkit-scrollbar-thumb {
+            background-color: rgba(48, 101, 201, 0.7);
+      } 
+            table{
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+            
+            thead tr th {
+                border-left: 0.5px solid #bbb;
+            }
+            
+            table tr:nth-child(even){background-color: #f2f2f2;}
+            
+            table tr:hover {background-color: #ddd;}
+
+            .selectedRow:hover{
+                background: #C1E5EB;
+            }
+            
+            table th {
+                padding-y: 12px;
+                }
+                thead,tbody{
+                    display:block;
+                }
+                tbody{
+                    max-height: 300px;
+                    overflow-y: auto;
+                    overflow-x:hidden;
+                }
+                thead, tbody tr {
+                    display:table;
+                    width:100%;
+                    table-layout:fixed;
+                }
+                    `;
             divPaginador.appendChild(divBotones);
             divPaginador.appendChild(select);
             this._root.appendChild(divPaginador);
-            this.crearPaginador(pagesize);
+            this.crearPaginador(0, pagesize);
         }
 
 
@@ -66,18 +179,31 @@ class Table extends HTMLElement {
 
             let th = document.createElement("th");
             if (column.getAttribute("sortable") !== null) {
-                th.onclick = (e) => this.sortTable(index);
+                th.onclick = (e) => this.sortTable(column.getAttribute('value'));
             }
-
-
             th.innerText = column.getAttribute("header");
+                      
+    
             //style
-            th.style.border = "black 1px solid";
-            th.style.padding = "3px";
+          
+            this.style.padding="8px";
+            this.style.textAlign="center";
+            this.style.border= "1px solid #ddd";
+            this.style.fontSize="24px";
+            this.style.font="18px arial,serif";
+            table.style.borderCollapse="collapse";
+            this.style.backgroundcolor= "#fff";
+            table.style.width= "100%";
+            th.style.padding = "8px";
+            th.style.backgroundColor="black";
+            th.style.color= "white";
+                
+                this._root.appendChild(estilo);
 
             tr.appendChild(th);
         });
         thead.appendChild(tr);
+
 
 
         //METODO
@@ -94,28 +220,81 @@ class Table extends HTMLElement {
         table.appendChild(thead);
         table.appendChild(tbody);
         this._root.appendChild(table);
+
     }
 
+    manejoSeleccion(rows){
+        rows.forEach((value) => {
+            value.removeAttribute("class");
+        });
+    }
 
-    crearPaginador(pagesize) {
+    crearPaginador(first, pagesize) {
+        console.log("first "+first);
+        //console.log("first: "+first);
         let divBotones = document.createElement("div");
         let numPaginadores = Math.ceil(this.lista.length / pagesize);
+
+        //crear botones < <<
+        let btnAnterior = document.createElement("button");
+        let btnPrimero = document.createElement("button");
+        btnAnterior.innerText = "<";
+        btnPrimero.innerText = "<<";
+        if (first > 0) {
+            btnPrimero.onclick = () => {
+                this.crearPaginador(0, pagesize);
+                this.recargarTabla(0, pagesize);
+            };
+            btnAnterior.onclick = () => {
+                this.recargarTabla(first - pagesize, pagesize);
+                this.crearPaginador(first - pagesize, pagesize);
+            };
+        } else {
+            btnAnterior.disabled = true;
+            btnPrimero.disabled = true;
+        }
+        let btnSiguiente = document.createElement("button");
+        let btnUltimo = document.createElement("button");
+        btnSiguiente.innerText = ">";
+        btnUltimo.innerText = ">>";
+        if (first/numPaginadores < numPaginadores-1) {
+            btnUltimo.onclick = () => {
+                this.crearPaginador(pagesize*(numPaginadores-1), pagesize);
+                this.recargarTabla(pagesize*(numPaginadores-1), pagesize);
+            };
+            btnSiguiente.onclick = () => {
+                this.recargarTabla(first + pagesize, pagesize);
+                this.crearPaginador(first + pagesize, pagesize);
+            };
+        } else {
+            btnSiguiente.disabled = true;
+            btnUltimo.disabled = true;
+        }
+        divBotones.appendChild(btnPrimero);
+        divBotones.appendChild(btnAnterior);
+
+        //crear botones nums
+        //let i = 0;
         for (let i = 0; i < numPaginadores; i++) {
             let btnPaginador = document.createElement("button");
             btnPaginador.innerText = i + 1;
             btnPaginador.onclick = () => {
+                this.crearPaginador((i) * pagesize, pagesize);
                 this.recargarTabla((i) * pagesize, pagesize)
             };
             divBotones.appendChild(btnPaginador);
         }
-        divBotones.className = "divBotones";
+        divBotones.appendChild(btnSiguiente);
+        divBotones.appendChild(btnUltimo);
 
+        divBotones.className = "divBotones";
         this._root.querySelector(".divPaginador").replaceChild(divBotones, this._root.querySelector(".divBotones"))
     }
 
 
     recargarTabla(first, pagesize) {
         this._root.querySelector("table").replaceChild(this.llenarTabla(first, pagesize), this._root.querySelector("tbody"));
+        
         //this._root.querySelector("table").appendChild();
     }
 
@@ -128,13 +307,12 @@ class Table extends HTMLElement {
             if (this.lista[i] == undefined) { break; }
             let tr = document.createElement("tr");
             tr.onclick = (e) => {
-                let rows = this._root.querySelectorAll("tr");
 
-                rows.forEach((value) => {
-                    value.style.background = "inherit";
-                });
-                tr.style.background = "#C1E5EB"
-                let rowSelected = tr.sectionRowIndex;
+                let rows = this._root.querySelectorAll("tr");
+                
+              this.manejoSeleccion(rows);
+                tr.className="selectedRow";
+                this._rowIndex=tr.sectionRowIndex+1;
             }
             this.columns.forEach((column) => {
                 let td = document.createElement("td");
@@ -160,56 +338,23 @@ class Table extends HTMLElement {
         return tbody;
     }
 
-    sortTable(n) {
-        let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-        table = this._root.querySelector("table");
-        switching = true;
-        dir = "asc";
-        while (switching) {
-            switching = false;
-            rows = table.getElementsByTagName("TR");
-            for (i = 1; i < (rows.length - 1); i++) {
-                shouldSwitch = false;
-                x = rows[i].getElementsByTagName("TD")[n];
-                y = rows[i + 1].getElementsByTagName("TD")[n];
-                if (dir == "asc") {
-                    if (parseInt(x.textContent == "NaN")) {
-                        if (x.innerText.toLowerCase() > y.innerText.toLowerCase()) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else {
-                        if (x.innerText > y.innerText) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-                } else if (dir == "desc") {
-                    if (parseInt(x.textContent == "NaN")) {
-                        if (x.innerText.toLowerCase() < y.innerText.toLowerCase()) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else {
-                        if (x.innerText < y.innerText) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (shouldSwitch) {
-                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                switching = true;
-                switchcount++;
-            } else {
-                if (switchcount == 0 && dir == "asc") {
-                    dir = "desc";
-                    switching = true;
-                }
-            }
-        }
+    sortTable(n){
+        
+        if(this._asc){
+            this.lista.sort((a, b)=>{
+                this._asc=!this._asc;
+                return a[n]<b[n] ? -1:1;
+                
+            });
+        }else{
+            this.lista.sort((a, b)=>{
+                this._asc=!this._asc;
+                 return b[n]<a[n] ? -1:1;
+                });}
+        this.recargarTabla(0,parseInt(this._root.querySelector("select").value));
+        
     }
+
     get pagesizeTemplate() {
         return this.getAttribute("pagesizeTemplate");
     }
@@ -230,6 +375,7 @@ class Table extends HTMLElement {
         this.setAttribute("tittle", tittle);
     }
 }
+
 
 customElements.define("wc-table", Table);
 export default Table;
