@@ -1,4 +1,4 @@
-FROM payara/micro
+FROM payara/micro:4.181
 RUN wget -O /opt/payara/postgresql-42.2.2.jar https://jdbc.postgresql.org/download/postgresql-42.2.2.jar
 
 ADD MantenimientoMiddleWare-web-1.0-SNAPSHOT.war /opt/payara
