@@ -1,5 +1,5 @@
 import MarcaResourceClient from "./MarcaResourceClient.js";
-class MarcasForm extends HTMLElement {
+class BackgroundMarca extends HTMLElement {
     constructor() {
         super();
     }
@@ -14,11 +14,13 @@ class MarcasForm extends HTMLElement {
                 .then((data) => {
                     document.querySelector("auto-complete").setAttribute("options", JSON.stringify(data));
                 })
-
         })
+
+        // this.addEventListener("paginar", (e) => {
+
+        // })
+
     }
-
-
 }
-customElements.define("marcas-form", MarcasForm);
-export default MarcasForm;
+customElements.define("background-marca", BackgroundMarca);
+export default BackgroundMarca;

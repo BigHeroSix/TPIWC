@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>self-complementary</title>
-  </head>
-  <body>
 
-    <marcas-form>
-      <auto-complete legend="Buscar Marcas" findtag="nombre"></auto-complete>
-    </marcas-form>
+<head>
+  <meta charset="utf-8">
+  <title>Self-complementary</title>
+</head>
 
-    <script type="module">
-      import selfComplementary from './controller/selfComplementaryController.js';
-    </script> 
+<body>
 
-    <script type="module">
-      import MarcasForm from './controller/MarcasForm.js';
-    </script>
-  </body>
+  <background-marca>
+    <auto-complete legend="Buscar Marcas" findtag="nombre"></auto-complete>
+
+  </background-marca>
+
+  <script type="module" src="./controller/selfComplementaryController.js"></script>
+  <script type="module" src="./controller/backgroundMarca.js"></script>
+  
+</body>
+
 </html>
