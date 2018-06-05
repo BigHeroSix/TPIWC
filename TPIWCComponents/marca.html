@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>marca</title>
+    <link rel="import" href="bower_components/vaadin-grid/vaadin-grid.html">
+</head>
+
+<body>
+    <backgroundMarca>
+        <vaadin-grid>
+            <vaadin-grid-column>
+                <template class="header">ID</template>
+                <template>
+                    [[item.idMarca]]
+                </template>
+            </vaadin-grid-column>
+         <vaadin-grid-column>
+                <template class="header">Nombre</template>
+                <template>
+                    [[item.nombre]]
+                </template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Descripcion</template>
+                <template>
+                    [[item.descripcion]]
+                </template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Activo</template>
+                <template>
+                    [[item.activo]]
+                </template>
+            </vaadin-grid-column>
+        </vaadin-grid>
+    </backgroundMarca>
+    <script type="module" src="./controller/backgroundMarca.js"></script>
+    <script type="module" src="./controller/table.js"></script>
+</body>
+
+</html>

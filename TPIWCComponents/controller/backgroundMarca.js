@@ -14,12 +14,8 @@ class BackgroundMarca extends HTMLElement {
                 .then((data) => {
                     document.querySelector("auto-complete").setAttribute("options", JSON.stringify(data));
                 })
-        })
-
-        // this.addEventListener("paginar", (e) => {
-
-        // })
-
+        });
+        
     }
 }
 customElements.define("background-marca", BackgroundMarca);

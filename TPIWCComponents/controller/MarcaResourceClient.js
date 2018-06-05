@@ -4,11 +4,14 @@ class MarcaResourceClient extends AbstractResourceClient {
     super();
     this._url += "/marca";
   }
-  findByNameLike(chars){
+  findByNameLike(chars) {
     return fetch(this._url + "/nombre/" + chars);
   }
-  findAll(){
+  findAll() {
     return fetch(this._url);
+  }
+  findByRange(first, pagesize) {
+    return fetch(this._url + "?first=" + first + "&pagesize=" + pagesize);
   }
 }
 export default MarcaResourceClient;
