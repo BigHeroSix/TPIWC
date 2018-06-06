@@ -15,7 +15,7 @@ class BackgroundMarca extends HTMLElement {
                     document.querySelector("auto-complete").setAttribute("options", JSON.stringify(data));
                 })
         });
-        /*this.addEventListener("WebComponentsReady",(e) => {
+        this.addEventListener("WebComponentsReady",(e) => {
             const table = document.querySelector('vaadin-grid');
             let marca = new MarcaResourceClient();
             table.dataProvider = (params, callback) => {
@@ -25,7 +25,7 @@ class BackgroundMarca extends HTMLElement {
                     callback(data,data.length);
                 });
             }
-        });*/
+        });
     }
 }
 customElements.define("background-marca", BackgroundMarca);

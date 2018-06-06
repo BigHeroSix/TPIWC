@@ -7,12 +7,12 @@ customElements.whenDefined('vaadin-grid').then(_ => {
         marca.findByRange(0, 4).then(r => {
             return r.json();
         }).then(data => {
-            tableConstructor(data);
+
             callback(data, data.length);
         });
     }
 });
-
+/* 
 function tableConstructor(json) {
     console.log(json[0]);
     let Propiedades = Object.keys(json[0]);
@@ -40,4 +40,4 @@ function tableConstructor(json) {
     }
 
 
-}
+} */
