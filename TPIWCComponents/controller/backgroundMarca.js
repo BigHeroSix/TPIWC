@@ -15,7 +15,17 @@ class BackgroundMarca extends HTMLElement {
                     document.querySelector("auto-complete").setAttribute("options", JSON.stringify(data));
                 })
         });
-        
+        /*this.addEventListener("WebComponentsReady",(e) => {
+            const table = document.querySelector('vaadin-grid');
+            let marca = new MarcaResourceClient();
+            table.dataProvider = (params, callback) => {
+                marca.findByRange(0, 4).then(r => {
+                   return r.json();
+                }).then(data => {
+                    callback(data,data.length);
+                });
+            }
+        });*/
     }
 }
 customElements.define("background-marca", BackgroundMarca);
