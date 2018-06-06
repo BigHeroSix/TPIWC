@@ -5,5 +5,11 @@ class AbstractResourceClient {
   get url() {
     return this._url;
   }
+  findAll() {
+    return fetch(this._url);
+  }
+  findByRange(first, pagesize) {
+    return fetch(this._url + "?first=" + first + "&pagesize=" + pagesize);
+  }
 }
 export default AbstractResourceClient;

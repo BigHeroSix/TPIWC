@@ -1,12 +1,12 @@
 import AbstractResourceClient from './AbstractResourceClient.js';
-class MarcaResourceClient extends AbstractResourceClient {
+class ArticuloResourceClient extends AbstractResourceClient {
   constructor() {
     super();
-    this._url += "/marca";
+    this._url += "/articulo";
   }
   findByNameLike(chars) {
     return fetch(this._url + "/nombre/" + chars);
   }
   
 }
-export default MarcaResourceClient;
+export default ArticuloResourceClient;
