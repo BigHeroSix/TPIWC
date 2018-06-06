@@ -5,6 +5,19 @@ class BackgroundMarca extends HTMLElement {
     }
 
     connectedCallback() {
+        customElements.whenDefined('vaadin-grid').then(_ => {
+            const table = document.querySelector('vaadin-grid');
+            let marca = new MarcaResourceClient();
+            table.dataProvider = (params, callback) => {
+                marca.findByRange(0, 4).then(r => {
+                    return r.json();
+                }).then(data => {
+        
+                    callback(data, data.length);
+                });
+            }
+        });
+
         this.addEventListener("complete", (e) => {
             let service = new MarcaResourceClient();
             service.findByNameLike(e.detail.char)
@@ -15,29 +28,18 @@ class BackgroundMarca extends HTMLElement {
                     document.querySelector("auto-complete").setAttribute("options", JSON.stringify(data));
                 })
         });
-        /*this.addEventListener("WebComponentsReady",(e) => {
+
+        /* this.addEventListener("WebComponentsReady", (e) => {
             const table = document.querySelector('vaadin-grid');
             let marca = new MarcaResourceClient();
             table.dataProvider = (params, callback) => {
                 marca.findByRange(0, 4).then(r => {
-                   return r.json();
+                    return r.json();
                 }).then(data => {
-                    callback(data,data.length);
+                    callback(data, data.length);
                 });
             }
-        });*/
-
-        this.addEventListener("complete", (e) => {
-            let service = new MarcaResourceClient();
-            service.findByNameLike(e.detail.char)
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    document.querySelector("auto-complete").setAttribute("options", JSON.stringify(data));
-                })
-
-        })
+        }); */
     }
 }
 customElements.define("background-marca", BackgroundMarca);

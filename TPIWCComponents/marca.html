@@ -11,12 +11,27 @@
     <background-marca>
         <auto-complete legend="Buscar Marcas" findtag="nombre"></auto-complete>
         <vaadin-grid>
+            <vaadin-grid-column>
+                <template class="header">IdMarca</template>
+                <template>[[item.idMarca]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Nombre</template>
+                <template>[[item.nombre]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Descripcion</template>
+                <template>[[item.descripcion]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">Activo</template>
+                <template>[[item.activo]]</template>
+            </vaadin-grid-column>
         </vaadin-grid>
     </background-marca>
 
-    <script type="module" src="./controller/autocomplete.js"></script>
-    <script type="module" src="./controller/backgroundMarca.js"></script>
-    <script type="module" src="./controller/table.js"></script>
+    <script type="module" src="./webcomponent/autocomplete.js"></script>
+    <script type="module" src="./webcomponent/background.js"></script>
 </body>
 
 </html>

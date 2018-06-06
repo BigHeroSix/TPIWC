@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>equipo</title>
+    <link rel="import" href="./bower_components/vaadin-grid/vaadin-grid.html">
+</head>
+
+<body>
+    <background-marca>
+        <vaadin-grid>
+            <vaadin-grid-column>
+                <template class="header">IdEquipo</template>
+                <template>[[item.idEquipo]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">CodigoCorrelativo</template>
+                <template>[[item.codigoCorrelativo]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">IdModelo</template>
+                <template>[[item.idModelo.idModelo]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+                <template class="header">IdUnidad</template>
+                <template>[[item.idUnidad.idUnidad]]</template>
+            </vaadin-grid-column>
+        </vaadin-grid>
+        </bbackground-marca>
+        <script type="module" src="./webcomponent/background.js"></script>
+</body>
+
+</html>
