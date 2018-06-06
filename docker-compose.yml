@@ -8,6 +8,8 @@ services:
       - middleware
     ports:
       - "80:80"
+    volumes:
+      - ./TPIWCComponents/:/usr/local/apache2/htdocs/
   middleware:
     build:
      context: .
