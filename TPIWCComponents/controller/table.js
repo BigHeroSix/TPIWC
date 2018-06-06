@@ -1,4 +1,4 @@
-import MarcaResourceClient from "./MarcaResourceClient.js";
+import MarcaResourceClient from "../boundary/MarcaResourceClient.js";
 
 customElements.whenDefined('vaadin-grid').then(_ => {
     const table = document.querySelector('vaadin-grid');
@@ -14,19 +14,15 @@ customElements.whenDefined('vaadin-grid').then(_ => {
 });
 
 function tableConstructor(json) {
-    console.log(json[0]);
     let Propiedades = Object.keys(json[0]);
     let Objetos = Object.values(json[0]);
-    console.log(Propiedades);
-    console.log(Objetos);
-
     let table = document.querySelector("vaadin-grid");
+
     for (let index = 0; index < Propiedades.length; index++) {
         let vaadinColum = document.createElement("vaadin-grid-column");
         let templete1 = document.createElement("template");
         templete1.setAttribute("class", "header");
         let templete2 = document.createElement("template");
-        console.log(typeof Objetos[index]);
         templete1.innerHTML = Propiedades[index];
         if (typeof Objetos[index] == 'object') {
             templete2.innerHTML = '[[item.' + Propiedades[index] +'.'+ Propiedades[index] + ']]';

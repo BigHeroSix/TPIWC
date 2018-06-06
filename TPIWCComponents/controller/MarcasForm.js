@@ -1,4 +1,4 @@
-import MarcaResourceClient from "./MarcaResourceClient.js";
+import MarcaResourceClient from "../boundary/MarcaResourceClient.js";
 class MarcasForm extends HTMLElement {
     constructor() {
         super();

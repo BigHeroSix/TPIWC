@@ -1,4 +1,4 @@
-class selfComplementary extends  HTMLElement {
+class Autocomplete extends  HTMLElement {
     constructor() {
         super();
         this._root = this.attachShadow({mode: 'open'});
@@ -68,6 +68,6 @@ class selfComplementary extends  HTMLElement {
     }
 }
 
-customElements.define('auto-complete', selfComplementary);
+customElements.define('auto-complete', Autocomplete);
 
-export default selfComplementary;
+export default Autocomplete;

@@ -1,4 +1,4 @@
-import MarcaResourceClient from "./MarcaResourceClient.js";
+import MarcaResourceClient from "../boundary/MarcaResourceClient.js";
 class BackgroundMarca extends HTMLElement {
     constructor() {
         super();
@@ -26,6 +26,18 @@ class BackgroundMarca extends HTMLElement {
                 });
             }
         });*/
+
+        this.addEventListener("complete", (e) => {
+            let service = new MarcaResourceClient();
+            service.findByNameLike(e.detail.char)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    document.querySelector("auto-complete").setAttribute("options", JSON.stringify(data));
+                })
+
+        })
     }
 }
 customElements.define("background-marca", BackgroundMarca);

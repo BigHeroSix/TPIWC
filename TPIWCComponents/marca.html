@@ -4,14 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>marca</title>
-    <link rel="import" href="bower_components/vaadin-grid/vaadin-grid.html">
+    <link rel="import" href="./bower_components/vaadin-grid/vaadin-grid.html">
 </head>
 
 <body>
-    <backgroundMarca>
+    <background-marca>
+        <auto-complete legend="Buscar Marcas" findtag="nombre"></auto-complete>
         <vaadin-grid>
         </vaadin-grid>
-    </backgroundMarca>
+    </background-marca>
+
+    <script type="module" src="./controller/autocomplete.js"></script>
     <script type="module" src="./controller/backgroundMarca.js"></script>
     <script type="module" src="./controller/table.js"></script>
 </body>
