@@ -4,34 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Marca</title>
-    <link rel="import" href="./bower_components/vaadin-grid/vaadin-grid.html">
+    <link rel="stylesheet" href="../resources/iconos/style.css">
 </head>
 
 <body>
     <background-marca>
+
         <auto-complete legend="Buscar Marcas" findtag="nombre"></auto-complete>
-        <vaadin-grid>
-            <vaadin-grid-column>
-                <template class="header">IdMarca</template>
-                <template>[[item.idMarca]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
-                <template class="header">Nombre</template>
-                <template>[[item.nombre]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
-                <template class="header">Descripcion</template>
-                <template>[[item.descripcion]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
-                <template class="header">Activo</template>
-                <template>[[item.activo]]</template>
-            </vaadin-grid-column>
-        </vaadin-grid>
+
+        <wc-table tittle="Tabla Marcas" paginator pagesizeTemplate="4,8,10,12" maxHeight="250px">
+            <wc-table-column header="Id" value="idMarca" sortable width="20%"></wc-table-column>
+            <wc-table-column header="Nombre" value="nombre" sortable width="30%"></wc-table-column>
+            <wc-table-column header="Descripcion" value="descripcion" width="30%"></wc-table-column>
+            <wc-table-column header="Activo" value="activo" width="20%"></wc-table-column>
+        </wc-table>
+
+        <wc-modal-dialog width="80%" tittle="Informacion del row"></wc-modal-dialog>
+        
+
+        <vaadin-text-field></vaadin-text-field>
+
+        <vaadin-notification></vaadin-notification>
+
+        <vaadin-button></vaadin-button>
+
+        <vaadin-checkbox></vaadin-checkbox>
+
+        <vaadin-dropdown-menu></vaadin-dropdown-menu>
+
+        <vaadin-split-layout></vaadin-split-layout>
+
     </background-marca>
 
-    <script type="module" src="./webcomponent/autocomplete.js"></script>
-    <script type="module" src="./webcomponent/background.js"></script>
+    <script type="module" src="./webcomponent/Autocomplete.js"></script>
+    <script type="module" src="./webcomponent/Background.js"></script>
+    <script type="module" src="./webcomponent/Table.js"></script>
+    <script type="module" src="./webcomponent/ModalDialog.js"></script>
 </body>
 
 </html>
