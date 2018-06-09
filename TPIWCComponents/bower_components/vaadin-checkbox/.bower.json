@@ -46,6 +46,7 @@
     "commit": "04273c6853e56b7d58389189d0df96122be1686f"
   },
   "_source": "https://github.com/vaadin/vaadin-checkbox.git",
-  "_target": "^2.0.0",
-  "_originalSource": "vaadin-checkbox"
+  "_target": "^2.1.1",
+  "_originalSource": "vaadin/vaadin-checkbox",
+  "_direct": true
 }
