@@ -129,7 +129,7 @@ class Table extends HTMLElement {
         let thead = document.createElement("thead");
         let tr = document.createElement("tr");
 
-        this.style.padding = "8px";
+        //this.style.padding = "8px";
         this.style.textAlign = "center";
         this.style.fontSize = "24px";
         this.style.font = "18px arial,serif";
@@ -139,7 +139,7 @@ class Table extends HTMLElement {
 
         
 
-            this.style.padding="8px";
+            //this.style.padding="8px";
             this.style.textAlign="center";
             this.style.fontSize="24px";
             this.style.font="18px arial,serif";
