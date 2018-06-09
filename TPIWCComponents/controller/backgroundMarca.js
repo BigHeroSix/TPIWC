@@ -7,36 +7,34 @@ class BackgroundMarca extends HTMLElement {
 
     connectedCallback() {
         
-        var table;
-        Promise.all(customElements.whenDefined("paginator-controller"),customElements.whenDefined("vaadin-grid"))
-        .then(cumplidas =>{
-            let service = new MarcaResourceClient();
-            table = document.querySelector('vaadin-grid');
-            table.dataProvider = (params, callback) => {
+
+
+        this.addEventListener("paginatorOnload",(e)=>{
+            let table = document.querySelector('wc-table');
+            table.dataProvider(e.detail.jsonData);
+        });
+
+        this.addEventListener("onpagesize",(e)=>{
+            console.log(typeof e.detail);
+            console.log("escucho el eventoooo: "+e.detail.jsonData);
+            let table = document.querySelector('wc-table');
+            table.dataProvider(e.detail.jsonData);
+        });
+
+        addEventListener("selectedRow",(e)=>{
+            let modal=document.querySelector("wc-modal-dialog");
+            for(let i=0;i<e.detail.headers.length;i++){
+                let p=document.createElement("p");
+                p.innerHTML=`${e.detail.headers[i].textContent}:     ${e.detail.source[i].textContent}`;
+                modal.appendChild(p);
+            }
+           
+            modal.init();
+            modal.toggleVisibility(true);
             
-            Promise.all(service.findByRange(0,4))
-            .then(cumplidas=>{
-                cumplidas[0]
-                .then(data=>{
-                    return data.json;
-                })
-                .then(jsn=>{
-                    callback(jsn,jsn.length)
-                })
-            })
-
-            }
         });
 
-
-        this.addEventListener("onpagesize_change",e=>{
-            table.dataProvider=(params, callback)=>{
-                let data=e.detail.jsonData;
-            callback(data,data.length);
-            }
-        });
-
-        this.addEventListener("complete", (e) => {
+       /* this.addEventListener("complete", (e) => {
             let service = new MarcaResourceClient();
             service.findByNameLike(e.detail.char)
                 .then((response) => {
@@ -46,8 +44,20 @@ class BackgroundMarca extends HTMLElement {
                     document.querySelector("auto-complete").setAttribute("options", JSON.stringify(data));
                 })
         });
-        
+        /*this.addEventListener("WebComponentsReady",(e) => {
+            const table = document.querySelector('vaadin-grid');
+            let marca = new MarcaResourceClient();
+            table.dataProvider = (params, callback) => {
+                marca.findByRange(0, 4).then(r => {
+                   return r.json();
+                }).then(data => {
+                    callback(data,data.length);
+                });
+            }
+        });*/
     }
+
+  
 }
 customElements.define("background-marca", BackgroundMarca);
 export default BackgroundMarca;

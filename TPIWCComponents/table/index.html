@@ -9,26 +9,25 @@
 </head>
 
 <body>
+<background-marca>
 
-    <script type="module">
-        import Table from './Table.js'
-    </script>
-    <script type="module">
-import ModalDialog from '../controller/ModalDialog.js'
-</script>
+        <paginator-controller pagesizeTemplate="1,3,5,7"></paginator-controller>
 
-    <script type="module" src="./main.js"></script>
+    <wc-table tittle="Tabla Marcas" maxHeight="250px">
+    <wc-table-column header="Id" value="idMarca" sortable width="20%"></wc-table-column>
+    <wc-table-column header="Nombre" value="nombre" sortable width="30%"></wc-table-column>
+    <wc-table-column header="Descripcion" value="descripcion" width="30%"></wc-table-column>
+    <wc-table-column header="Activo" value="activo" width="20%"></wc-table-column>
+</wc-table>
 
-    <wc-table tittle="Tabla Marcas" paginator pagesizeTemplate="1,4,8,10,12" 
-    maxHeight="250px">
-        <wc-table-column header="Id" value="idMarca" sortable width="20%"></wc-table-column>
-        <wc-table-column header="Nombre" value="nombre" sortable width="30%"></wc-table-column>
-        <wc-table-column header="Descripcion" value="descripcion" width="30%"></wc-table-column>
-        <wc-table-column header="Activo" value="activo" width="20%"></wc-table-column>
-    </wc-table>
+<wc-modal-dialog width="80%" tittle="Informacion del row"></wc-modal-dialog>
 
-    <wc-modal-dialog width="80%" tittle="Informacion del row"></wc-modal-dialog>
+</background-marca>
+<script type="module" src="./Table.js"></script>
+<script type="module" src="../controller/ModalDialog.js"></script>
 
+<script type="module" src="../controller/Paginator.js"></script>
+<script type="module" src="../controller/backgroundMarca.js"></script>
 </body>
 
 </html>

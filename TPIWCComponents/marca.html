@@ -8,37 +8,29 @@
 </head>
 
 <body>
-    <backgroundMarca>
-    <paginator-controller pagesizeTemplate="3,5,7"></paginator-controller>
+    <background-marca>
+    <paginator-controller pagesizeTemplate="1,3,5,7"></paginator-controller>
         <vaadin-grid>
             <vaadin-grid-column>
                 <template class="header">ID</template>
-                <template>
-                    [[item.idMarca]]
-                </template>
-            </vaadin-grid-column>
-         <vaadin-grid-column>
-                <template class="header">Nombre</template>
-                <template>
-                    [[item.nombre]]
-                </template>
+                <template>[[item.idMarca]]</template>
             </vaadin-grid-column>
             <vaadin-grid-column>
-                <template class="header">Descripcion</template>
-                <template>
-                    [[item.descripcion]]
-                </template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
-                <template class="header">Activo</template>
-                <template>
-                    [[item.activo]]
-                </template>
-            </vaadin-grid-column>
+                    <template class="header">Nombre</template>
+                    <template>[[item.nombre]]</template>
+                </vaadin-grid-column>
+                <vaadin-grid-column>
+                        <template class="header">Descripción</template>
+                        <template>[[item.descripcion]]</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column>
+                            <template class="header">Activo</template>
+                            <template>[[item.activo]]</template>
+                        </vaadin-grid-column>
         </vaadin-grid>
-    </backgroundMarca>
+    </background-marca>
     <script type="module" src="./controller/backgroundMarca.js"></script>
-    <script type="module" src="./controller/table.js"></script>
+    <script type="module" src="./controller/Paginator.js"></script>
 </body>
 
 </html>

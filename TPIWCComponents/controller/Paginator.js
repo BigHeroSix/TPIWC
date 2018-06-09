@@ -6,13 +6,17 @@ class Paginator extends HTMLElement{
     }
 
 connectedCallback(){
+    this.mrc=new MarcaResourceClient();
+
     let estilo = document.createElement("style");
-    let pagesize = 5;
+    let pagesize;
 
     let select = document.createElement("select");
     if (this.pagesizeTemplate) {
         let tamanios = this.pagesizeTemplate.split(",");
+        
         pagesize = parseInt(tamanios[0]);
+        this.crearEvento(0,tamanios[0],"paginatorOnload");
         tamanios.forEach((value) => {
             let option = document.createElement("option");
             option.innerText = value;
@@ -21,6 +25,8 @@ connectedCallback(){
         });
     } else {
         for (let i = 1; i <= 5; i++) {
+            this.crearEvento(0,5,"paginatorOnload");
+
             let option = document.createElement("option");
             option.innerText = i * 5;
             option.setAttribute("value", i * 5);
@@ -31,7 +37,7 @@ connectedCallback(){
         pagesize = parseInt(select.options[select.selectedIndex].value);
         this.blur();
         this.crearPaginador(0, pagesize);
-
+        this.crearEvento(0,pagesize,"onpagesize");
     };
     
     let divPaginador = document.createElement("div");
@@ -41,6 +47,12 @@ connectedCallback(){
     estilo.innerText += `
             .divBotones{
                 display: inline-block;
+            }
+
+            .divPaginador{
+                width: 70%;
+                margin: 0 auto;
+                text-align: center;
             }
 
             .divPaginador select {
@@ -70,59 +82,155 @@ connectedCallback(){
                 color: white;
                 cursor: pointer;
             }
+            .selectedRow{
+                background: #C1E5EB !important;
+            }
             .divBotones button:disabled {
                 background-color: #eee;
                 color: #aaa
                 border-radius: 5px;
                 border: 0;
             }
+            
+            .btnActual {
+                background-color: #0040FF !important;
+                color: white !important;
+            }
+
             .divNum{
                 display: inline-block;
             }
+            ::-webkit-scrollbar {
+                width: 3px;
+          }
+          ::-webkit-scrollbar-thumb {
+            background-color: rgba(48, 101, 201, 0.7);
+            } 
+            th{
+                padding: 8px;
+                background-color: black;
+                color: white;
+            }
+            table{
+                font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                border: 1px solid #000;
+            }
+            
+            thead tr th {
+                border-left: 0.5px solid #bbb;
+            }
+            
+            table tr:nth-child(even){background-color: #f2f2f2;}
+            
+            table tr:hover {background-color: #ddd;}
 
-            `
+            .selectedRow:hover{
+                background: #C1E5EB;
+            }
+            
+            table th {
+                padding-y: 12px;
+                }
+                thead,tbody{
+                    display:block;
+                }
+                tbody{
+                    max-height: ${this.getAttribute("maxHeight")};
+                    overflow-y: auto;
+                    overflow-x:hidden;
+                }
+                thead, tbody tr {
+                    display:table;
+                    width:100%;
+                    table-layout:fixed;
+                }
+                @media (max-width: 650px){
+                    .divNum{
+                        display: none;
+                    }
+                }
+                @media (max-width: 600px){
+                    table{
+                        border: 1px solid #bbb;
+                        border-bottom: 0;
+                    }
+                    table tr:nth-child(odd){
+                        background-color: #ddd;
+                    }
+                    table tr:nth-child(even){
+                        background-color: #fff;
+                    }
+                    tbody{
+                        max-height: none;
+                    }
+                    thead{
+                        display: none;
+                    }
+                    tbody td{
+                        border: 0;
+                        border-bottom: 1px solid #bbb; 
+                        padding-left: 40%;
+                        padding-right: 10px;
+                        padding-top: 4px;
+                        padding-bottom:4px;
+                        display: block;
+                        text-align: left;
+                        width: 58% !important;
+                    }
+                    tbody td:before{
+                        padding-left: 5px;
+                        position: absolute;
+                        left: 10px;
+                        content: attr(header);
+                        display: inline-block;
+                    }
+                }
+                    `;
             divPaginador.appendChild(divBotones);
             divPaginador.appendChild(select);
             this._root.appendChild(divPaginador);
             this.crearPaginador(0, pagesize);
-     this.mrc=new MarcaResourceClient();
+            this._root.appendChild(estilo);
+
             
 }
 
-crearEvento(first,pagesize){
-    let error;
+crearEvento(first,pagesize,nombre){
     let data;
-
+    let event;
     this.mrc.findByRange(first,pagesize)
-    .then(p=>{
-        return p.json;
+    .then((p)=>{
+        return p.json();
     })
-    .then(d=>{
-        data=d;
+    .then((d)=>{
+        event=new CustomEvent(
+            nombre,
+        {
+            bubbles: true,
+            composed:true,
+            detail:{
+                jsonData: d,
+            }
+          
+        }
+    );
+    this.dispatchEvent(event);
+
     })
     .catch(e=>{
         error=e.message || "No hay nada que mostrar";
     })
 
-    let event=new CustomEvent(
-        "onpagesize_change",
-    {
-        bubbles: true,
-        composed:true,
-        detail:{
-            jsonData:data,
-            errorOutput:error
-        }
-      
-    }
-);
-this.dispatchEvent(event);
+   
 }
 
 crearPaginador(first, pagesize) {
     
     let divBotones = document.createElement("div");
-    let numPaginadores = Math.ceil(this.lista.length / pagesize);
+    let numPaginadores = 30;
+    //Math.ceil(this.lista.length / pagesize);
 
     //crear botones < <<
     let btnAnterior = document.createElement("button");
@@ -133,12 +241,13 @@ crearPaginador(first, pagesize) {
     if (first > 0) {
         btnPrimero.onclick = () => {
             this.crearPaginador(0, pagesize);
-            this.crearEvento(0,pagesize);
+            this.crearEvento(0,pagesize,"onpagesize");
+           
         };
         btnAnterior.onclick = () => {
 
             this.crearPaginador(first - pagesize, pagesize);
-            this.crearEvento(first - pagesize, pagesize);
+            this.crearEvento(first - pagesize, pagesize,"onpagesize");
         };
     } else {
         btnAnterior.disabled = true;
@@ -152,11 +261,11 @@ crearPaginador(first, pagesize) {
     if (Math.ceil((first + 1) / pagesize) < numPaginadores) {
         btnUltimo.onclick = () => {
             this.crearPaginador(pagesize * (numPaginadores - 1), pagesize);
-            this.crearEvento(pagesize * (numPaginadores - 1), pagesize);
+            this.crearEvento(pagesize * (numPaginadores - 1), pagesize,"onpagesize");
         };
         btnSiguiente.onclick = () => {
             this.crearPaginador(first + pagesize, pagesize);
-            this.crearEvento(first + pagesize, pagesize);
+            this.crearEvento(first + pagesize, pagesize,"onpagesize");
         };
     } else {
         btnSiguiente.disabled = true;
@@ -178,7 +287,7 @@ crearPaginador(first, pagesize) {
         }
         btnPaginador.onclick = () => {
             this.crearPaginador((i) * pagesize, pagesize);
-            this.crearEvento((i) * pagesize, pagesize);
+            this.crearEvento((i) * pagesize, pagesize,"onpagesize");
         };
         divNum.appendChild(btnPaginador);
         if ((i - inicio) > 4) { break; }

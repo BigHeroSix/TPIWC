@@ -9,7 +9,7 @@ window.onload = function () {
         return response.json();
     })
         .then((data) => {
-
+            console.log("Estaaaaaaaaaaaaaaaaaaaaaaaaaaa es data: "+data);
             var tabla = document.querySelector("wc-table");
             tabla.setLista(data);
 
