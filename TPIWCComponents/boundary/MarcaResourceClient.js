@@ -7,6 +7,9 @@ class MarcaResourceClient extends AbstractResourceClient {
   findByNameLike(chars) {
     return fetch(this._url + "/nombre/" + chars);
   }
+  count(){
+    return fetch(this.url+ "/count");
+  }
   
 }
 export default MarcaResourceClient;
