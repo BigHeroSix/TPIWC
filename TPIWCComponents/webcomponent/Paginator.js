@@ -1,13 +1,12 @@
-import MarcaResourceClient from '../boundary/MarcaResourceClient.js';
 class Paginator extends HTMLElement{
     constructor(){
         super();
         this._root = this.attachShadow({ mode: 'open' });
         this._count=0;
+        this._handler=null;
     }
 
 connectedCallback(){
-    this.mrc=new MarcaResourceClient();
 
     let estilo = document.createElement("style");
     let pagesize;
@@ -201,7 +200,7 @@ connectedCallback(){
 crearEvento(first,pagesize,nombre){
     let data;
     let event;
-    this.mrc.findByRange(first,pagesize)
+    this._handler.findByRange(first,pagesize)
     .then((p)=>{
         return p.json();
     })
@@ -229,7 +228,7 @@ crearEvento(first,pagesize,nombre){
 
 crearPaginador(first, pagesize) {
     if(this._count===0){
-    this.mrc.count()
+    this._handler.count()
     .then(response=>{return response.text()})
     .then(data=>{this._count=data});
     }
@@ -322,5 +321,4 @@ get pagesizeTemplate() {
 }
 
 }
-customElements.define("paginator-controller",Paginator);
 export default Paginator;
