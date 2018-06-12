@@ -4,8 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Marca</title>
-    <link rel="stylesheet" href="./resources/iconos/style.css">
-    
     <link rel="stylesheet" href="../resources/iconos/style.css">
     <link rel="import" href="./bower_components/vaadin-button/vaadin-button.html">
     <link rel="import" href="./bower_components/vaadin-checkbox/vaadin-checkbox.html">
@@ -15,15 +13,16 @@
     <link rel="import" href="./bower_components/vaadin-text-field/vaadin-text-field.html">
     <link rel="import" href="./bower_components/vaadin-item/vaadin-item.html">
     <link rel="import" href="./bower_components/vaadin-dialog/vaadin-dialog.html">
+    <link rel="import" href="./bower_components/vaadin-list-box/vaadin-list-box.html">
 </head>
 
 <body>
-    <background-marca>
+    <wc-background>
 
         <auto-complete legend="Buscar Marcas" findtag="nombre"></auto-complete>
-        <paginator-controller pagesizeTemplate="1,2,3,5,7"></paginator-controller>
+        <p-m pagesizeTemplate="1,2,3,5,7"></p-m>
 
-        <wc-table tittle="Tabla Marcas" maxHeight="250px">
+        <wc-table tittle="Controller marcas wc" maxHeight="250px" width="90%" center>
             <wc-table-column header="Id" value="idMarca" sortable width="20%"></wc-table-column>
             <wc-table-column header="Nombre" value="nombre" sortable width="30%"></wc-table-column>
             <wc-table-column header="Descripcion" value="descripcion" width="30%"></wc-table-column>
@@ -51,17 +50,18 @@
 
         <vaadin-dialog></vaadin-dialog>
 
-        -->
-        
+        <vaadin-list-box></vaadin-list-box>
 
-    </background-marca>
+        -->
+
+
+    </wc-background>
 
     <script type="module" src="./webcomponent/Autocomplete.js"></script>
     <script type="module" src="./webcomponent/Background.js"></script>
     <script type="module" src="./webcomponent/Table.js"></script>
     <script type="module" src="./webcomponent/ModalDialog.js"></script>
-    <script type="module" src="./webcomponent/Paginator.js"></script>
-    <script type="module" src="./webcomponent/ModalDialog.js"></script>
+    <script type="module" src="./webcomponent/PaginatorMarca.js"></script>
 </body>
 
 </html>
