@@ -4,8 +4,6 @@ services:
     build:
      context: .
      dockerfile: dockerfileApache
-    depends_on:
-      - middleware
     ports:
       - "80:80"
     volumes:
