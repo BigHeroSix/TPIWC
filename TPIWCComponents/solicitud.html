@@ -8,6 +8,8 @@
     <link rel="import" href="bower_components/vaadin-button/vaadin-button.html">
     <link rel="import" href="bower_components/vaadin-split-layout/vaadin-split-layout.html">
     <link rel="import" href="bower_components/vaadin-text-field/vaadin-text-field.html">
+    <link rel="import" href="./bower_components/vaadin-item/vaadin-item.html">
+    <link rel="import" href="./bower_components/vaadin-dialog/vaadin-dialog.html">
     <script type="module" src="webcomponent/Table.js"></script>
     <script type="module" src="./webcomponent/Background.js"></script>
     <script type="module" src="./webcomponent/PaginatorEquipo.js"></script>
@@ -29,9 +31,10 @@
 
     </div>
     <div>
-        <background-marca>
-            <vaadin-button click="mostrarModal">Equipos</vaadin-button>
-            <wc-modal-dialog>
+
+        <vaadin-button id="mostrarTabla">Agregar Equipos</vaadin-button>
+        <vaadin-dialog>
+            <background-marca>
                 <paginator-controller pagesizeTemplate="1,2,3,5,7"></paginator-controller>
                 <wc-table tittle="Equipos Seleccionados" maxHeight="250px">
                     <wc-table-column header="Id" value="idEquipo" sortable width="20%"></wc-table-column>
@@ -39,8 +42,8 @@
                     <wc-table-column header="Unidad" value="idUnidad.nombre" width="30%"></wc-table-column>
                     <wc-table-column header="Correlativo" value="codigoCorrelativo" width="20%"></wc-table-column>
                 </wc-table>
-            </wc-modal-dialog>
-        </background-marca>
+            </background-marca>
+        </vaadin-dialog>
     </div>
 
 
