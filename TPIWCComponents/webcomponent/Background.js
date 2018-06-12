@@ -23,7 +23,7 @@ class Background extends HTMLElement {
             table.dataProvider(e.detail.jsonData);
         });
 
-        addEventListener("selectedRow", (e) => {
+        /* addEventListener("selectedRow", (e) => {
             let modal = document.querySelector("wc-modal-dialog");
             for (let i = 0; i < e.detail.headers.length; i++) {
                 let p = document.createElement("p");
@@ -34,7 +34,7 @@ class Background extends HTMLElement {
             modal.init();
             modal.toggleVisibility(true);
 
-        });
+        }); */
 
         this.addEventListener("complete", (e) => {
             let service = new MarcaResourceClient();
