@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Seguimiento estado</title>
+    <link rel="stylesheet" href="../resources/iconos/style.css">
+    <link rel="import" href="./bower_components/vaadin-button/vaadin-button.html">
+    <link rel="import" href="./bower_components/vaadin-checkbox/vaadin-checkbox.html">
+    <link rel="import" href="./bower_components/vaadin-dropdown-menu/vaadin-dropdown-menu.html">
+    <link rel="import" href="./bower_components/vaadin-notification/vaadin-notification.html">
+    <link rel="import" href="./bower_components/vaadin-split-layout/vaadin-split-layout.html">
+    <link rel="import" href="./bower_components/vaadin-text-field/vaadin-text-field.html">
+    <link rel="import" href="./bower_components/vaadin-item/vaadin-item.html">
+</head>
+
+<body>
+    <!--background-seguimiento>
+
+        <vaadin-item>
+            <div>
+                <strong>Equipo:</strong>
+                <vaadin-text-field style="width: 40%;" value="No se ha establecido ningún equipo" readonly></vaadin-text-field>
+            </div>
+        </vaadin-item>
+
+        <div id="divTodosDetalles">
+            <vaadin-item>
+                <div id="divTituloDetalles">
+                    <strong>Detalles del equipo:</strong>
+                </div>
+            </vaadin-item>
+            <div id="divDefault">No se encontro ningún detalle.</div>
+        </div>
+
+        <div id="divBotones">
+            <vaadin-button theme="primary" onclick="mostrarNotificacion()">Guardar</vaadin-button>
+            <vaadin-button theme="success primary">Cancelar</vaadin-button>
+        </div>
+
+        <vaadin-notification duration="4000" position="top-end" id="notification">
+            <template>
+                Se guardaron los cambios en los pasos de los detalles
+            </template>
+        </vaadin-notification>
+
+        <script>
+            function mostrarNotificacion() {
+                const notification = document.querySelector('#notification');
+                notification.open();
+            }
+        </script>
+
+        <style>
+            .divDetalle {
+                margin: 10px 20% 20px 30px;
+                border: solid 1px lightblue;
+                border-radius: 8px;
+            }
+
+            .divCheckbox {
+                margin-left: 40px;
+            }
+
+            #divTituloDetalles {
+                border-bottom: solid 1px lightblue;
+                margin: 10px 20% 10px 0px;
+            }
+
+            #divBotones,
+            #divDefault {
+                margin: 10px 20% 20px 40px;
+            }
+        </style>
+
+    </background-seguimiento-->
+
+    <background-seguimiento>
+
+        <vaadin-item>
+            <div>
+                <strong>Equipo:</strong>
+                <vaadin-text-field style="width: 40%;" value="18912-232-1213-112" readonly></vaadin-text-field>
+            </div>
+        </vaadin-item>
+
+        <div id="divTodosDetalles">
+            <vaadin-item>
+                <div id="divTituloDetalles">
+                    <strong>Detalles del equipo:</strong>
+                </div>
+            </vaadin-item>
+
+            <div class="divDetalle">
+                <vaadin-item>
+                    <strong>Case:</strong>
+                </vaadin-item>
+                <div class="divCheckbox">
+                    <vaadin-checkbox checked>Limpieza de motherboard</vaadin-checkbox>
+                    <br>
+                    <vaadin-checkbox checked>Revisión de fuente de poder</vaadin-checkbox>
+                    <br>
+                    <vaadin-checkbox>Revisión de HDD</vaadin-checkbox>
+                    <br>
+                </div>
+            </div>
+            <div class="divDetalle">
+                <vaadin-item>
+                    <strong>Monitor:</strong>
+                </vaadin-item>
+                <div class="divCheckbox">
+                    <vaadin-checkbox checked>Limpieza de monitor</vaadin-checkbox>
+                    <br>
+                    <vaadin-checkbox>Pruebas de funcionamiento</vaadin-checkbox>
+                    <br>
+                </div>
+            </div>
+            <div class="divDetalle">
+                <vaadin-item>
+                    <strong>Teclado:</strong>
+                </vaadin-item>
+                <div class="divCheckbox">
+                    <vaadin-checkbox checked>Limpieza de teclado</vaadin-checkbox>
+                    <br>
+                    <vaadin-checkbox>Pruebas de tecladoo</vaadin-checkbox>
+                    <br>
+                    <vaadin-checkbox>Cambio de teclas dañadas</vaadin-checkbox>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <div id="divBotones">
+            <vaadin-button theme="primary" id="btnGuardar">Guardar</vaadin-button>
+            <vaadin-button theme="success primary" id="btnCancelar">Cancelar</vaadin-button>
+        </div>
+
+        <vaadin-notification duration="4000" position="top-end" id="notification">
+            <template>
+                Se guardaron los cambios en los pasos de los detalles.
+            </template>
+        </vaadin-notification>
+
+        <script>
+            function mostrarNotificacion() {
+                const notification = document.querySelector('#notification');
+                notification.open();
+            }
+        </script>
+
+        <style>
+            .divDetalle {
+                margin: 10px 20% 20px 30px;
+                border: solid 1px lightblue;
+                border-radius: 8px;
+            }
+
+            .divCheckbox {
+                margin-left: 40px;
+            }
+
+            #divTituloDetalles {
+                border-bottom: solid 1px lightblue;
+                margin: 10px 20% 10px 0px;
+            }
+
+            #divBotones,
+            #divDefault {
+                margin: 10px 20% 20px 40px;
+            }
+        </style>
+
+    </background-seguimiento>
+
+    <!--script type="module" src="./webcomponent/Autocomplete.js"></script>
+    <script type="module" src="./webcomponent/Background.js"></script>
+    <script type="module" src="./webcomponent/Table.js"></script>
+    <script type="module" src="./webcomponent/ModalDialog.js"></script>
+    <script type="module" src="./webcomponent/Paginator.js"></script-->
+
+    <!--script type="module" src="./webcomponent/BackgroundSeguimiento.js"></script>
+    <script src="./controller/seguimientoEstado.js"></script-->
+</body>
+
+</html>
