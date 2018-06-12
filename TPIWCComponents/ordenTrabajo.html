@@ -18,10 +18,6 @@
 
 <body>
     <wc-background>
-
-        <auto-complete legend="Buscar Ordenes de Trabajo" findtag="nombre"></auto-complete>
-        <p-m pagesizeTemplate="1,2,3,5,7"></p-m>
-
         <wc-table tittle="Ordenes de Trabajo" maxHeight="250px" width="90%" center>
             <wc-table-column header="Id" value="idOrdenTrabajo" sortable width="20%"></wc-table-column>
             <wc-table-column header="Equipo" value="idEquipo" sortable width="30%"></wc-table-column>
@@ -56,8 +52,6 @@
 
     </wc-background>
 
-    <script type="module" src="./webcomponent/Autocomplete.js"></script>
-    <script type="module" src="./webcomponent/Background.js"></script>
     <script type="module" src="./webcomponent/Table.js"></script>
     <script type="module" src="./controller/ordenes.js"></script>
 

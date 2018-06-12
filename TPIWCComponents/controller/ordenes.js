@@ -1,5 +1,5 @@
-import OrdenTrabajoResourceClient from "../boundary/OrdenTrabajoResourceClient.js"
-let otc = new OrdenTrabajoResourceClient();
+import OrdenesNoFinalizadasResourceClient from "../boundary/OrdenesNoFinalizadasResourceClient.js"
+let otc = new OrdenesNoFinalizadasResourceClient();
 otc.findAll().then(a=>{
     return a.json();
     
