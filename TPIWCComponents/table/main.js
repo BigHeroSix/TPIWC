@@ -7,8 +7,7 @@ window.onload = function () {
     let mrc = new MarcaResourceClient();
     mrc.findAll().then((response) => {
         return response.json();
-    })
-        .then((data) => {
+    }).then((data) => {
             console.log("Estaaaaaaaaaaaaaaaaaaaaaaaaaaa es data: "+data);
             var tabla = document.querySelector("wc-table");
             tabla.setLista(data);
