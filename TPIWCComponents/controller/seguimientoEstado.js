@@ -10,7 +10,7 @@ customElements.whenDefined('vaadin-text-field').then(_ => {
     console.log("DOM");
     //Obtener el equipo 
 
-    var equipo = null;
+    var equipo = "g";
 
     if (equipo != null) {
         //Agregar value al text-field
