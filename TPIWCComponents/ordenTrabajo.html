@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Marca</title>
+    <link rel="stylesheet" href="../resources/iconos/style.css">
+    <link rel="import" href="./bower_components/vaadin-button/vaadin-button.html">
+    <link rel="import" href="./bower_components/vaadin-checkbox/vaadin-checkbox.html">
+    <link rel="import" href="./bower_components/vaadin-dropdown-menu/vaadin-dropdown-menu.html">
+    <link rel="import" href="./bower_components/vaadin-notification/vaadin-notification.html">
+    <link rel="import" href="./bower_components/vaadin-split-layout/vaadin-split-layout.html">
+    <link rel="import" href="./bower_components/vaadin-text-field/vaadin-text-field.html">
+    <link rel="import" href="./bower_components/vaadin-item/vaadin-item.html">
+    <link rel="import" href="./bower_components/vaadin-dialog/vaadin-dialog.html">
+    <link rel="import" href="./bower_components/vaadin-list-box/vaadin-list-box.html">
+</head>
+
+<body>
+    <wc-background>
+
+        <auto-complete legend="Buscar Ordenes de Trabajo" findtag="nombre"></auto-complete>
+        <p-m pagesizeTemplate="1,2,3,5,7"></p-m>
+
+        <wc-table tittle="Ordenes de Trabajo" maxHeight="250px" width="90%" center>
+            <wc-table-column header="Id" value="idOrdenTrabajo" sortable width="20%"></wc-table-column>
+            <wc-table-column header="Equipo" value="idEquipo" sortable width="30%"></wc-table-column>
+            <wc-table-column header="Fecha" value="fecha" width="20%"></wc-table-column>
+        </wc-table>
+
+        <wc-modal-dialog width="80%" tittle="Informacion del row"></wc-modal-dialog>
+
+        <!--Componentes que descargamos de vaadin-->
+        <!--
+
+        <vaadin-text-field></vaadin-text-field>
+
+        <vaadin-notification></vaadin-notification>
+        
+        <vaadin-checkbox></vaadin-checkbox>
+
+        <vaadin-dropdown-menu></vaadin-dropdown-menu>
+
+        <vaadin-item></vaadin-item>
+
+        <vaadin-split-layout></vaadin-split-layout>
+        
+        <vaadin-button>Button</vaadin-button>
+
+        <vaadin-dialog></vaadin-dialog>
+
+        <vaadin-list-box></vaadin-list-box>
+
+        -->
+
+
+    </wc-background>
+
+    <script type="module" src="./webcomponent/Autocomplete.js"></script>
+    <script type="module" src="./webcomponent/Background.js"></script>
+    <script type="module" src="./webcomponent/Table.js"></script>
+    <script type="module" src="./controller/ordenes.js"></script>
+
+</body>
+
+</html>
