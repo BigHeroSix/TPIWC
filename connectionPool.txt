@@ -1,7 +1,0 @@
-create-jdbc-connection-pool --datasourceclassname org.postgresql.ds.PGSimpleDataSource --restype javax.sql.DataSource --property portNumber=5432:password=tpiPassword:user=tpi:serverName=postgres:databaseName=tpitest:driverClass=org.postgresql.Driver test-pool 
-create-jdbc-resource --connectionpoolid test-pool jdbc/TPI2018
-#set resources.jdbc-connection-pool.test-pool.connection-validation-method=custom-validation
-#set resources.jdbc-connection-pool.test-pool.validation-class-name=org.glassfish.api.jdbc.validation.DerbyConnectionValidation
-#set resources.jdbc-connection-pool.test-pool.is-connection-validation-required=true 
-list-jdbc-connection-pools
-ping-connection-pool --echo test-pool 

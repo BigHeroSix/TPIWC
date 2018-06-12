@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible">
+    <title>Estado de Solicitud</title>
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <link rel="import" href="bower_components/vaadin-text-field/vaadin-text-field.html">
+    <link rel="import" href="bower_components/vaadin-button/vaadin-button.html">
+    <script type="module" src="webcomponent/Table.js"></script>
+</head>
+
+<body>
+    <h2>Estado de solicitud</h2>
+    <form>
+        <vaadin-text-field id="txtid" label="ID de solicitud:" required error-message="Ingrese el ID de la solicitud" prevent-invalid-input
+            pattern="\d*"></vaadin-text-field>
+        <vaadin-button id="btnid">
+            <!-- <iron-icon icon="lumo:arrow-right" slot="suffix"></iron-icon> -->
+            Buscar
+        </vaadin-button>
+    </form>
+    <br>
+
+    <br>
+    <vaadin-text-field label="Solicitante" value="solicitante" readonly></vaadin-text-field>
+    <vaadin-text-field label="Unidad" value="unidad" readonly></vaadin-text-field>
+    <vaadin-text-field label="Solicitante" value="solicitante" readonly></vaadin-text-field>
+    <br>
+    <br>
+    <h3>Detalle de solicitud</h3>
+    <wc-table maxHeight="300px">
+        <wc-table-column header="Correlativo" value="codigoCorrelativo" width="20%"></wc-table-column>
+        <wc-table-column header="Modelo" value="idModelo.nombre" width="30%"></wc-table-column>
+        <wc-table-column header="Unidad" value="idUnidad.nombre" width="30%"></wc-table-column>
+        <wc-table-column header="Estado" value="true" width="20%"></wc-table-column>
+    </wc-table>
+    <script src="controller/estadosolicitud.js" type="module"></script>
+</body>
+
+</html>
