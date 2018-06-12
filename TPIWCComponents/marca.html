@@ -4,26 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Marca</title>
-    <link rel="stylesheet" href="./resources/iconos/style.css">
-    
-    <link rel="stylesheet" href="../resources/iconos/style.css">
-    <link rel="import" href="./bower_components/vaadin-button/vaadin-button.html">
-    <link rel="import" href="./bower_components/vaadin-checkbox/vaadin-checkbox.html">
-    <link rel="import" href="./bower_components/vaadin-dropdown-menu/vaadin-dropdown-menu.html">
-    <link rel="import" href="./bower_components/vaadin-notification/vaadin-notification.html">
-    <link rel="import" href="./bower_components/vaadin-split-layout/vaadin-split-layout.html">
-    <link rel="import" href="./bower_components/vaadin-text-field/vaadin-text-field.html">
-    <link rel="import" href="./bower_components/vaadin-item/vaadin-item.html">
-    <link rel="import" href="./bower_components/vaadin-dialog/vaadin-dialog.html">
+   
 </head>
 
 <body>
     <background-marca>
 
         <auto-complete legend="Buscar Marcas" findtag="nombre"></auto-complete>
-        <paginator-controller pagesizeTemplate="1,2,3,5,7"></paginator-controller>
+        <p-m pagesizeTemplate="1,2,3,5,7"></p-m>
 
-        <wc-table tittle="Tabla Marcas" maxHeight="250px">
+        <wc-table tittle="Controller marcas wc" maxHeight="250px" width="90%" center>
             <wc-table-column header="Id" value="idMarca" sortable width="20%"></wc-table-column>
             <wc-table-column header="Nombre" value="nombre" sortable width="30%"></wc-table-column>
             <wc-table-column header="Descripcion" value="descripcion" width="30%"></wc-table-column>
@@ -60,8 +50,12 @@
     <script type="module" src="./webcomponent/Background.js"></script>
     <script type="module" src="./webcomponent/Table.js"></script>
     <script type="module" src="./webcomponent/ModalDialog.js"></script>
+<<<<<<< HEAD
+    <script type="module" src="./webcomponent/PaginatorMarca.js"></script>
+=======
     <script type="module" src="./webcomponent/Paginator.js"></script>
     <script type="module" src="./webcomponent/ModalDialog.js"></script>
+>>>>>>> be526cd53c6356c8ad5a97e7818f9a4a121bcb56
 </body>
 
 </html>

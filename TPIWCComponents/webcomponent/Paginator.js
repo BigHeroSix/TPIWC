@@ -1,12 +1,12 @@
-import MarcaResourceClient from '../boundary/MarcaResourceClient.js';
 class Paginator extends HTMLElement{
     constructor(){
         super();
         this._root = this.attachShadow({ mode: 'open' });
+        this._count=0;
+        this._handler=null;
     }
 
 connectedCallback(){
-    this.mrc=new MarcaResourceClient();
 
     let estilo = document.createElement("style");
     let pagesize;
@@ -16,7 +16,7 @@ connectedCallback(){
         let tamanios = this.pagesizeTemplate.split(",");
         
         pagesize = parseInt(tamanios[0]);
-        this.crearEvento(0,tamanios[0],"paginatorOnload");
+        this.crearEvento(0,pagesize,"paginatorOnload");
         tamanios.forEach((value) => {
             let option = document.createElement("option");
             option.innerText = value;
@@ -200,7 +200,7 @@ connectedCallback(){
 crearEvento(first,pagesize,nombre){
     let data;
     let event;
-    this.mrc.findByRange(first,pagesize)
+    this._handler.findByRange(first,pagesize)
     .then((p)=>{
         return p.json();
     })
@@ -227,11 +227,16 @@ crearEvento(first,pagesize,nombre){
 }
 
 crearPaginador(first, pagesize) {
-    
+    if(this._count===0){
+    this._handler.count()
+    .then(response=>{return response.text()})
+    .then(data=>{this._count=data});
+    }
     let divBotones = document.createElement("div");
-    let numPaginadores = 30;
-    //Math.ceil(this.lista.length / pagesize);
+    let numPaginadores = Math.ceil(this._count/pagesize);
 
+    console.log("num: "+numPaginadores);
+    console.log("pagesize: "+pagesize);
     //crear botones < <<
     let btnAnterior = document.createElement("button");
     let btnPrimero = document.createElement("button");
@@ -301,15 +306,19 @@ crearPaginador(first, pagesize) {
 
 }
 
+get count(){
+    return this._count;
+}
+
+set count(c){
+    if(c){
+        this._count=c;
+    }
+}
+
 get pagesizeTemplate() {
     return this.getAttribute("pagesizeTemplate");
 }
 
-
-get paginator() {
-    return this.getAttribute("paginator") !== null;
 }
-
-}
-customElements.define("paginator-controller",Paginator);
 export default Paginator;

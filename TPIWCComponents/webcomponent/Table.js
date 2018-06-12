@@ -6,6 +6,7 @@ class Table extends HTMLElement {
         });
         this._asc = false;
         this._rowIndex = 0;
+        
     }
     
     connectedCallback() {
@@ -60,6 +61,10 @@ class Table extends HTMLElement {
             table tr:hover {background-color: #ddd;}
             .selectedRow:hover{
                 background: #C1E5EB;
+            }
+
+            .center{
+                margin: 0 auto;
             }
             
             table th {
@@ -145,10 +150,10 @@ class Table extends HTMLElement {
             this.style.font="18px arial,serif";
             table.style.borderCollapse="collapse";
             this.style.backgroundcolor= "#fff";
-            table.style.width= "100%";
+            table.style.width= this.width;
             table.style.borderCollapse = "collapse";
 
-
+            if(this.center)table.setAttribute("class","center");
 
             
         this.columns.forEach((column, index) => {
@@ -320,9 +325,22 @@ class Table extends HTMLElement {
     }
 
 
+    get center(){
+        return this.getAttribute("center")!=null;
+    }
+
+    get width(){
+        return this.getAttribute("width");
+    }
+
+    set width(width){
+        this.setAttribute("width",width);
+    }
+
     get getData() {
         return this.data;
     }
+
 
     get tittle() {
         return this.getAttribute("tittle");
