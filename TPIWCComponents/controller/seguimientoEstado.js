@@ -7,9 +7,11 @@ customElements.whenDefined('vaadin-text-field').then(_ => {
     divButtons = document.createElement('div');
     divButtons.setAttribute('id', 'divBotones')
 
-    console.log("DOM");
-    //Obtener el equipo 
+    //Datos que me mandara la otra interfaz
+    var idEquipo= 1;
+    var idOrdenTrabajo=1;
 
+    //Obtener el equipo 
     var equipo = "g";
 
     if (equipo != null) {
@@ -122,7 +124,7 @@ customElements.whenDefined('vaadin-text-field').then(_ => {
     background.appendChild(divButtons);
 
 
-    style = document.createElement('style');
+    /* style = document.createElement('style');
     style.innerText = `
         .divDetalle {
             margin: 10px 20% 20px 30px;
@@ -148,7 +150,7 @@ customElements.whenDefined('vaadin-text-field').then(_ => {
     `;
 
     //Agregando estilo
-    background.appendChild(style);
+    background.appendChild(style); */
 
 
 
