@@ -7,6 +7,11 @@ class BackgroundMarca extends HTMLElement {
     }
 
     connectedCallback() {
+
+        this.addEventListener("countSetter",e=>{
+            let pag=document.querySelector("paginator-controller");
+            pag._count=e.detail.count;
+        })
        
         this.addEventListener("paginatorOnload",(e)=>{
             let table = document.querySelector('wc-table');
