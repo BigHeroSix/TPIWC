@@ -1,7 +1,7 @@
 import MarcaResourceClient from "../boundary/MarcaResourceClient.js";
 import ModalDialog from "../webcomponent/ModalDialog.js"
 
-class BackgroundMarca extends HTMLElement {
+class Background extends HTMLElement {
     constructor() {
         super();
     }
@@ -54,5 +54,5 @@ class BackgroundMarca extends HTMLElement {
         }); */
     }
 }
-customElements.define("background-marca", BackgroundMarca);
+customElements.define("wc-background", BackgroundMarca);
 export default BackgroundMarca;
