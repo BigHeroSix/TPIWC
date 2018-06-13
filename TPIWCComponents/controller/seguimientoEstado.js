@@ -20,9 +20,11 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
     divButtons.setAttribute('id', 'divBotones')
 
     //Datos que me mandara la otra interfaz
-    var idEquipo = 1;
-    var idOrdenTrabajo = 1;
-
+    let datos = location.href.split("?")[1];
+    console.log(location.href);
+    let datos2 = datos.split("&");
+    let idEquipo =datos2[1].split("=")[1];
+    let idOrdenTrabajo =datos2[0].split("=")[1];
     let divDetail;
     let divCheckbox;
     let item
@@ -102,6 +104,8 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
             divAllDetails.appendChild(divDetail);
         }
 
+        
+        console.log(idEquipo +"  hola");
         equipo.findById(idEquipo)
             .then((response) => {
                 return response.json();
@@ -170,6 +174,9 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
 
             const notification = document.querySelector('#notification');
             notification.open();
+            setTimeout(e=>{
+                location.href="ordenTrabajo.html";
+            },1000);
 
         });
 
