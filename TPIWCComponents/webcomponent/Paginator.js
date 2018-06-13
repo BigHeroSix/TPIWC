@@ -1,13 +1,11 @@
 class Paginator extends HTMLElement {
     constructor() {
         super();
-        this._root = this.attachShadow({
-            mode: 'open'
-        });
+        this._root = this.attachShadow({ mode: 'open' });
         this._count = 0;
         this._handler = null;
         this._connected = false;
-        this._type = null;
+        this._type=null;
     }
 
     connectedCallback() {
@@ -52,13 +50,11 @@ class Paginator extends HTMLElement {
             .divBotones{
                 display: inline-block;
             }
-
             .divPaginador{
                 width: 70%;
                 margin: 0 auto;
                 text-align: center;
             }
-
             .divPaginador select {
                 background-color: #81BEF7;
                 color: black;
@@ -71,7 +67,6 @@ class Paginator extends HTMLElement {
                 height: 33px;
                 cursor: pointer;
             }
-
             .divBotones button {
                 background-color: #81BEF7;
                 color: black;
@@ -100,7 +95,6 @@ class Paginator extends HTMLElement {
                 background-color: #0040FF !important;
                 color: white !important;
             }
-
             .divNum{
                 display: inline-block;
             }
@@ -129,7 +123,6 @@ class Paginator extends HTMLElement {
             table tr:nth-child(even){background-color: #f2f2f2;}
             
             table tr:hover {background-color: #ddd;}
-
             .selectedRow:hover{
                 background: #C1E5EB;
             }
@@ -202,94 +195,96 @@ class Paginator extends HTMLElement {
     }
 
 
-    crearEvento(first, pagesize, nombre) {
-        let event;
+crearEvento(first,pagesize,nombre){
+ let event;
 
-        if (this._type == true) {
-            this._handler.getAllCompletos(first, pagesize)
-                .then((p) => {
-                    return p.json();
-                })
-                .then((d) => {
-                    event = new CustomEvent(
-                        nombre, {
-                            bubbles: true,
-                            composed: true,
-                            detail: {
-                                jsonData: d,
-                            }
-
-                        }
-                    );
-                    this.dispatchEvent(event);
-
-                })
-                .catch(e => {
-                    e.message || "No hay nada que mostrar";
-                })
-
-        } else if (this._type = false) {
-            this._handler.getIncompletos(first, pagesize)
-                .then((p) => {
-                    return p.json();
-                })
-                .then((d) => {
-                    event = new CustomEvent(
-                        nombre, {
-                            bubbles: true,
-                            composed: true,
-                            detail: {
-                                jsonData: d,
-                            }
-
-                        }
-                    );
-                    this.dispatchEvent(event);
-
-                })
-                .catch(e => {
-                    e.message || "No hay nada que mostrar";
-                })
-
-        } else {
-            this._handler.findByRange(first, pagesize)
-                .then((p) => {
-                    return p.json();
-                })
-                .then((d) => {
-                    event = new CustomEvent(
-                        nombre, {
-                            bubbles: true,
-                            composed: true,
-                            detail: {
-                                jsonData: d,
-                                id: this.getAttribute("for")
-
-                            }
-
-                        }
-                    );
-                    this.dispatchEvent(event);
-
-                })
-                .catch(e => {
-                    e.message || "No hay nada que mostrar";
-                })
-
+    if(this._type==true){
+        this._handler.getAllCompletos(first,pagesize)
+    .then((p)=>{
+        return p.json();
+    })
+    .then((d)=>{
+        event=new CustomEvent(
+            nombre,
+        {
+            bubbles: true,
+            composed:true,
+            detail:{
+                jsonData: d,
+            }
+          
         }
+    );
+    this.dispatchEvent(event);
+
+    })
+    .catch(e=>{
+        e.message || "No hay nada que mostrar";
+    })
+
+    }else if(this._type=false)
+    {
+        this._handler.getIncompletos(first,pagesize)
+    .then((p)=>{
+        return p.json();
+    })
+    .then((d)=>{
+        event=new CustomEvent(
+            nombre,
+        {
+            bubbles: true,
+            composed:true,
+            detail:{
+                jsonData: d,
+            }
+          
+        }
+    );
+    this.dispatchEvent(event);
+
+    })
+    .catch(e=>{
+        e.message || "No hay nada que mostrar";
+    })
+
     }
+    else if(this._type==null)
+    {
+    this._handler.findByRange(first,pagesize)
+    .then((p)=>{
+        return p.json();
+    })
+    .then((d)=>{
+        event=new CustomEvent(
+            nombre,
+        {
+            bubbles: true,
+            composed:true,
+            detail:{
+                jsonData: d,
+                id: this.getAttribute("for")
 
+            }
+          
+        }
+    );
+    this.dispatchEvent(event);
 
+    })
+    .catch(e=>{
+        e.message || "No hay nada que mostrar";
+    })
+
+}
+}
+
+    
 
     crearPaginador(first, pagesize) {
         if (this._count === 0) {
             this._handler.count()
-                .then(response => {
-                    return response.text()
-                })
-                .then(data => {
-                    this._count = data
-                });
+                .then(response => { return response.text() })
+                .then(data => { this._count = data });
         }
         let divBotones = document.createElement("div");
         let numPaginadores = Math.ceil(this._count / pagesize);
@@ -340,9 +335,7 @@ class Paginator extends HTMLElement {
 
         //crear botones nums
         var inicio = Math.floor((first + 1) / pagesize) - 3;
-        if (inicio < 1) {
-            inicio = 1;
-        }
+        if (inicio < 1) { inicio = 1; }
         let divNum = document.createElement('div');
         divNum.className = 'divNum';
         for (let i = inicio - 1; i < numPaginadores; i++) {
@@ -356,9 +349,7 @@ class Paginator extends HTMLElement {
                 this.crearEvento((i) * pagesize, pagesize, "onpagesize");
             };
             divNum.appendChild(btnPaginador);
-            if ((i - inicio) > 4) {
-                break;
-            }
+            if ((i - inicio) > 4) { break; }
         }
         divBotones.appendChild(divNum);
         divBotones.appendChild(btnSiguiente);
