@@ -9,6 +9,7 @@ h3 {
 }
 
 /* Para seguimiento estado paso*/
+
 .divDetalle {
     margin: 10px 20% 20px 30px;
     border: solid 1px lightblue;
@@ -27,4 +28,8 @@ h3 {
 #divBotones,
 #divDefault {
     margin: 10px 20% 20px 40px;
+}
+
+#btnGuardar {
+    margin-right: 10px;
 }

@@ -14,12 +14,18 @@
 </head>
 
 <body>
-    <!--background-seguimiento>
+    <background-seguimiento>
 
         <vaadin-item>
             <div>
-                <strong>Equipo:</strong>
-                <vaadin-text-field style="width: 40%;" value="No se ha establecido ningún equipo" readonly></vaadin-text-field>
+                <strong>Código correlativo de equipo:</strong>
+                <vaadin-text-field id="textEquipo" style="width:59%;" value="No se ha establecido ningún equipo" readonly></vaadin-text-field>
+            </div>
+        </vaadin-item>
+        <vaadin-item>
+            <div>
+                <strong>ID Orden de trabajo:</strong>
+                <vaadin-text-field id="textOrden" style="width: 50%;" value="No se ha establecido ninguna orden de trabajo" readonly></vaadin-text-field>
             </div>
         </vaadin-item>
 
@@ -29,52 +35,30 @@
                     <strong>Detalles del equipo:</strong>
                 </div>
             </vaadin-item>
-            <div id="divDefault">No se encontro ningún detalle.</div>
+            <!--div id="divDefault">No se encontro ningún detalle.</div-->
         </div>
 
-        <div id="divBotones">
+        <!--div id="divBotones">
             <vaadin-button theme="primary" onclick="mostrarNotificacion()">Guardar</vaadin-button>
             <vaadin-button theme="success primary">Cancelar</vaadin-button>
-        </div>
+        </div-->
 
-        <vaadin-notification duration="4000" position="top-end" id="notification">
+        <!--vaadin-notification duration="4000" position="top-end" id="notification">
             <template>
                 Se guardaron los cambios en los pasos de los detalles
             </template>
-        </vaadin-notification>
+        </vaadin-notification-->
 
-        <script>
+        <!--script>
             function mostrarNotificacion() {
                 const notification = document.querySelector('#notification');
                 notification.open();
             }
-        </script>
+        </script-->
 
-        <style>
-            .divDetalle {
-                margin: 10px 20% 20px 30px;
-                border: solid 1px lightblue;
-                border-radius: 8px;
-            }
+    </background-seguimiento>
 
-            .divCheckbox {
-                margin-left: 40px;
-            }
-
-            #divTituloDetalles {
-                border-bottom: solid 1px lightblue;
-                margin: 10px 20% 10px 0px;
-            }
-
-            #divBotones,
-            #divDefault {
-                margin: 10px 20% 20px 40px;
-            }
-        </style>
-
-    </background-seguimiento-->
-
-    <background-seguimiento>
+    <!--background-seguimiento>
 
         <vaadin-item>
             <div>
@@ -147,29 +131,7 @@
             }
         </script>
 
-        <!--style>
-            .divDetalle {
-                margin: 10px 20% 20px 30px;
-                border: solid 1px lightblue;
-                border-radius: 8px;
-            }
-
-            .divCheckbox {
-                margin-left: 40px;
-            }
-
-            #divTituloDetalles {
-                border-bottom: solid 1px lightblue;
-                margin: 10px 20% 10px 0px;
-            }
-
-            #divBotones,
-            #divDefault {
-                margin: 10px 20% 20px 40px;
-            }
-        </style-->
-
-    </background-seguimiento>
+    </background-seguimiento-->
 
     <!--script type="module" src="./webcomponent/Autocomplete.js"></script>
     <script type="module" src="./webcomponent/Background.js"></script>
@@ -177,8 +139,8 @@
     <script type="module" src="./webcomponent/ModalDialog.js"></script>
     <script type="module" src="./webcomponent/Paginator.js"></script-->
 
-    <!--script type="module" src="./webcomponent/BackgroundSeguimiento.js"></script>
-    <script src="./controller/seguimientoEstado.js"></script-->
+    <script type="module" src="./webcomponent/BackgroundSeguimiento.js"></script>
+    <script type="module" src="./controller/seguimientoEstado.js"></script>
 </body>
 
 </html>

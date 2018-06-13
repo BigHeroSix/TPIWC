@@ -4,6 +4,9 @@ class OrdenTrabajoDetalleEstadoPasoResourceClient extends AbstractResourceClient
     super();
     this._url += "/ordentrabajodetalleestadopaso";
   }
- 
+
+  findDetalleEstadoPasoCompletado(idEquipoDetalle) {
+    return fetch(this._url + "/detalleestadopasocompletado/" + idEquipoDetalle);
+  }
 }
 export default OrdenTrabajoDetalleEstadoPasoResourceClient;
