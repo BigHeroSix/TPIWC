@@ -18,15 +18,12 @@
 
 <body>
     <wc-background>
-
-        <auto-complete legend="Buscar Marcas" findtag="nombre"></auto-complete>
-        <p-m pagesizeTemplate="1,2,3,5,7"></p-m>
-
-        <wc-table tittle="Controller marcas wc" maxHeight="250px" width="90%" center>
-            <wc-table-column header="Id" value="idMarca" sortable width="20%"></wc-table-column>
-            <wc-table-column header="Nombre" value="nombre" sortable width="30%"></wc-table-column>
-            <wc-table-column header="Descripcion" value="descripcion" width="30%"></wc-table-column>
-            <wc-table-column header="Activo" value="activo" width="20%"></wc-table-column>
+        <wc-table tittle="Ordenes de Trabajo no finalizadas" maxHeight="250px" width="90%" center>
+            <wc-table-column header="Id" value="idOrdenTrabajo" sortable width="20%"></wc-table-column>
+            <wc-table-column header="Equipo" value="idEquipo" sortable width="30%"></wc-table-column>
+            <wc-table-column header="Fecha" value="fecha" width="20%"></wc-table-column>
+            <wc-table-column header="Prioridad" value="idPrioridad.nombre" width="20%"></wc-table-column>
+            <wc-table-column header="Solicitante" value="idSolicitud.solicitante" width="20%"></wc-table-column>
         </wc-table>
 
         <wc-modal-dialog width="80%" tittle="Informacion del row"></wc-modal-dialog>
@@ -54,15 +51,11 @@
 
         -->
 
+
     </wc-background>
 
-    <script type="module" src="./webcomponent/Autocomplete.js"></script>
-    <script type="module" src="./webcomponent/Background.js"></script>
     <script type="module" src="./webcomponent/Table.js"></script>
-    <script type="module" src="./webcomponent/ModalDialog.js"></script>
-    <script type="module" src="./webcomponent/Paginator.js"></script>
-    <script type="module" src="./webcomponent/PaginatorMarca.js"></script>
-    <script type="module" src="./webcomponent/ModalDialog.js"></script>
+    <script type="module" src="./controller/ordenes.js"></script>
 
 </body>
 

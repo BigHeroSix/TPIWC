@@ -96,9 +96,17 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
     }
 
     if (datosRecibidos != null) {
-        //Agregar value al text-field
-        let textEquipo = document.querySelector('#textEquipo');
-        textEquipo.setAttribute('value', '' + idEquipo);
+
+        equipo.findById(idEquipo)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                //Agregar value al text-field
+                let textEquipo = document.querySelector('#textEquipo');
+                textEquipo.setAttribute('value', '' + data.codigoCorrelativo);
+            })
+
 
         let textOrden = document.querySelector('#textOrden');
         textOrden.setAttribute('value', '' + idOrdenTrabajo);
@@ -120,8 +128,6 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
         notification.setAttribute('position', 'top-end');
         notification.setAttribute('id', 'notification');
         let template = document.createElement('template');
-        //textTemplate = document.createTextNode('Se guardaron los cambios en los pasos de los detalles.');
-        //template.appendChild(textTemplate);
         template.innerHTML = "Se guardaron los cambios en los pasos de los detalles.";
         notification.appendChild(template);
 

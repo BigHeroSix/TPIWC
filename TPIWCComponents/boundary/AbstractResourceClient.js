@@ -12,7 +12,7 @@ class AbstractResourceClient {
     return fetch(this._url + "?first=" + first + "&pagesize=" + pagesize);
   }
   findById(id) {
-    return fetch(this._url +"/"+id);
+    return fetch(this._url + "/" + id); 
   }
 }
 export default AbstractResourceClient;

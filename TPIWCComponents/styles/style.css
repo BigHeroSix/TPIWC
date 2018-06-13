@@ -32,4 +32,31 @@ h3 {
 
 #btnGuardar {
     margin-right: 10px;
+    margin: 10px;
+}
+
+/*Otro*/
+
+.titulo {
+    margin: 20px auto;
+}
+
+.oculto {
+    display: none;
+}
+
+.wrapper {
+    width: 80%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#dialogo {
+    width: 70%;
+    min-width: 700px;
+    max-width: 900px;
+}
+
+.divTabla {
+    max-width: 900px;
 }

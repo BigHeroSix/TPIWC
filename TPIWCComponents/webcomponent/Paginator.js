@@ -6,47 +6,49 @@ class Paginator extends HTMLElement {
         });
         this._count = 0;
         this._handler = null;
+        this._connected = false;
+        this._type = null;
     }
 
     connectedCallback() {
+        if (this._connected == false) {
+            let estilo = document.createElement("style");
+            let pagesize;
 
-        let estilo = document.createElement("style");
-        let pagesize;
+            let select = document.createElement("select");
+            if (this.pagesizeTemplate) {
+                let tamanios = this.pagesizeTemplate.split(",");
 
-        let select = document.createElement("select");
-        if (this.pagesizeTemplate) {
-            let tamanios = this.pagesizeTemplate.split(",");
+                pagesize = parseInt(tamanios[0]);
+                this.crearEvento(0, pagesize, "paginatorOnload");
+                tamanios.forEach((value) => {
+                    let option = document.createElement("option");
+                    option.innerText = value;
+                    option.setAttribute("value", value);
+                    select.appendChild(option);
+                });
+            } else {
+                for (let i = 1; i <= 5; i++) {
+                    this.crearEvento(0, 5, "paginatorOnload");
 
-            pagesize = parseInt(tamanios[0]);
-            this.crearEvento(0, pagesize, "paginatorOnload");
-            tamanios.forEach((value) => {
-                let option = document.createElement("option");
-                option.innerText = value;
-                option.setAttribute("value", value);
-                select.appendChild(option);
-            });
-        } else {
-            for (let i = 1; i <= 5; i++) {
-                this.crearEvento(0, 5, "paginatorOnload");
-
-                let option = document.createElement("option");
-                option.innerText = i * 5;
-                option.setAttribute("value", i * 5);
-                select.appendChild(option);
+                    let option = document.createElement("option");
+                    option.innerText = i * 5;
+                    option.setAttribute("value", i * 5);
+                    select.appendChild(option);
+                }
             }
-        }
-        select.onchange = () => {
-            pagesize = parseInt(select.options[select.selectedIndex].value);
-            this.blur();
-            this.crearPaginador(0, pagesize);
-            this.crearEvento(0, pagesize, "onpagesize");
-        };
+            select.onchange = () => {
+                pagesize = parseInt(select.options[select.selectedIndex].value);
+                this.blur();
+                this.crearPaginador(0, pagesize);
+                this.crearEvento(0, pagesize, "onpagesize");
+            };
 
-        let divPaginador = document.createElement("div");
-        divPaginador.className = "divPaginador";
-        let divBotones = document.createElement("div");
-        divBotones.className = "divBotones";
-        estilo.innerText += `
+            let divPaginador = document.createElement("div");
+            divPaginador.className = "divPaginador";
+            let divBotones = document.createElement("div");
+            divBotones.className = "divBotones";
+            estilo.innerText += `
             .divBotones{
                 display: inline-block;
             }
@@ -190,42 +192,94 @@ class Paginator extends HTMLElement {
                     }
                 }
                     `;
-        divPaginador.appendChild(divBotones);
-        divPaginador.appendChild(select);
-        this._root.appendChild(divPaginador);
-        this.crearPaginador(0, pagesize);
-        this._root.appendChild(estilo);
-
-
+            divPaginador.appendChild(divBotones);
+            divPaginador.appendChild(select);
+            this._root.appendChild(divPaginador);
+            this.crearPaginador(0, pagesize);
+            this._root.appendChild(estilo);
+            this._connected = true;
+        }
     }
+
 
     crearEvento(first, pagesize, nombre) {
-        let data;
         let event;
-        this._handler.findByRange(first, pagesize)
-            .then((p) => {
-                return p.json();
-            })
-            .then((d) => {
-                event = new CustomEvent(
-                    nombre, {
-                        bubbles: true,
-                        composed: true,
-                        detail: {
-                            jsonData: d,
+
+        if (this._type == true) {
+            this._handler.getAllCompletos(first, pagesize)
+                .then((p) => {
+                    return p.json();
+                })
+                .then((d) => {
+                    event = new CustomEvent(
+                        nombre, {
+                            bubbles: true,
+                            composed: true,
+                            detail: {
+                                jsonData: d,
+                            }
+
                         }
+                    );
+                    this.dispatchEvent(event);
 
-                    }
-                );
-                this.dispatchEvent(event);
+                })
+                .catch(e => {
+                    e.message || "No hay nada que mostrar";
+                })
 
-            })
-            .catch(e => {
-                error = e.message || "No hay nada que mostrar";
-            })
+        } else if (this._type = false) {
+            this._handler.getIncompletos(first, pagesize)
+                .then((p) => {
+                    return p.json();
+                })
+                .then((d) => {
+                    event = new CustomEvent(
+                        nombre, {
+                            bubbles: true,
+                            composed: true,
+                            detail: {
+                                jsonData: d,
+                            }
 
+                        }
+                    );
+                    this.dispatchEvent(event);
 
+                })
+                .catch(e => {
+                    e.message || "No hay nada que mostrar";
+                })
+
+        } else {
+            this._handler.findByRange(first, pagesize)
+                .then((p) => {
+                    return p.json();
+                })
+                .then((d) => {
+                    event = new CustomEvent(
+                        nombre, {
+                            bubbles: true,
+                            composed: true,
+                            detail: {
+                                jsonData: d,
+                                id: this.getAttribute("for")
+
+                            }
+
+                        }
+                    );
+                    this.dispatchEvent(event);
+
+                })
+                .catch(e => {
+                    e.message || "No hay nada que mostrar";
+                })
+
+        }
     }
+
+
 
     crearPaginador(first, pagesize) {
         if (this._count === 0) {
@@ -327,6 +381,10 @@ class Paginator extends HTMLElement {
 
     get pagesizeTemplate() {
         return this.getAttribute("pagesizeTemplate");
+    }
+
+    get for() {
+        return this.getAttribute("for");
     }
 
 }

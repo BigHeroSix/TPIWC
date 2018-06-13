@@ -8,20 +8,27 @@
     <link rel="import" href="bower_components/vaadin-button/vaadin-button.html">
     <link rel="import" href="bower_components/vaadin-split-layout/vaadin-split-layout.html">
     <link rel="import" href="bower_components/vaadin-text-field/vaadin-text-field.html">
+    <link rel="import" href="./bower_components/vaadin-item/vaadin-item.html">
+    <link rel="import" href="./bower_components/vaadin-dialog/vaadin-dialog.html">
+    <link rel="import" href="./bower_components/vaadin-notification/vaadin-notification.html">
     <script type="module" src="webcomponent/Table.js"></script>
     <script type="module" src="./webcomponent/Background.js"></script>
     <script type="module" src="./webcomponent/PaginatorEquipo.js"></script>
+    <script type="module" src="./controller/crearsolicitud.js"></script>
+    <script type="module" src="./webcomponent/ModalDialog.js"></script>
 </head>
 
 <body>
+    <vaadin-notification id="notificacion" duration="3000" position="top-end">
+    </vaadin-notification>
     <div>
         <label>Solicitante: </label>
-        <vaadin-text-field required error-message="Valor requerido">
+        <vaadin-text-field required error-message="Valor requerido" id="txtSolicitante">
         </vaadin-text-field>
     </div>
     <div>
         <label>Unidad que solicita: </label>
-        <vaadin-text-field required error-message="Valor requerido">
+        <vaadin-text-field required error-message="Valor requerido" id="txtUnidad">
         </vaadin-text-field>
     </div>
     <div>
@@ -29,21 +36,41 @@
 
     </div>
     <div>
-        <background-marca>
-            <vaadin-button click="mostrarModal">Equipos</vaadin-button>
-            <wc-modal-dialog>
-                <paginator-controller pagesizeTemplate="1,2,3,5,7"></paginator-controller>
-                <wc-table tittle="Equipos Seleccionados" maxHeight="250px">
-                    <wc-table-column header="Id" value="idEquipo" sortable width="20%"></wc-table-column>
-                    <wc-table-column header="Modelo" value="idModelo.nombre" sortable width="30%"></wc-table-column>
-                    <wc-table-column header="Unidad" value="idUnidad.nombre" width="30%"></wc-table-column>
-                    <wc-table-column header="Correlativo" value="codigoCorrelativo" width="20%"></wc-table-column>
-                </wc-table>
-            </wc-modal-dialog>
-        </background-marca>
+        <vaadin-button id="btnMostrarModal">Agregar/Editar Equipos</vaadin-button>
+        <vaadin-dialog>
+            <template>
+                <wc-background>
+                    <div>
+
+                        <equipo-paginator for="disponibles" pagesizeTemplate="1,2,3,5,7"></equipo-paginator>
+                        <wc-table id="disponibles" tittle="Equipos Dipsonibles" maxHeight="250px">
+                            <wc-table-column header="Correlativo" value="codigoCorrelativo" width="20%"></wc-table-column>
+                            <wc-table-column header="Id" value="idEquipo" sortable width="20%"></wc-table-column>
+                            <wc-table-column header="Modelo" value="idModelo.nombre" sortable width="30%"></wc-table-column>
+                            <wc-table-column header="Unidad" value="idUnidad.nombre" width="30%"></wc-table-column>
+                        </wc-table>
+                    </div>
+                    <div>
+                        <wc-table id="seleccionados" tittle="Equipos Seleccionados" maxHeight="250px" width="40%">
+                            <wc-table-column header="Correlativo" value="correlativo" width="20%"></wc-table-column>
+                            <wc-table-column header="Modelo" value="modelo" sortable width="30%"></wc-table-column>
+                        </wc-table>
+                    </div>
+                    <vaadin-button id="btnAceptar">Aceptar</vaadin-button>
+                </wc-background>
+                
+            </template>
+        </vaadin-dialog>
+        <wc-table id="finales" tittle="Equipos Dipsonibles" maxHeight="250px" hidden="true">
+            <wc-table-column header="Correlativo" value="correlativo" width="20%"></wc-table-column>
+            <wc-table-column header="Id" value="idEquipo" sortable width="20%"></wc-table-column>
+            <wc-table-column header="Modelo" value="modelo" sortable width="30%"></wc-table-column>
+            <wc-table-column header="Unidad" value="unidad" width="30%"></wc-table-column>
+        </wc-table>
+        <div>
+            <vaadin-button id="btnCrear" hidden="true">Crear Solicitud</vaadin-button>
+        </div>
     </div>
-
-
 
 </body>
 
