@@ -14,10 +14,11 @@ customElements.whenDefined("wc-background")]).then(function () {
     document.querySelector('#btnid').onclick = function () {
         idSolicitud = txtid.value;
         if (idSolicitud) {
-            erc.findAll().then(response => {
+            src.obtenerEstado(idSolicitud).then(response => {
                 console.dir(response);
                 return response.json();
             }).then(data => {
+                document.querySelector("#info").className = "";
                 console.dir(data);
                 document.querySelector("wc-table").dataProvider(data);
             });
@@ -33,5 +34,13 @@ customElements.whenDefined("wc-background")]).then(function () {
     }
     document.querySelector("wc-background").addEventListener("selectedRow",(e)=>{
         document.querySelector("#dialogo").opened = true;
+        document.querySelector("#txtCorrelativo").value = e.detail.source[0].innerText;
+        document.querySelector("#txtModelo").value = e.detail.source[1].innerText;
+        document.querySelector("#txtUnidad").value = e.detail.source[2].innerText;
+        erc.historial(e.detail.source[3].innerText).then( response=>{
+            return response.json();
+        }).then( data=>{
+            document.querySelector("#tablaDetalle").dataProvider(data);
+        });
     });
 });
