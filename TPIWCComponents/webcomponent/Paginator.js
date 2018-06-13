@@ -227,13 +227,14 @@ crearEvento(first,pagesize,nombre){
         e.message || "No hay nada que mostrar";
     })
 
-    }else if(this._type=false)
+    }else if(this._type==false)
     {
         this._handler.getIncompletos(first,pagesize)
     .then((p)=>{
         return p.json();
     })
     .then((d)=>{
+        console.log("json"+d);
         event=new CustomEvent(
             nombre,
         {

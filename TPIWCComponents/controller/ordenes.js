@@ -6,3 +6,6 @@ otc.findAll().then(a=>{
 }).then(e=>{
     document.querySelector("wc-table").dataProvider(e);
 })
+document.querySelector("wc-background").addEventListener("selectedRow",e=>{
+    console.log(e.detail.source);
+})
