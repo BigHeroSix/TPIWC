@@ -9,5 +9,8 @@ class EquipoResourceClient extends AbstractResourceClient {
     return fetch(this._url+"/"+id+"/historial");
   }
   
+  count(){
+    return fetch(this.url+ "/count");
+  }
 }
 export default EquipoResourceClient;

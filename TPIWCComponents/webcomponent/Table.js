@@ -6,10 +6,11 @@ class Table extends HTMLElement {
         });
         this._asc = false;
         this._rowIndex = 0;
-        
+        this._connected=false;
     }
     
     connectedCallback() {
+        if(this._connected==false){
         let estilo = document.createElement("style");
         if (this.tittle) {
             let tittleDiv = document.createElement("div");
@@ -181,6 +182,8 @@ class Table extends HTMLElement {
         thead.appendChild(tr);
         table.appendChild(thead);
         this._root.appendChild(table);
+        this._connected=true;
+    }
     }
 
     keypressHandler(e){
