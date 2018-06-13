@@ -4,6 +4,7 @@ import ModalDialog from "../webcomponent/ModalDialog.js"
 class Background extends HTMLElement {
     constructor() {
         super();
+        this._handler=null;
     }
 
     connectedCallback() {
@@ -36,11 +37,8 @@ class Background extends HTMLElement {
         //modal.init();
         //modal.toggleVisibility(true);
 
-        //});
-
         this.addEventListener("complete", (e) => {
-            let service = new MarcaResourceClient();
-            service.findByNameLike(e.detail.char)
+            this._handler.findByNameLike(e.detail.char)
                 .then((response) => {
                     return response.json();
                 })
