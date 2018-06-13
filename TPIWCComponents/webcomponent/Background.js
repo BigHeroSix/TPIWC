@@ -9,34 +9,34 @@ class Background extends HTMLElement {
 
     connectedCallback() {
 
-        this.addEventListener("countSetter",e=>{
-            let pag=document.querySelector("paginator-controller");
-            pag._count=e.detail.count;
+        this.addEventListener("countSetter", e => {
+            let pag = document.querySelector("paginator-controller");
+            pag._count = e.detail.count;
         })
-       
-        this.addEventListener("paginatorOnload",(e)=>{
-            let table = document.querySelector('wc-table');
+
+        this.addEventListener("paginatorOnload", (e) => {
+            let table = document.querySelector('#' + e.detail.id);
+            console.log(e.detail.id);
+
             table.dataProvider(e.detail.jsonData);
         });
 
         this.addEventListener("onpagesize", (e) => {
-            let table = document.querySelector('wc-table');
+            let table = document.querySelector('#' + e.detail.id);
             table.dataProvider(e.detail.jsonData);
         });
 
-       /* addEventListener("selectedRow", (e) => {
-            let modal = document.querySelector("wc-modal-dialog");
-            for (let i = 0; i < e.detail.headers.length; i++) {
-                let p = document.createElement("p");
-                p.innerHTML = `${e.detail.headers[i].textContent}:     ${e.detail.source[i].textContent}`;
-                modal.appendChild(p);
-            }
+        //addEventListener("selectedRow", (e) => {
+        //  let modal = document.querySelector("wc-modal-dialog");
+        //for (let i = 0; i < e.detail.headers.length; i++) {
+        //  let p = document.createElement("p");
+        //p.innerHTML = `${e.detail.headers[i].textContent}:     ${e.detail.source[i].textContent}`;
+        // modal.appendChild(p);
+        //}
 
-            modal.init();
-            modal.toggleVisibility(true);
+        //modal.init();
+        //modal.toggleVisibility(true);
 
-        });
-*/
         this.addEventListener("complete", (e) => {
             this._handler.findByNameLike(e.detail.char)
                 .then((response) => {
