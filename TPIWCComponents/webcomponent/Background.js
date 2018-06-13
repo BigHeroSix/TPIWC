@@ -16,8 +16,6 @@ class Background extends HTMLElement {
 
         this.addEventListener("paginatorOnload", (e) => {
             let table = document.querySelector('#' + e.detail.id);
-            console.log(e.detail.id);
-
             table.dataProvider(e.detail.jsonData);
         });
 

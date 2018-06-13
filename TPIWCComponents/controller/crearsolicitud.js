@@ -23,8 +23,6 @@ document.querySelector("#btnMostrarModal").onclick = _ => {
                 erc.findById(o.idEquipo).then((data) =>{
                     return data.json();
                 }).then(obj =>{
-                    aenviar.push(obj);
-                    console.log(aenviar);
                 });
             });
             if (seleccionados.length > 0) {
@@ -49,7 +47,6 @@ document.querySelector("#btnMostrarModal").onclick = _ => {
                 idSeleccionados.push(filaSeleccionada[1].innerText);
                 let tabla2 = document.querySelector("#seleccionados");
                 tabla2.dataProvider(seleccionados);
-                console.log("Cambie la tabla");
             }
         } else if (e.target.id == "seleccionados") {
             seleccionados.forEach((o, index) => {
@@ -89,7 +86,6 @@ document.querySelector("#btnCrear").onclick = _ => {
     let solicitante = document.querySelector("#txtSolicitante").value;
     let unidad = document.querySelector("#txtUnidad").value;
     let lista = JSON.stringify(aenviar);
-    console.log(lista);
     
     if (solicitante != "" && unidad != "") {
         
@@ -105,6 +101,7 @@ document.querySelector("#btnCrear").onclick = _ => {
         }).then((data) => {
 
             console.log(data.json());
+            
 
         }).catch((error) => {
             console.log(error);
