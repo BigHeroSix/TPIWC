@@ -209,6 +209,7 @@ crearEvento(first,pagesize,nombre){
             composed:true,
             detail:{
                 jsonData: d,
+                id: this.getAttribute("for")
             }
           
         }
@@ -220,7 +221,7 @@ crearEvento(first,pagesize,nombre){
         e.message || "No hay nada que mostrar";
     })
 
-    }else if(this._type=false)
+    }else if(this._type==false)
     {
         this._handler.getIncompletos(first,pagesize)
     .then((p)=>{
@@ -234,6 +235,7 @@ crearEvento(first,pagesize,nombre){
             composed:true,
             detail:{
                 jsonData: d,
+                id: this.getAttribute("for")
             }
           
         }
