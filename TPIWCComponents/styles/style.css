@@ -1,8 +1,10 @@
-body{
+body {
     font-family: var(--lumo-font-family);
     background-color: rgb(230,240,240);
 }
-h2, h3{
+
+h2,
+h3 {
     font-weight: 500;
     color: rgb(0%, 5.6%, 48.4%);
     margin: 10px 0;
@@ -15,10 +17,39 @@ h2, h3{
     border-radius: 10px 10px 0 0;
     text-align: center;
 }
-.oculto{
+
+/* Para seguimiento estado paso*/
+
+.divDetalle {
+    margin: 10px 20% 20px 30px;
+    border: solid 1px lightblue;
+    border-radius: 8px;
+}
+
+.divCheckbox {
+    margin-left: 40px;
+}
+
+#divTituloDetalles {
+    border-bottom: solid 1px lightblue;
+    margin: 10px 20% 10px 0px;
+}
+
+#divBotones,
+#divDefault {
+    margin: 10px 20% 20px 40px;
+}
+
+#btnGuardar {
+    margin-right: 10px;
+    margin: 10px;
+}
+
+.oculto {
     display: none;
 }
-.wrapper{
+
+.wrapper {
     width: 80%;
     max-width: 900px;
     margin: 0 auto;
@@ -27,12 +58,14 @@ h2, h3{
     background-color: white;
     border-radius: 10px;
 }
-#dialogo{
+
+#dialogo {
     width: 70%;
     min-width: 700px;
     max-width: 900px;
 }
-.divTabla{
+
+.divTabla {
     max-width: 900px;
     
 }

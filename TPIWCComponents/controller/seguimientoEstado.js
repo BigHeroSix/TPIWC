@@ -1,73 +1,121 @@
-customElements.whenDefined('vaadin-text-field').then(_ => {
+import EquipoResourceClient from "../boundary/EquipoResourceClient.js";
+import OrdenTrabajoDetalleEstadoPasoResourceClient from "../boundary/OrdenTrabajoDetalleEstadoPasoResourceClient.js";
+
+let equipo = new EquipoResourceClient();
+let ordenTrabajoDetalleEstadoPaso = new OrdenTrabajoDetalleEstadoPasoResourceClient();
+
+Promise.all([customElements.whenDefined('vaadin-text-field'),
+    customElements.whenDefined('vaadin-checkbox'),
+    customElements.whenDefined('vaadin-item'),
+    customElements.whenDefined('vaadin-button')
+]).then(_ => {
+
+    console.log("DOM");
 
     const divAllDetails = document.querySelector('#divTodosDetalles');
     const background = document.querySelector('background-seguimiento');
 
     //Para los botones
-    divButtons = document.createElement('div');
+    var divButtons = document.createElement('div');
     divButtons.setAttribute('id', 'divBotones')
 
-    console.log("DOM");
-    //Obtener el equipo 
+    //Revisar archivo recibido
+    var datosRecibidos = "datos";
 
-    var equipo = "g";
+    //Datos que me mandara la otra interfaz
+    var idEquipo = 1;
+    var idOrdenTrabajo = 1;
 
-    if (equipo != null) {
-        //Agregar value al text-field
-        const textField = document.querySelector('vaadin-text-field');
-        textField.setAttribute('value', 'Equipo en mantenimiento');
+    let divDetail;
+    let divCheckbox;
+    let item
 
-        //Crear cada div de detalle
-        divDetail = document.createElement('div');
-        divDetail.setAttribute('class', 'divDetalle');
+    equipo = new EquipoResourceClient();
+    equipo.findDetalle(idEquipo)
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            mostrarDetalle(data);
+        })
 
-        item = document.createElement('vaadin-item');
-        strong = document.createElement('strong');
-        textDetail = document.createTextNode('Case 2:');
-        strong.appendChild(textDetail);
-        item.appendChild(strong);
+    function mostrarDetalle(json) {
 
+        for (let index = 0; index < json.length; index++) {
+
+            //Trae JSON de DetalleEstadoPasoCompletado
+            ordenTrabajoDetalleEstadoPaso.findDetalleEstadoPasoCompletado(json[index].numeroSerie)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data);
+                    //Crear cada div de detalle
+                    divDetail = document.createElement('div');
+                    divDetail.setAttribute('class', 'divDetalle');
+
+                    item = document.createElement('vaadin-item');
+                    let strong = document.createElement('strong');
+
+                    let textDetail = document.createTextNode(json[index].numeroSerie);
+                    console.log("numeroSerie " + index + "      " + json[index].numeroSerie);
+                    strong.appendChild(textDetail);
+                    item.appendChild(strong);
+
+                    divDetail.appendChild(item);
+
+                    mostrarDetalleEstadoPasoCompletado(data);
+                    divAllDetails.appendChild(divDetail);
+                })
+        }
+    }
+
+    function mostrarDetalleEstadoPasoCompletado(jsonEstadoPaso) {
+
+        //Crear el divCheckbox
         divCheckbox = document.createElement('div');
         divCheckbox.setAttribute('class', 'divCheckbox');
 
+        for (let index2 = 0; index2 < jsonEstadoPaso.length; index2++) {
 
-        //Esto debe estar en un bucle autogenerado
-        //Este atributo se obtendra segun el JSON
-        checkbox = document.createElement('vaadin-checkbox');
+            let checkbox = document.createElement('vaadin-checkbox');
+            if (jsonEstadoPaso[index2].completado == true) {
+                checkbox.setAttribute('checked', '');
+            }
+            let textCheckbox = document.createTextNode(jsonEstadoPaso[index2].nombrePaso);
+            checkbox.appendChild(textCheckbox);;
+            divCheckbox.appendChild(checkbox);
 
-        checkbox.setAttribute('checked', '');
-        textCheckbox = document.createTextNode('Detalle de case 2');
-        checkbox.appendChild(textCheckbox);;
-        divCheckbox.appendChild(checkbox);
+            let br = document.createElement('br')
+            divCheckbox.appendChild(br);
 
-        br = document.createElement('br')
-        divCheckbox.appendChild(br);
-
-
-
-        //
-        checkbox2 = document.createElement('vaadin-checkbox');
-        //checkbox2.setAttribute('checked', '');
-        textCheckbox2 = document.createTextNode('Detalle dos de case 2');
-        checkbox2.appendChild(textCheckbox2);;
-        divCheckbox.appendChild(checkbox2);
-
-        br2 = document.createElement('br')
-        divCheckbox.appendChild(br2);
-        //
-
-
-
-        divDetail.appendChild(item);
+        }
         divDetail.appendChild(divCheckbox);
-
         divAllDetails.appendChild(divDetail);
+    }
+
+    if (datosRecibidos != null) {
+
+        equipo.findById(idEquipo)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                //Agregar value al text-field
+                let textEquipo = document.querySelector('#textEquipo');
+                textEquipo.setAttribute('value', '' + data.codigoCorrelativo);
+            })
+
+
+        let textOrden = document.querySelector('#textOrden');
+        textOrden.setAttribute('value', '' + idOrdenTrabajo);
 
         //Boton Guardar
-        buttonSave = document.createElement('vaadin-button');
+        let buttonSave = document.createElement('vaadin-button');
         buttonSave.setAttribute('theme', 'primary');
         buttonSave.setAttribute('id', 'btnGuardar');
-        textButtonSave = document.createTextNode('Guardar');
+        let textButtonSave = document.createTextNode('Guardar');
         buttonSave.appendChild(textButtonSave);
         divButtons.appendChild(buttonSave);
 
@@ -75,22 +123,19 @@ customElements.whenDefined('vaadin-text-field').then(_ => {
         background.appendChild(divButtons);
 
         //Creando la notificacion
-        notification = document.createElement('vaadin-notification');
+        let notification = document.createElement('vaadin-notification');
         notification.setAttribute('duration', '4000');
         notification.setAttribute('position', 'top-end');
         notification.setAttribute('id', 'notification');
-        template = document.createElement('template');
-        //textTemplate = document.createTextNode('Se guardaron los cambios en los pasos de los detalles.');
-        //template.appendChild(textTemplate);
+        let template = document.createElement('template');
         template.innerHTML = "Se guardaron los cambios en los pasos de los detalles.";
         notification.appendChild(template);
-
 
         //Agregando notificacion
         background.appendChild(notification);
 
         //Para escuchar el evento click de Guardar
-        btnSaveObtenido = document.querySelector('#btnGuardar');
+        let btnSaveObtenido = document.querySelector('#btnGuardar');
         btnSaveObtenido.addEventListener("click", () => {
             const notification = document.querySelector('#notification');
             notification.open();
@@ -100,10 +145,9 @@ customElements.whenDefined('vaadin-text-field').then(_ => {
 
     } else {
 
-
-        divDetail = document.createElement('div');
+        let divDetail = document.createElement('div');
         divDetail.setAttribute('id', 'divDefault');
-        textDefault = document.createTextNode('No se encontro ningún detalle.');
+        let textDefault = document.createTextNode('No se encontro ningún detalle.');
         divDetail.appendChild(textDefault);
 
         divAllDetails.appendChild(divDetail);
@@ -111,46 +155,14 @@ customElements.whenDefined('vaadin-text-field').then(_ => {
     }
 
     //Boton Cancelar
-    buttonCancel = document.createElement('vaadin-button');
+    let buttonCancel = document.createElement('vaadin-button');
     buttonCancel.setAttribute('theme', 'success primary');
     buttonCancel.setAttribute('id', 'btnCancelar');
-    textButtonCancel = document.createTextNode('Cancelar');
+    let textButtonCancel = document.createTextNode('Cancelar');
     buttonCancel.appendChild(textButtonCancel);
     divButtons.appendChild(buttonCancel);
 
     //Agregando botones
     background.appendChild(divButtons);
-
-
-    style = document.createElement('style');
-    style.innerText = `
-        .divDetalle {
-            margin: 10px 20% 20px 30px;
-            border: solid 1px lightblue;
-            border-radius: 8px;
-        }
-
-        .divCheckbox {
-            margin-left: 40px;
-        }
-
-        #divTituloDetalles {
-            border-bottom: solid 1px lightblue;
-            margin: 10px 20% 10px 0px;
-        }
-
-        #divBotones, #divDefault {
-            margin: 10px 20% 20px 40px;
-        }
-        #btnGuardar{
-            margin-right: 10px;
-        }
-    `;
-
-    //Agregando estilo
-    background.appendChild(style);
-
-
-
 
 });

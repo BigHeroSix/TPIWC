@@ -21,11 +21,12 @@ class OrdenTrabajoResourceClient extends AbstractResourceClient {
   }
   
   getAllCompletos(first,pagesize){
-    return fetch(this._url + "/completos?first=" + first + "&pagesize=" + pagesize);
+    return fetch(this._url+"/completos?first=" + first + "&pagesize=" + pagesize);
   }
 
   getIncompletos(first,pagesize){
-    return fetch(this._url+" noFinalizadas?first=" + first + "&pagesize=" + pagesize);
+    console.log(this._url+"/noFinalizadas?first=" + first + "&pagesize=" + pagesize);
+    return fetch(this._url+"/noFinalizadas?first=" + first + "&pagesize=" + pagesize);
   }
 
 }
