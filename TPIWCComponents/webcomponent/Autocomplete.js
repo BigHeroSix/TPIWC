@@ -5,6 +5,7 @@ class Autocomplete extends HTMLElement {
             mode: 'open'
         });
         this.response;
+        this._conected = false;
     }
 
     static get observedAttributes() {
@@ -24,32 +25,35 @@ class Autocomplete extends HTMLElement {
     }
 
     connectedCallback() {
-        this.parent = document.createElement("div");
-        this.input = document.createElement("input");
+        if (this._conected == false) {
+            this.parent = document.createElement("div");
+            this.input = document.createElement("input");
 
-        this.input.setAttribute("id", "search");
-        this.dataList = document.createElement("datalist");
-        this.dataList.setAttribute("id", "lista");
-        this.input.setAttribute("list", "lista");
-        this.input.setAttribute("placeholder", this.getAttribute("legend"));
-        this.input.onkeyup = _ => {
-            let charSequence = this.input.value.trim();
-            if (charSequence) {
-                var event = new CustomEvent(
-                    "complete", {
-                        bubbles: true,
-                        composed: true,
-                        detail: {
-                            char: charSequence
+            this.input.setAttribute("id", "search");
+            this.dataList = document.createElement("datalist");
+            this.dataList.setAttribute("id", "lista");
+            this.input.setAttribute("list", "lista");
+            this.input.setAttribute("placeholder", this.getAttribute("legend"));
+            this.input.onkeyup = _ => {
+                let charSequence = this.input.value.trim();
+                if (charSequence) {
+                    var event = new CustomEvent(
+                        "complete", {
+                            bubbles: true,
+                            composed: true,
+                            detail: {
+                                char: charSequence
+                            }
                         }
-                    }
-                )
-                this.dispatchEvent(event);
+                    )
+                    this.dispatchEvent(event);
+                }
             }
+            this.parent.appendChild(this.input);
+            this.parent.appendChild(this.dataList);
+            this._root.appendChild(this.parent);
+            this._conected = true;
         }
-        this.parent.appendChild(this.input);
-        this.parent.appendChild(this.dataList);
-        this._root.appendChild(this.parent);
     }
 
     attributeChangedCallback(attrName, oldVal, newVal) {
