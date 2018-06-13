@@ -253,7 +253,7 @@ crearEvento(first,pagesize,nombre){
     })
 
     }
-    else 
+    else if(this._type==null)
     {
     this._handler.findByRange(first,pagesize)
     .then((p)=>{
