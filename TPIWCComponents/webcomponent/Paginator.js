@@ -50,13 +50,11 @@ class Paginator extends HTMLElement {
             .divBotones{
                 display: inline-block;
             }
-
             .divPaginador{
                 width: 70%;
                 margin: 0 auto;
                 text-align: center;
             }
-
             .divPaginador select {
                 background-color: #81BEF7;
                 color: black;
@@ -69,7 +67,6 @@ class Paginator extends HTMLElement {
                 height: 33px;
                 cursor: pointer;
             }
-
             .divBotones button {
                 background-color: #81BEF7;
                 color: black;
@@ -98,7 +95,6 @@ class Paginator extends HTMLElement {
                 background-color: #0040FF !important;
                 color: white !important;
             }
-
             .divNum{
                 display: inline-block;
             }
@@ -127,7 +123,6 @@ class Paginator extends HTMLElement {
             table tr:nth-child(even){background-color: #f2f2f2;}
             
             table tr:hover {background-color: #ddd;}
-
             .selectedRow:hover{
                 background: #C1E5EB;
             }

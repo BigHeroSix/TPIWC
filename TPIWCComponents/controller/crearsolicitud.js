@@ -88,8 +88,11 @@ document.querySelector("#btnCrear").onclick = _ => {
     let src = new SolicitudResourceClient();
     let solicitante = document.querySelector("#txtSolicitante").value;
     let unidad = document.querySelector("#txtUnidad").value;
+    let lista = JSON.stringify(aenviar);
+    console.log(lista);
+    
     if (solicitante != "" && unidad != "") {
-
+        
         fetch(src._url, {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
@@ -97,7 +100,7 @@ document.querySelector("#btnCrear").onclick = _ => {
                 "unidad": unidad,
                 "solicitante": solicitante,
                 "estado": "true",
-                "equipoList": aenviar
+                "equipoList": lista
             })
         }).then((data) => {
 
