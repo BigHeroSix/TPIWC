@@ -1,11 +1,21 @@
 body {
     font-family: var(--lumo-font-family);
+    background-color: rgb(230,240,240);
 }
 
 h2,
 h3 {
     font-weight: 500;
     color: rgb(0%, 5.6%, 48.4%);
+    margin: 10px 0;
+}
+.titulo{
+    margin: -15px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: rgb(200,200,200);
+    border-radius: 10px 10px 0 0;
+    text-align: center;
 }
 
 /* Para seguimiento estado paso*/
@@ -35,12 +45,6 @@ h3 {
     margin: 10px;
 }
 
-/*Otro*/
-
-.titulo {
-    margin: 20px auto;
-}
-
 .oculto {
     display: none;
 }
@@ -49,6 +53,10 @@ h3 {
     width: 80%;
     max-width: 900px;
     margin: 0 auto;
+    margin-top: 15px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
 }
 
 #dialogo {
@@ -59,4 +67,8 @@ h3 {
 
 .divTabla {
     max-width: 900px;
+    
+}
+#noregistros{
+    margin: 10px 40px;
 }
