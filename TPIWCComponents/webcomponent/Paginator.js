@@ -1,50 +1,51 @@
-class Paginator extends HTMLElement{
-    constructor(){
+class Paginator extends HTMLElement {
+    constructor() {
         super();
         this._root = this.attachShadow({ mode: 'open' });
-        this._count=0;
-        this._handler=null;
+        this._count = 0;
+        this._handler = null;
+        this._connected = false;
     }
 
-connectedCallback(){
+    connectedCallback() {
+        if (this._connected == false) {
+            let estilo = document.createElement("style");
+            let pagesize;
 
-    let estilo = document.createElement("style");
-    let pagesize;
+            let select = document.createElement("select");
+            if (this.pagesizeTemplate) {
+                let tamanios = this.pagesizeTemplate.split(",");
 
-    let select = document.createElement("select");
-    if (this.pagesizeTemplate) {
-        let tamanios = this.pagesizeTemplate.split(",");
-        
-        pagesize = parseInt(tamanios[0]);
-        this.crearEvento(0,pagesize,"paginatorOnload");
-        tamanios.forEach((value) => {
-            let option = document.createElement("option");
-            option.innerText = value;
-            option.setAttribute("value", value);
-            select.appendChild(option);
-        });
-    } else {
-        for (let i = 1; i <= 5; i++) {
-            this.crearEvento(0,5,"paginatorOnload");
+                pagesize = parseInt(tamanios[0]);
+                this.crearEvento(0, pagesize, "paginatorOnload");
+                tamanios.forEach((value) => {
+                    let option = document.createElement("option");
+                    option.innerText = value;
+                    option.setAttribute("value", value);
+                    select.appendChild(option);
+                });
+            } else {
+                for (let i = 1; i <= 5; i++) {
+                    this.crearEvento(0, 5, "paginatorOnload");
 
-            let option = document.createElement("option");
-            option.innerText = i * 5;
-            option.setAttribute("value", i * 5);
-            select.appendChild(option);
-        }
-    }
-    select.onchange = () => {
-        pagesize = parseInt(select.options[select.selectedIndex].value);
-        this.blur();
-        this.crearPaginador(0, pagesize);
-        this.crearEvento(0,pagesize,"onpagesize");
-    };
-    
-    let divPaginador = document.createElement("div");
-    divPaginador.className = "divPaginador";
-    let divBotones = document.createElement("div");
-    divBotones.className = "divBotones";
-    estilo.innerText += `
+                    let option = document.createElement("option");
+                    option.innerText = i * 5;
+                    option.setAttribute("value", i * 5);
+                    select.appendChild(option);
+                }
+            }
+            select.onchange = () => {
+                pagesize = parseInt(select.options[select.selectedIndex].value);
+                this.blur();
+                this.crearPaginador(0, pagesize);
+                this.crearEvento(0, pagesize, "onpagesize");
+            };
+
+            let divPaginador = document.createElement("div");
+            divPaginador.className = "divPaginador";
+            let divBotones = document.createElement("div");
+            divBotones.className = "divBotones";
+            estilo.innerText += `
             .divBotones{
                 display: inline-block;
             }
@@ -193,132 +194,137 @@ connectedCallback(){
             this._root.appendChild(divPaginador);
             this.crearPaginador(0, pagesize);
             this._root.appendChild(estilo);
+            this._connected = true;
+        }
+    }
 
-            
-}
+    crearEvento(first, pagesize, nombre) {
+        let data;
+        let event;
+        this._handler.findByRange(first, pagesize)
+            .then((p) => {
+                return p.json();
+            })
+            .then((d) => {
+                event = new CustomEvent(
+                    nombre,
+                    {
+                        bubbles: true,
+                        composed: true,
+                        detail: {
+                            jsonData: d,
+                            id: this.getAttribute("for")
+                        }
 
-crearEvento(first,pagesize,nombre){
-    let data;
-    let event;
-    this._handler.findByRange(first,pagesize)
-    .then((p)=>{
-        return p.json();
-    })
-    .then((d)=>{
-        event=new CustomEvent(
-            nombre,
-        {
-            bubbles: true,
-            composed:true,
-            detail:{
-                jsonData: d,
+                    }
+                );
+                this.dispatchEvent(event);
+
+            })
+            .catch(e => {
+                error = e.message || "No hay nada que mostrar";
+            })
+
+
+    }
+
+    crearPaginador(first, pagesize) {
+        if (this._count === 0) {
+            this._handler.count()
+                .then(response => { return response.text() })
+                .then(data => { this._count = data });
+        }
+        let divBotones = document.createElement("div");
+        let numPaginadores = Math.ceil(this._count / pagesize);
+
+        console.log("num: " + numPaginadores);
+        console.log("pagesize: " + pagesize);
+        //crear botones < <<
+        let btnAnterior = document.createElement("button");
+        let btnPrimero = document.createElement("button");
+        btnAnterior.style.marginRight = "10px";
+        btnAnterior.innerText = "<";
+        btnPrimero.innerText = "<<";
+        if (first > 0) {
+            btnPrimero.onclick = () => {
+                this.crearPaginador(0, pagesize);
+                this.crearEvento(0, pagesize, "onpagesize");
+
+            };
+            btnAnterior.onclick = () => {
+
+                this.crearPaginador(first - pagesize, pagesize);
+                this.crearEvento(first - pagesize, pagesize, "onpagesize");
+            };
+        } else {
+            btnAnterior.disabled = true;
+            btnPrimero.disabled = true;
+        }
+        let btnSiguiente = document.createElement("button");
+        btnSiguiente.style.marginLeft = "10px";
+        let btnUltimo = document.createElement("button");
+        btnSiguiente.innerText = ">";
+        btnUltimo.innerText = ">>";
+        if (Math.ceil((first + 1) / pagesize) < numPaginadores) {
+            btnUltimo.onclick = () => {
+                this.crearPaginador(pagesize * (numPaginadores - 1), pagesize);
+                this.crearEvento(pagesize * (numPaginadores - 1), pagesize, "onpagesize");
+            };
+            btnSiguiente.onclick = () => {
+                this.crearPaginador(first + pagesize, pagesize);
+                this.crearEvento(first + pagesize, pagesize, "onpagesize");
+            };
+        } else {
+            btnSiguiente.disabled = true;
+            btnUltimo.disabled = true;
+        }
+        divBotones.appendChild(btnPrimero);
+        divBotones.appendChild(btnAnterior);
+
+        //crear botones nums
+        var inicio = Math.floor((first + 1) / pagesize) - 3;
+        if (inicio < 1) { inicio = 1; }
+        let divNum = document.createElement('div');
+        divNum.className = 'divNum';
+        for (let i = inicio - 1; i < numPaginadores; i++) {
+            let btnPaginador = document.createElement("button");
+            btnPaginador.innerText = i + 1;
+            if ((i === Math.floor((first) / pagesize))) {
+                btnPaginador.className = "btnActual";
             }
-          
+            btnPaginador.onclick = () => {
+                this.crearPaginador((i) * pagesize, pagesize);
+                this.crearEvento((i) * pagesize, pagesize, "onpagesize");
+            };
+            divNum.appendChild(btnPaginador);
+            if ((i - inicio) > 4) { break; }
         }
-    );
-    this.dispatchEvent(event);
+        divBotones.appendChild(divNum);
+        divBotones.appendChild(btnSiguiente);
+        divBotones.appendChild(btnUltimo);
 
-    })
-    .catch(e=>{
-        error=e.message || "No hay nada que mostrar";
-    })
+        divBotones.className = "divBotones";
+        this._root.querySelector(".divPaginador").replaceChild(divBotones, this._root.querySelector(".divBotones"))
 
-   
-}
-
-crearPaginador(first, pagesize) {
-    if(this._count===0){
-    this._handler.count()
-    .then(response=>{return response.text()})
-    .then(data=>{this._count=data});
     }
-    let divBotones = document.createElement("div");
-    let numPaginadores = Math.ceil(this._count/pagesize);
 
-    console.log("num: "+numPaginadores);
-    console.log("pagesize: "+pagesize);
-    //crear botones < <<
-    let btnAnterior = document.createElement("button");
-    let btnPrimero = document.createElement("button");
-    btnAnterior.style.marginRight = "10px";
-    btnAnterior.innerText = "<";
-    btnPrimero.innerText = "<<";
-    if (first > 0) {
-        btnPrimero.onclick = () => {
-            this.crearPaginador(0, pagesize);
-            this.crearEvento(0,pagesize,"onpagesize");
-           
-        };
-        btnAnterior.onclick = () => {
-
-            this.crearPaginador(first - pagesize, pagesize);
-            this.crearEvento(first - pagesize, pagesize,"onpagesize");
-        };
-    } else {
-        btnAnterior.disabled = true;
-        btnPrimero.disabled = true;
+    get count() {
+        return this._count;
     }
-    let btnSiguiente = document.createElement("button");
-    btnSiguiente.style.marginLeft = "10px";
-    let btnUltimo = document.createElement("button");
-    btnSiguiente.innerText = ">";
-    btnUltimo.innerText = ">>";
-    if (Math.ceil((first + 1) / pagesize) < numPaginadores) {
-        btnUltimo.onclick = () => {
-            this.crearPaginador(pagesize * (numPaginadores - 1), pagesize);
-            this.crearEvento(pagesize * (numPaginadores - 1), pagesize,"onpagesize");
-        };
-        btnSiguiente.onclick = () => {
-            this.crearPaginador(first + pagesize, pagesize);
-            this.crearEvento(first + pagesize, pagesize,"onpagesize");
-        };
-    } else {
-        btnSiguiente.disabled = true;
-        btnUltimo.disabled = true;
-    }
-    divBotones.appendChild(btnPrimero);
-    divBotones.appendChild(btnAnterior);
 
-    //crear botones nums
-    var inicio = Math.floor((first + 1) / pagesize) - 3;
-    if (inicio < 1) { inicio = 1; }
-    let divNum = document.createElement('div');
-    divNum.className = 'divNum';
-    for (let i = inicio - 1; i < numPaginadores; i++) {
-        let btnPaginador = document.createElement("button");
-        btnPaginador.innerText = i + 1;
-        if ((i === Math.floor((first) / pagesize))) {
-            btnPaginador.className = "btnActual";
+    set count(c) {
+        if (c) {
+            this._count = c;
         }
-        btnPaginador.onclick = () => {
-            this.crearPaginador((i) * pagesize, pagesize);
-            this.crearEvento((i) * pagesize, pagesize,"onpagesize");
-        };
-        divNum.appendChild(btnPaginador);
-        if ((i - inicio) > 4) { break; }
     }
-    divBotones.appendChild(divNum);
-    divBotones.appendChild(btnSiguiente);
-    divBotones.appendChild(btnUltimo);
 
-    divBotones.className = "divBotones";
-    this._root.querySelector(".divPaginador").replaceChild(divBotones, this._root.querySelector(".divBotones"))
-
-}
-
-get count(){
-    return this._count;
-}
-
-set count(c){
-    if(c){
-        this._count=c;
+    get pagesizeTemplate() {
+        return this.getAttribute("pagesizeTemplate");
     }
-}
 
-get pagesizeTemplate() {
-    return this.getAttribute("pagesizeTemplate");
-}
+    get for() {
+        return this.getAttribute("for");
+    }
 
 }
 export default Paginator;

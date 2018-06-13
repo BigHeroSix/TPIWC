@@ -4,6 +4,8 @@ class EquipoResourceClient extends AbstractResourceClient {
     super();
     this._url += "/equipo";
   }
-  
+  count(){
+    return fetch(this.url+ "/count");
+  }
 }
 export default EquipoResourceClient;
