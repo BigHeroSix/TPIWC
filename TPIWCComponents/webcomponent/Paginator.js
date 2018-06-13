@@ -211,6 +211,7 @@ crearEvento(first,pagesize,nombre){
             composed:true,
             detail:{
                 jsonData: d,
+                id: this.getAttribute("for")
             }
           
         }
@@ -229,7 +230,6 @@ crearEvento(first,pagesize,nombre){
         return p.json();
     })
     .then((d)=>{
-        console.log("json"+d);
         event=new CustomEvent(
             nombre,
         {
@@ -237,6 +237,7 @@ crearEvento(first,pagesize,nombre){
             composed:true,
             detail:{
                 jsonData: d,
+                id: this.getAttribute("for")
             }
           
         }
