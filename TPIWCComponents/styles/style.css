@@ -4,4 +4,24 @@ body{
 h2, h3{
     font-weight: 500;
     color: rgb(0%, 5.6%, 48.4%);
+    margin: 10px;
+}
+.titulo{
+    margin: 20px auto;
+}
+.oculto{
+    display: none;
+}
+.wrapper{
+    width: 80%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+#dialogo{
+    width: 70%;
+    min-width: 700px;
+    max-width: 900px;
+}
+.divTabla{
+    max-width: 900px;
 }

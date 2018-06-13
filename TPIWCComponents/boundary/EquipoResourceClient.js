@@ -4,6 +4,10 @@ class EquipoResourceClient extends AbstractResourceClient {
     super();
     this._url += "/equipo";
   }
+
+  historial(id){
+    return fetch(this._url+"/"+id+"/historial");
+  }
   
 }
 export default EquipoResourceClient;

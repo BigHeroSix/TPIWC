@@ -4,6 +4,10 @@ class SolicitudResourceClient extends AbstractResourceClient {
     super();
     this._url += "/solicitud";
   }
+
+  obtenerEstado(id){
+    return fetch(this._url+"/"+id+"/estado");
+  }
  
 }
 export default SolicitudResourceClient;
