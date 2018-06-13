@@ -4,6 +4,7 @@ class Paginator extends HTMLElement{
         this._root = this.attachShadow({ mode: 'open' });
         this._count=0;
         this._handler=null;
+        this._type=null;
     }
 
 connectedCallback(){
@@ -198,8 +199,60 @@ connectedCallback(){
 }
 
 crearEvento(first,pagesize,nombre){
-    let data;
-    let event;
+ let event;
+
+    if(this._type==true){
+        this._handler.getAllCompletos(first,pagesize)
+    .then((p)=>{
+        return p.json();
+    })
+    .then((d)=>{
+        event=new CustomEvent(
+            nombre,
+        {
+            bubbles: true,
+            composed:true,
+            detail:{
+                jsonData: d,
+            }
+          
+        }
+    );
+    this.dispatchEvent(event);
+
+    })
+    .catch(e=>{
+        e.message || "No hay nada que mostrar";
+    })
+
+    }else if(this._type=false)
+    {
+        this._handler.getIncompletos(first,pagesize)
+    .then((p)=>{
+        return p.json();
+    })
+    .then((d)=>{
+        event=new CustomEvent(
+            nombre,
+        {
+            bubbles: true,
+            composed:true,
+            detail:{
+                jsonData: d,
+            }
+          
+        }
+    );
+    this.dispatchEvent(event);
+
+    })
+    .catch(e=>{
+        e.message || "No hay nada que mostrar";
+    })
+
+    }
+    else 
+    {
     this._handler.findByRange(first,pagesize)
     .then((p)=>{
         return p.json();
@@ -220,10 +273,10 @@ crearEvento(first,pagesize,nombre){
 
     })
     .catch(e=>{
-        error=e.message || "No hay nada que mostrar";
+        e.message || "No hay nada que mostrar";
     })
 
-   
+}
 }
 
 crearPaginador(first, pagesize) {

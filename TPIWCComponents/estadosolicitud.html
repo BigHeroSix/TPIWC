@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <link rel="import" href="bower_components/vaadin-text-field/vaadin-text-field.html">
     <link rel="import" href="bower_components/vaadin-button/vaadin-button.html">
+    <link rel="import" href="bower_components/vaadin-dialog/vaadin-dialog.html">
     <script type="module" src="webcomponent/Table.js"></script>
     <script type="module" src="webcomponent/Background.js"></script>
 </head>
@@ -27,9 +28,9 @@
         <br>
 
         <br>
-        <vaadin-text-field label="Solicitante" value="solicitante" readonly></vaadin-text-field>
-        <vaadin-text-field label="Unidad" value="unidad" readonly></vaadin-text-field>
-        <vaadin-text-field label="Solicitante" value="solicitante" readonly></vaadin-text-field>
+        <vaadin-text-field id="txtsolicitante" label="Solicitante" readonly></vaadin-text-field>
+        <vaadin-text-field id="txtunidad" label="Unidad" readonly></vaadin-text-field>
+        <vaadin-text-field id="txtestado" label="Estado" readonly></vaadin-text-field>
         <br>
         <br>
         <h3>Detalle de solicitud</h3>
@@ -40,11 +41,11 @@
             <wc-table-column header="Estado" value="true" width="20%"></wc-table-column>
         </wc-table>
         <vaadin-dialog id="dialogo">
-                <template>
-                  <div>This simple dialog will close by pressing the Esc key,</div>
-                  <div> or by a mouse click anywhere outside the dialog area</div>
-                </template>
-              </vaadin-dialog>
+            <template>
+                <div>This simple dialog will close by pressing the Esc key,</div>
+                <div> or by a mouse click anywhere outside the dialog area</div>
+            </template>
+        </vaadin-dialog>
     </wc-background>
     <script src="controller/estadosolicitud.js" type="module"></script>
 </body>

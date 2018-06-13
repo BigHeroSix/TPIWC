@@ -3,31 +3,37 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Ordenes Terminadas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="import" href="./bower_components/vaadin-dropdown-menu/vaadin-dropdown-menu.html">
+    <link rel="import" href="./bower_components/vaadin-list-box/vaadin-list-box.html">
+    <link rel="import" href="./bower_components/vaadin-button/vaadin-button.html">
+
+    <link rel="stylesheet" href="./resources/iconos/style.css">
+
 </head>
 <body>
     <wc-background>
-       <vaadin-dropdown-menu placeholder="Seleccion" label="Label">
+       <vaadin-dropdown-menu placeholder="Seleccion" label="Filtrar por">
         <template>
             <vaadin-list-box>
-              <vaadin-item value="1">Option one</vaadin-item>
-              <vaadin-item value="2">Option two</vaadin-item>
-              <vaadin-item value="3">Option three</vaadin-item>
-              <vaadin-item value="4">Option four</vaadin-item>
+              <vaadin-item value="1">Equipo</vaadin-item>
+              <vaadin-item value="2">Usuario</vaadin-item>
+              <vaadin-item value="3">Fecha</vaadin-item>
             </vaadin-list-box>
           </template>
-       </vaadin-dropdown-menu>         <vaadin-text-field></vaadin-text-field>
+       </vaadin-dropdown-menu>
+       <vaadin-text-field></vaadin-text-field>
+       <vaadin-button theme=primary>Filtrar</vaadin-button>
 
+        <paginator-oc pagesizeTemplate="1,2,3,5,7"></paginator-oc>
 
-        <p-m pagesizeTemplate="1,2,3,5,7"></p-m>
-
-        <wc-table tittle="Controller marcas wc" maxHeight="250px" width="90%" center>
-            <wc-table-column header="Id" value="idMarca" sortable width="20%"></wc-table-column>
-            <wc-table-column header="Nombre" value="nombre" sortable width="30%"></wc-table-column>
-            <wc-table-column header="Descripcion" value="descripcion" width="30%"></wc-table-column>
-            <wc-table-column header="Activo" value="activo" width="20%"></wc-table-column>
+        <wc-table maxHeight="250px" width="90%" center>
+            <wc-table-column header="IdOrden" value="idOrdenTrabajo" sortable width="10%"></wc-table-column>
+            <wc-table-column header="idEquipo" value="idEquipo" sortable width="10%"></wc-table-column>
+            <wc-table-column header="Fecha" value="fecha" width="20%"></wc-table-column>
+            <wc-table-column header="Tipo de Mantenimiento" value="idTipoMantenimiento.nombre" width="30%"></wc-table-column>
+            <wc-table-column header="Solicitante" value="idSolicitud.solicitante" sortable width="30%"></wc-table-column>
         </wc-table>
 
 
@@ -35,6 +41,6 @@
     </wc-background>
     <script type="module" src="./webcomponent/Background.js"></script>
     <script type="module" src="./webcomponent/Table.js"></script>
-    <script type="module" src="./webcomponent/PaginatorMarca.js"></script>
+    <script type="module" src="./webcomponent/PaginadorOrdenescompletas.js"></script>
 </body>
 </html>
