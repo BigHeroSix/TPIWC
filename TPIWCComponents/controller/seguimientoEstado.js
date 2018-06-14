@@ -13,33 +13,34 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
     customElements.whenDefined('vaadin-button')
 ]).then(_ => {
     const divAllDetails = document.querySelector('#divTodosDetalles');
-    const background = document.querySelector('background-seguimiento');
+    const background = document.querySelector('#contenidoSeguimiento');
 
     //Para los botones
     var divButtons = document.createElement('div');
     divButtons.setAttribute('id', 'divBotones')
 
     //Datos que me mandara la otra interfaz
-    let datos = location.href.split("?")[1];
-    console.log(location.href);
-    let datos2 = datos.split("&");
-    let idEquipo =datos2[1].split("=")[1];
-    let idOrdenTrabajo =datos2[0].split("=")[1];
+    let datos;
+    let datos2;
+    let idEquipo;
+    let idOrdenTrabajo;
     let divDetail;
     let divCheckbox;
     let item
 
-    //Revisar archivo recibido
-    var datosRecibidos = "datos";
+    if (location.href != "http://localhost/seguimientoestado.html") {
 
-    if (datosRecibidos != null) {
+        datos = location.href.split("?")[1];
+        datos2 = datos.split("&");
+        idEquipo = datos2[1].split("=")[1];
+        idOrdenTrabajo = datos2[0].split("=")[1];
+
         equipo = new EquipoResourceClient();
         equipo.findDetalle(idEquipo)
             .then((response) => {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 mostrarDetalle(data);
             })
 
@@ -53,7 +54,6 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
                         return response.json();
                     })
                     .then((data) => {
-                        console.log(data);
                         //Crear cada div de detalle
                         divDetail = document.createElement('div');
                         divDetail.setAttribute('class', 'divDetalle');
@@ -62,7 +62,6 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
                         let strong = document.createElement('strong');
 
                         let textDetail = document.createTextNode(json[index].numeroSerie);
-                        console.log("numeroSerie " + index + "      " + json[index].numeroSerie);
                         strong.appendChild(textDetail);
                         item.appendChild(strong);
 
@@ -104,8 +103,7 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
             divAllDetails.appendChild(divDetail);
         }
 
-        
-        console.log(idEquipo +"  hola");
+
         equipo.findById(idEquipo)
             .then((response) => {
                 return response.json();
@@ -137,8 +135,6 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
         notification.setAttribute('position', 'top-end');
         notification.setAttribute('id', 'notification');
         let template = document.createElement('template');
-        template.innerHTML = "Se guardaron los cambios en los pasos de los detalles.";
-        notification.appendChild(template);
 
         //Agregando notificacion
         background.appendChild(notification);
@@ -147,6 +143,11 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
         let btnSaveObtenido = document.querySelector('#btnGuardar');
 
         btnSaveObtenido.addEventListener("click", () => {
+
+            const notification = document.querySelector('#notification');
+            template.innerHTML = "Guardando cambios...";
+            notification.appendChild(template);
+            notification.open();
 
             //Para hacer PUT
             for (let a = 0; a < arrayAllOTDEP.length; a++) {
@@ -163,20 +164,17 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
                     body: JSON.stringify(arrayAllOTDEP[a])
                 }).then((data) => {
 
-                    console.log(data.json());
+                    //console.log(data.json());
 
                 }).catch((error) => {
-                    console.log(error);
+                    //console.log(error);
                 });
 
-                console.log(arrayAllOTDEP[a].completado);
             }
 
-            const notification = document.querySelector('#notification');
-            notification.open();
-            setTimeout(e=>{
-                location.href="ordenTrabajo.html";
-            },1000);
+            setTimeout(e => {
+                location.href = "ordenTrabajo.html";
+            }, 2000);
 
         });
 
@@ -188,8 +186,6 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
         divDetail.appendChild(textDefault);
 
         divAllDetails.appendChild(divDetail);
-
-        //Redifigir a la pantalla de las Ordenes de trabajo
     }
 
     //Boton Cancelar
@@ -202,5 +198,12 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
 
     //Agregando botones
     background.appendChild(divButtons);
+
+    //Para escuchar el evento click de Guardar
+    let btnSaveObtenido = document.querySelector('#btnCancelar');
+
+    btnSaveObtenido.addEventListener("click", () => {
+        location.href = "ordenTrabajo.html";
+    });
 
 });
