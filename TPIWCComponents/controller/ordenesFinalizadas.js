@@ -39,7 +39,7 @@ btn.addEventListener("click",e=>{
 });
 
 function filtrar(filter){
-    otr.getbyFilter(0,1,filter).
+    otr.getbyFilter(0,0,filter).
 then(response=>{
     return response.json();
 })
