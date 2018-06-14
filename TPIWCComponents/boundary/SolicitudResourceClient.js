@@ -8,6 +8,10 @@ class SolicitudResourceClient extends AbstractResourceClient {
   obtenerEstado(id){
     return fetch(this._url+"/"+id+"/estado");
   }
+
+  obtenerPasosCompletados(id){
+    return fetch(this._url+"/"+id+"/pasoscompletados");
+  }
  
 }
 export default SolicitudResourceClient;

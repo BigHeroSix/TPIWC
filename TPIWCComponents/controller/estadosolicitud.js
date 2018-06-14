@@ -15,12 +15,7 @@ customElements.whenDefined("wc-background")]).then(function () {
         idSolicitud = txtid.value;
         if (idSolicitud) {
             src.findById(idSolicitud).then(response => {
-                console.log("response.type " + response.type);
-                console.log("findbyid");
-                for (var pair of response.headers.entries()) {
-                    console.log(pair[0] + ': ' + pair[1]);
-                }
-                console.log(response.headers);
+                
                 var cabeceras = response.headers;
                 if (cabeceras.has("controller-exception")) {
                     console.log("tiene controller-exc");
@@ -59,8 +54,16 @@ customElements.whenDefined("wc-background")]).then(function () {
                         document.querySelector("#txtestado").value = "Por abrobar/rechazar";
                     }
 
+                    src.obtenerPasosCompletados(idSolicitud).then(response =>{
+                        return response.json();
+                    }).then(data =>{
+                        if(data){
+                            document.querySelector("#txtTotales").value = data.total;
+                            document.querySelector("#txtCompletados").value = data.terminados;
+                        }
+                    });
+
                     src.obtenerEstado(idSolicitud).then(response => {
-                        console.dir(response);
                         return response.json();
                     }).then(data => {
                         console.dir(data);
