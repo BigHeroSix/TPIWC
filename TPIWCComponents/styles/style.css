@@ -1,6 +1,6 @@
 body {
     font-family: var(--lumo-font-family);
-    background-color: rgb(230,240,240);
+    background-color: rgb(230, 240, 240);
 }
 
 h2,
@@ -9,18 +9,23 @@ h3 {
     color: rgb(0%, 5.6%, 48.4%);
     margin: 10px 0;
 }
-.titulo{
+
+.titulo {
     margin: -15px;
     margin-bottom: 10px;
     padding: 10px;
-    background-color: rgb(200,200,200);
+    background-color: rgb(200, 200, 200);
     border-radius: 10px 10px 0 0;
     text-align: center;
 }
 
 /* Para seguimiento estado paso*/
 
-
+.divDetalle {
+    margin: 10px 20% 20px 30px;
+    border: solid 1px lightblue;
+    border-radius: 8px;
+}
 
 .divCheckbox {
     margin-left: 40px;
@@ -63,8 +68,8 @@ h3 {
 
 .divTabla {
     max-width: 900px;
-    
 }
-#noregistros{
+
+#noregistros {
     margin: 10px 40px;
 }
