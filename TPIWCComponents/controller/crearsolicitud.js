@@ -23,6 +23,7 @@ document.querySelector("#btnMostrarModal").onclick = _ => {
                 erc.findById(o.idEquipo).then((data) =>{
                     return data.json();
                 }).then(obj =>{
+                    aenviar.push(obj);
                 });
             });
             if (seleccionados.length > 0) {
@@ -86,6 +87,8 @@ document.querySelector("#btnCrear").onclick = _ => {
     let solicitante = document.querySelector("#txtSolicitante").value;
     let unidad = document.querySelector("#txtUnidad").value;
     let lista = JSON.stringify(aenviar);
+    console.log(lista);
+    
     
     if (solicitante != "" && unidad != "") {
         
@@ -95,13 +98,13 @@ document.querySelector("#btnCrear").onclick = _ => {
             body: JSON.stringify({
                 "unidad": unidad,
                 "solicitante": solicitante,
-                "estado": "true",
                 "equipoList": lista
             })
         }).then((data) => {
+            return data.json();
 
-            console.log(data.json());
-            
+        }).then((r)=>{
+            document.location.href = "estadosolicitud.html"+"?idSolicitud="+r.idSolicitud;
 
         }).catch((error) => {
             console.log(error);
