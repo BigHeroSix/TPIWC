@@ -16,7 +16,6 @@ class Paginator extends HTMLElement {
             let select = document.createElement("select");
             if (this.pagesizeTemplate) {
                 let tamanios = this.pagesizeTemplate.split(",");
-
                 pagesize = parseInt(tamanios[0]);
                 this.crearEvento(0, pagesize, "paginatorOnload");
                 tamanios.forEach((value) => {
@@ -28,7 +27,6 @@ class Paginator extends HTMLElement {
             } else {
                 for (let i = 1; i <= 5; i++) {
                     this.crearEvento(0, 5, "paginatorOnload");
-
                     let option = document.createElement("option");
                     option.innerText = i * 5;
                     option.setAttribute("value", i * 5);
@@ -50,13 +48,11 @@ class Paginator extends HTMLElement {
             .divBotones{
                 display: inline-block;
             }
-
             .divPaginador{
                 width: 70%;
                 margin: 0 auto;
                 text-align: center;
             }
-
             .divPaginador select {
                 background-color: #81BEF7;
                 color: black;
@@ -69,7 +65,6 @@ class Paginator extends HTMLElement {
                 height: 33px;
                 cursor: pointer;
             }
-
             .divBotones button {
                 background-color: #81BEF7;
                 color: black;
@@ -98,7 +93,6 @@ class Paginator extends HTMLElement {
                 background-color: #0040FF !important;
                 color: white !important;
             }
-
             .divNum{
                 display: inline-block;
             }
@@ -127,7 +121,6 @@ class Paginator extends HTMLElement {
             table tr:nth-child(even){background-color: #f2f2f2;}
             
             table tr:hover {background-color: #ddd;}
-
             .selectedRow:hover{
                 background: #C1E5EB;
             }
@@ -202,7 +195,7 @@ class Paginator extends HTMLElement {
 
 crearEvento(first,pagesize,nombre){
  let event;
-
+    
     if(this._type==true){
         this._handler.getAllCompletos(first,pagesize)
     .then((p)=>{
@@ -217,7 +210,6 @@ crearEvento(first,pagesize,nombre){
             detail:{
                 jsonData: d,
                 id: this.getAttribute("for")
-
             }
           
         }
@@ -244,7 +236,6 @@ crearEvento(first,pagesize,nombre){
             detail:{
                 jsonData: d,
                 id: this.getAttribute("for")
-
             }
           
         }
@@ -257,8 +248,9 @@ crearEvento(first,pagesize,nombre){
     })
 
     }
-    else if(this._type==null)
+    else
     {
+        
     this._handler.findByRange(first,pagesize)
     .then((p)=>{
         return p.json();
@@ -296,7 +288,7 @@ crearEvento(first,pagesize,nombre){
                 .then(response => { return response.text() })
                 .then(data => { this._count = data });
             }else if(this._type==false){
-                this._handler.Count()
+                this._handler.count()
                 .then(response => { return response.text() })
                 .then(data => { this._count = data });
             }
@@ -305,8 +297,6 @@ crearEvento(first,pagesize,nombre){
         let divBotones = document.createElement("div");
         let numPaginadores = Math.ceil(this._count / pagesize);
 
-        console.log("num: " + numPaginadores);
-        console.log("pagesize: " + pagesize);
         //crear botones < <<
         let btnAnterior = document.createElement("button");
         let btnPrimero = document.createElement("button");

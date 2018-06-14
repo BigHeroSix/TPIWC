@@ -1,7 +1,70 @@
-body{
+body {
     font-family: var(--lumo-font-family);
+    background-color: rgb(230,240,240);
 }
-h2, h3{
+
+h2,
+h3 {
     font-weight: 500;
     color: rgb(0%, 5.6%, 48.4%);
+    margin: 10px 0;
+}
+.titulo{
+    margin: -15px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: rgb(200,200,200);
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+}
+
+/* Para seguimiento estado paso*/
+
+
+
+.divCheckbox {
+    margin-left: 40px;
+}
+
+#divTituloDetalles {
+    border-bottom: solid 1px lightblue;
+    margin: 10px 20% 10px 0px;
+}
+
+#divBotones,
+#divDefault {
+    margin: 10px 20% 20px 40px;
+}
+
+#btnGuardar {
+    margin-right: 10px;
+    margin: 10px;
+}
+
+.oculto {
+    display: none;
+}
+
+.wrapper {
+    width: 80%;
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 15px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.dialogo {
+    width: 70%;
+    min-width: 700px;
+    max-width: 900px;
+}
+
+.divTabla {
+    max-width: 900px;
+    
+}
+#noregistros{
+    margin: 10px 40px;
 }

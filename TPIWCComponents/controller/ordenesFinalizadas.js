@@ -11,7 +11,7 @@ textfield.addEventListener("change",e=>{
     filtrar(filter);
     let d=new Date(filter);
     textfield.value=null
-   /* otr.byDate(d)
+   /* otr.byDate(d) 
     .then(r=>{
         return r.json();
     })

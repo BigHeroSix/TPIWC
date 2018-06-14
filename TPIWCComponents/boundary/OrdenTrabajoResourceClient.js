@@ -21,7 +21,7 @@ class OrdenTrabajoResourceClient extends AbstractResourceClient {
   }
   
   getAllCompletos(first,pagesize){
-    return fetch(this._url + "/completos?first=" + first + "&pagesize=" + pagesize);
+    return fetch(this._url+"/completos?first=" + first + "&pagesize=" + pagesize);
   }
 
   getbyFilter(first,pagesize,filter){

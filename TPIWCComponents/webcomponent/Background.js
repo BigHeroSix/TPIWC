@@ -1,9 +1,11 @@
-
+import EquipoResourceClient from "../boundary/EquipoResourceClient.js";
+import ModalDialog from "../webcomponent/ModalDialog.js"
+import AutoComplete from "../webcomponent/Autocomplete.js"
 
 class Background extends HTMLElement {
     constructor() {
         super();
-        this._handler=null;
+        this._handler= new EquipoResourceClient();
     }
 
     connectedCallback() {
@@ -15,8 +17,6 @@ class Background extends HTMLElement {
 
         this.addEventListener("paginatorOnload", (e) => {
             let table = document.querySelector('#' + e.detail.id);
-            console.log(e.detail.id);
-
             table.dataProvider(e.detail.jsonData);
         });
 
@@ -37,12 +37,19 @@ class Background extends HTMLElement {
         //modal.toggleVisibility(true);
 
         this.addEventListener("complete", (e) => {
-            this._handler.findByNameLike(e.detail.char)
+            this._handler.findByCodigoCorrelativoLike(e.detail.char)
+            
                 .then((response) => {
                     return response.json();
                 })
                 .then((data) => {
-                    document.querySelector("auto-complete").setAttribute("options", JSON.stringify(data));
+                    console.log(data);
+                    
+                   // document.querySelector("auto-complete").setAttribute("options", JSON.stringify(data));
+                 let table = document.querySelector('#disponibles');
+                 table.dataProvider(data);
+                
+
                 })
         });
         /* this.addEventListener("WebComponentsReady", (e) => {
