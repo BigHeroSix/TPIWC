@@ -101,9 +101,10 @@ document.querySelector("#btnCrear").onclick = _ => {
                 "equipoList": lista
             })
         }).then((data) => {
+            return data.json();
 
-            console.log(data.json());
-            
+        }).then((r)=>{
+            document.location.href = "estadosolicitud.html"+"?idSolicitud="+r.idSolicitud;
 
         }).catch((error) => {
             console.log(error);
