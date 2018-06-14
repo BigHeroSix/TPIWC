@@ -16,6 +16,7 @@
     <script type="module" src="./webcomponent/PaginatorEquipo.js"></script>
     <script type="module" src="./controller/crearsolicitud.js"></script>
     <script type="module" src="./webcomponent/ModalDialog.js"></script>
+    <script type="module" src="./webcomponent/Autocomplete.js"></script>
 </head>
 
 <body>
@@ -41,6 +42,7 @@
             <template>
                 <wc-background>
                     <div>
+                        <auto-complete legend="buscar Equipos" findtag="codigoCorrelativo"></auto-complete>
 
                         <equipo-paginator for="disponibles" pagesizeTemplate="1,2,3,5,7"></equipo-paginator>
                         <wc-table id="disponibles" tittle="Equipos Dipsonibles" maxHeight="250px">
@@ -58,7 +60,7 @@
                     </div>
                     <vaadin-button id="btnAceptar">Aceptar</vaadin-button>
                 </wc-background>
-                
+
             </template>
         </vaadin-dialog>
         <wc-table id="finales" tittle="Equipos Dipsonibles" maxHeight="250px" hidden="true">

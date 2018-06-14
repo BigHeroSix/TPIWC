@@ -15,5 +15,9 @@ class EquipoResourceClient extends AbstractResourceClient {
   count(){
     return fetch(this.url+ "/count");
   }
+  
+  findByCodigoCorrelativoLike(name){
+    return fetch(this.url+ "/codigo/"+name);
+  }
 }
 export default EquipoResourceClient;
