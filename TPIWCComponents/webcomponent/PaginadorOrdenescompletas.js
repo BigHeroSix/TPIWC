@@ -4,7 +4,7 @@ class PaginatorOrdenescompletas extends Paginator{
 constructor(){
     super();
     this._handler=new OrdenTrabajoResourceClient();
-    this._completos=true;
+    this._type=true;
 }
 }
 customElements.define("paginator-oc",PaginatorOrdenescompletas);
