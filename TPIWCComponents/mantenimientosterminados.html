@@ -8,6 +8,8 @@
     <link rel="import" href="./bower_components/vaadin-dropdown-menu/vaadin-dropdown-menu.html">
     <link rel="import" href="./bower_components/vaadin-list-box/vaadin-list-box.html">
     <link rel="import" href="./bower_components/vaadin-button/vaadin-button.html">
+    <link rel="import" href="./bower_components/vaadin-date-picker/vaadin-date-picker.html">
+
 
     <link rel="stylesheet" href="./resources/iconos/style.css">
 
@@ -15,9 +17,11 @@
 <body>
     <wc-background>
        
-       <vaadin-text-field placeholder="Here!!!"></vaadin-text-field>
+       <vaadin-text-field placeholder="Por nombre usuario o correlativo" style="width: 19%"></vaadin-text-field>
+       <vaadin-date-picker placeholder="Por fecha"></vaadin-date-picker>
        <vaadin-button theme=primary>Filtrar</vaadin-button>
 
+        <br><br><br>
         <paginator-oc pagesizeTemplate="5,10,15,20,25" for="table-orden"></paginator-oc>
 
         <wc-table maxHeight="250px" width="90%" center id="table-orden">
