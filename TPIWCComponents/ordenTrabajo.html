@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Marca</title>
     <link rel="stylesheet" href="../resources/iconos/style.css">
+    <link rel="stylesheet" href="styles/style.css">
     <link rel="import" href="./bower_components/vaadin-button/vaadin-button.html">
     <link rel="import" href="./bower_components/vaadin-checkbox/vaadin-checkbox.html">
     <link rel="import" href="./bower_components/vaadin-dropdown-menu/vaadin-dropdown-menu.html">
@@ -17,22 +18,27 @@
 </head>
 
 <body>
-    <wc-background>
-     <paginator-oi pagesizeTemplate="1,2,3,5,7" for="tabla-incompletos"></paginator-oi>
-        <wc-table id="tabla-incompletos" tittle="Ordenes de Trabajo no finalizadas" maxHeight="250px" width="90%" center>
-            <wc-table-column header="Id" value="idOrdenTrabajo" sortable width="20%"></wc-table-column>
-            <wc-table-column header="Equipo" value="idEquipo" sortable width="30%"></wc-table-column>
-            <wc-table-column header="Fecha" value="fecha" width="20%"></wc-table-column>
-            <wc-table-column header="Prioridad" value="idPrioridad.nombre" width="20%"></wc-table-column>
-            <wc-table-column header="Solicitante" value="idSolicitud.solicitante" width="20%"></wc-table-column>
-        </wc-table>
+    <div class="wrapper">
+        <wc-background>
+            <h2 class="titulo">Ordenes de Trabajo Incompletas</h2>
+
+            <paginator-oi pagesizeTemplate="5,10,15" for="tabla-incompletos"></paginator-oi>
+            <wc-table id="tabla-incompletos" tittle="Ordenes de Trabajo no finalizadas" maxHeight="250px" width="90%" center>
+                <wc-table-column header="Id Orden de Trabajo" value="idOrdenTrabajo" sortable width="20%"></wc-table-column>
+                <wc-table-column header="id de Equipo" value="idEquipo" sortable width="30%"></wc-table-column>
+                <wc-table-column header="Correlativo" value="correlativo" sortable width="30%"></wc-table-column>
+                <wc-table-column header="Fecha" value="fecha" width="20%"></wc-table-column>
+                <wc-table-column header="Prioridad" value="idPrioridad.nombre" width="20%"></wc-table-column>
+                <wc-table-column header="Solicitante" value="idSolicitud.solicitante" width="20%"></wc-table-column>
+            </wc-table>
 
 
-    </wc-background>
-    <script type="module" src="./webcomponent/Background.js"></script>
-    <script type="module" src="./webcomponent/PaginadorOrdenesIncompletas.js"></script>
-    <script type="module" src="./webcomponent/Table.js"></script>
-    <script type="module" src="./controller/ordenes.js"></script>
+        </wc-background>
+        <script type="module" src="./webcomponent/Background.js"></script>
+        <script type="module" src="./webcomponent/PaginadorOrdenesIncompletas.js"></script>
+        <script type="module" src="./webcomponent/Table.js"></script>
+        <script type="module" src="./controller/ordenes.js"></script>
+    </div>
 
 </body>
 

@@ -15,26 +15,21 @@ customElements.whenDefined("wc-background")]).then(function () {
         idSolicitud = txtid.value;
         if (idSolicitud) {
             src.findById(idSolicitud).then(response => {
-                console.log("response.type "+response.type);
-                console.log("findbyid");
-                for (var pair of response.headers.entries()) {
-                    console.log(pair[0]+ ': '+ pair[1]);
-                 } 
-                 console.log(response.headers);
+                
                 var cabeceras = response.headers;
                 if (cabeceras.has("controller-exception")) {
                     console.log("tiene controller-exc");
                     let notificacion = document.querySelector("#notificacion");
-                    notificacion.innerHTML = "<template id='noty'>"+cabeceras.get("controller-exception")+"</template>";
+                    notificacion.innerHTML = "<template id='noty'>" + cabeceras.get("controller-exception") + "</template>";
                     notificacion.open();
                     return {};
                 } else if (cabeceras.has("server-exception")) {
                     console.log("tiene server-exc");
                     let notificacion = document.querySelector("#notificacion");
-                    notificacion.innerHTML = "<template id='noty'>"+cabeceras.get("server-exception")+"</template>";
+                    notificacion.innerHTML = "<template id='noty'>" + cabeceras.get("server-exception") + "</template>";
                     notificacion.open();
                     return {};
-                }else{
+                } else {
                     let json;
                     try {
                         eval('json = response.json()');
@@ -59,8 +54,16 @@ customElements.whenDefined("wc-background")]).then(function () {
                         document.querySelector("#txtestado").value = "Por abrobar/rechazar";
                     }
 
+                    src.obtenerPasosCompletados(idSolicitud).then(response =>{
+                        return response.json();
+                    }).then(data =>{
+                        if(data){
+                            document.querySelector("#txtTotales").value = data.total;
+                            document.querySelector("#txtCompletados").value = data.terminados;
+                        }
+                    });
+
                     src.obtenerEstado(idSolicitud).then(response => {
-                        console.dir(response);
                         return response.json();
                     }).then(data => {
                         console.dir(data);
@@ -78,6 +81,10 @@ customElements.whenDefined("wc-background")]).then(function () {
                     notificacion.innerHTML = "<template id='noty'>ID de solicitud inválido</template>";
                     notificacion.open();
                 }
+            }).catch( e => {
+                let notificacion = document.querySelector("#notificacion");
+                notificacion.innerHTML = "<template id='noty'>Error!<br>"+e+"</template>";
+                notificacion.open();
             });
 
 

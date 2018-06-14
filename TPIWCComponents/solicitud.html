@@ -16,19 +16,22 @@
     <script type="module" src="./webcomponent/PaginatorEquipo.js"></script>
     <script type="module" src="./controller/crearsolicitud.js"></script>
     <script type="module" src="./webcomponent/ModalDialog.js"></script>
+    <link rel="stylesheet" href="styles/style.css">
+    <script type="module" src="./webcomponent/Autocomplete.js"></script>
 </head>
 
 <body>
+
     <vaadin-notification id="notificacion" duration="3000" position="top-end">
     </vaadin-notification>
     <div>
-        <label>Solicitante: </label>
-        <vaadin-text-field required error-message="Valor requerido" id="txtSolicitante">
+        <div class="wrapper">
+        <h2 class="titulo">Nueva Solicitud</h2>
+        <vaadin-text-field label="Solicitante:" required error-message="Valor requerido" id="txtSolicitante">
         </vaadin-text-field>
     </div>
     <div>
-        <label>Unidad que solicita: </label>
-        <vaadin-text-field required error-message="Valor requerido" id="txtUnidad">
+        <vaadin-text-field label="Unidad que solicita:" required error-message="Valor requerido" id="txtUnidad">
         </vaadin-text-field>
     </div>
     <div>
@@ -41,6 +44,7 @@
             <template>
                 <wc-background>
                     <div>
+                        <auto-complete legend="buscar Equipos" findtag="codigoCorrelativo"></auto-complete>
 
                         <equipo-paginator for="disponibles" pagesizeTemplate="1,2,3,5,7"></equipo-paginator>
                         <wc-table id="disponibles" tittle="Equipos Dipsonibles" maxHeight="250px">
@@ -58,7 +62,7 @@
                     </div>
                     <vaadin-button id="btnAceptar">Aceptar</vaadin-button>
                 </wc-background>
-                
+
             </template>
         </vaadin-dialog>
         <wc-table id="finales" tittle="Equipos Dipsonibles" maxHeight="250px" hidden="true">
@@ -67,11 +71,11 @@
             <wc-table-column header="Modelo" value="modelo" sortable width="30%"></wc-table-column>
             <wc-table-column header="Unidad" value="unidad" width="30%"></wc-table-column>
         </wc-table>
-        <div>
-            <vaadin-button id="btnCrear" hidden="true">Crear Solicitud</vaadin-button>
+            <div>
+                <vaadin-button id="btnCrear" hidden="true">Crear Solicitud</vaadin-button>
+            </div>
         </div>
     </div>
-
 </body>
 
 </html>
