@@ -283,9 +283,16 @@ crearEvento(first,pagesize,nombre){
 
     crearPaginador(first, pagesize) {
         if (this._count === 0) {
-            this._handler.count()
+            if(this._type==true){
+                this._handler.getCount()
                 .then(response => { return response.text() })
                 .then(data => { this._count = data });
+            }else if(this._type==false){
+                this._handler.count()
+                .then(response => { return response.text() })
+                .then(data => { this._count = data });
+            }
+       
         }
         let divBotones = document.createElement("div");
         let numPaginadores = Math.ceil(this._count / pagesize);

@@ -8,32 +8,28 @@
     <link rel="import" href="./bower_components/vaadin-dropdown-menu/vaadin-dropdown-menu.html">
     <link rel="import" href="./bower_components/vaadin-list-box/vaadin-list-box.html">
     <link rel="import" href="./bower_components/vaadin-button/vaadin-button.html">
+    <link rel="import" href="./bower_components/vaadin-date-picker/vaadin-date-picker.html">
+
 
     <link rel="stylesheet" href="./resources/iconos/style.css">
 
 </head>
 <body>
     <wc-background>
-       <vaadin-dropdown-menu placeholder="Seleccion" label="Filtrar por">
-        <template>
-            <vaadin-list-box>
-              <vaadin-item value="1">Equipo</vaadin-item>
-              <vaadin-item value="2">Usuario</vaadin-item>
-              <vaadin-item value="3">Fecha</vaadin-item>
-            </vaadin-list-box>
-          </template>
-       </vaadin-dropdown-menu>
-       <vaadin-text-field></vaadin-text-field>
+       
+       <vaadin-text-field placeholder="Por nombre usuario o correlativo" style="width: 19%"></vaadin-text-field>
+       <vaadin-date-picker placeholder="Por fecha"></vaadin-date-picker>
        <vaadin-button theme=primary>Filtrar</vaadin-button>
 
-        <paginator-oc pagesizeTemplate="1,2,3,5,7"></paginator-oc>
+        <br><br><br>
+        <paginator-oc pagesizeTemplate="5,10,15,20,25" for="table-orden"></paginator-oc>
 
-        <wc-table maxHeight="250px" width="90%" center>
-            <wc-table-column header="IdOrden" value="idOrdenTrabajo" sortable width="10%"></wc-table-column>
-            <wc-table-column header="idEquipo" value="idEquipo" sortable width="10%"></wc-table-column>
+        <wc-table maxHeight="250px" width="70%" center id="table-orden">
+            <wc-table-column header="IdOrden" value="idOrdenTrabajo" sortable width="15%"></wc-table-column>
+            <wc-table-column header="idEquipo" value="idEquipo" sortable width="15%"></wc-table-column>
             <wc-table-column header="Fecha" value="fecha" width="20%"></wc-table-column>
-            <wc-table-column header="Tipo de Mantenimiento" value="idTipoMantenimiento.nombre" width="30%"></wc-table-column>
-            <wc-table-column header="Solicitante" value="idSolicitud.solicitante" sortable width="30%"></wc-table-column>
+            <wc-table-column header="Tipo de Mantenimiento" value="idTipoMantenimiento.nombre" width="25%"></wc-table-column>
+            <wc-table-column header="Solicitante" value="idSolicitud.solicitante" sortable width="25%"></wc-table-column>
         </wc-table>
 
 
@@ -42,5 +38,6 @@
     <script type="module" src="./webcomponent/Background.js"></script>
     <script type="module" src="./webcomponent/Table.js"></script>
     <script type="module" src="./webcomponent/PaginadorOrdenescompletas.js"></script>
+    <script type="module" src="./controller/ordenesFinalizadas.js"></script>
 </body>
 </html>
