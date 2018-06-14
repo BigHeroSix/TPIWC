@@ -12,18 +12,12 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
     customElements.whenDefined('vaadin-item'),
     customElements.whenDefined('vaadin-button')
 ]).then(_ => {
-
-    console.log("DOM");
-
     const divAllDetails = document.querySelector('#divTodosDetalles');
     const background = document.querySelector('background-seguimiento');
 
     //Para los botones
     var divButtons = document.createElement('div');
     divButtons.setAttribute('id', 'divBotones')
-
-    //Revisar archivo recibido
-    var datosRecibidos = "datos";
 
     //Datos que me mandara la otra interfaz
     var idEquipo = 1;
@@ -33,8 +27,10 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
     let divCheckbox;
     let item
 
-    if (datosRecibidos != null) {
+    //Revisar archivo recibido
+    var datosRecibidos = "datos";
 
+    if (datosRecibidos != null) {
         equipo = new EquipoResourceClient();
         equipo.findDetalle(idEquipo)
             .then((response) => {
@@ -86,18 +82,10 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
 
                 let checkbox = document.createElement('vaadin-checkbox');
                 checkbox.setAttribute('id', numeroSerie + '-' + jsonEstadoPaso[index2].ordenTrabajoDetalleEstadoPasoPK.idOrdenTrabajoDetalle + '-' + jsonEstadoPaso[index2].ordenTrabajoDetalleEstadoPasoPK.idProcedimientoPaso);
-                arrayIdEquipoDetalle.push(numeroSerie + '-' + jsonEstadoPaso[index2].ordenTrabajoDetalleEstadoPasoPK.idOrdenTrabajoDetalle + '-' + jsonEstadoPaso[index2].ordenTrabajoDetalleEstadoPasoPK.idProcedimientoPaso);
-                //console.log("idOrdenTrabajoDetalle: " + jsonEstadoPaso[index2].ordenTrabajoDetalleEstadoPasoPK.idOrdenTrabajoDetalle + "   idProcedimientoPaso: " + jsonEstadoPaso[index2].ordenTrabajoDetalleEstadoPasoPK.idProcedimientoPaso + "     completado: " + jsonEstadoPaso[index2].completado);
 
-                //Agregando todos los elementros a un Array
-                //let arrayOTDEP = [];
-                //arrayOTDEP.push(jsonEstadoPaso[index2].ordenTrabajoDetalleEstadoPasoPK.idOrdenTrabajoDetalle);
-                //arrayOTDEP.push(jsonEstadoPaso[index2].ordenTrabajoDetalleEstadoPasoPK.idProcedimientoPaso);
-                //arrayOTDEP.push(jsonEstadoPaso[index2].completado);
-                //arrayOTDEP.push(numeroSerie + '-' + jsonEstadoPaso[index2].ordenTrabajoDetalleEstadoPasoPK.idOrdenTrabajoDetalle + '-' + jsonEstadoPaso[index2].ordenTrabajoDetalleEstadoPasoPK.idProcedimientoPaso);
+                arrayIdEquipoDetalle.push(numeroSerie + '-' + jsonEstadoPaso[index2].ordenTrabajoDetalleEstadoPasoPK.idOrdenTrabajoDetalle + '-' + jsonEstadoPaso[index2].ordenTrabajoDetalleEstadoPasoPK.idProcedimientoPaso);
 
                 arrayAllOTDEP.push(jsonEstadoPaso[index2]);
-
 
                 if (jsonEstadoPaso[index2].completado == true) {
                     checkbox.setAttribute('checked', '');
@@ -112,8 +100,6 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
             }
             divDetail.appendChild(divCheckbox);
             divAllDetails.appendChild(divDetail);
-
-            console.log(arrayAllOTDEP);
         }
 
         equipo.findById(idEquipo)
@@ -155,7 +141,7 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
 
         //Para escuchar el evento click de Guardar
         let btnSaveObtenido = document.querySelector('#btnGuardar');
-        let checkboxPUT;
+
         btnSaveObtenido.addEventListener("click", () => {
 
             //Para hacer PUT
@@ -163,10 +149,6 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
 
                 let checkboxPUT = document.getElementById(arrayIdEquipoDetalle[a]);
 
-                //console.log(checkboxPUT.getAttribute('aria-checked'));
-                //console.log(arrayIdEquipoDetalle[a]);
-                //console.log(arrayAllOTDEP[a].completado);
-                //console.log(typeof (arrayAllOTDEP[a]));
                 arrayAllOTDEP[a].completado = checkboxPUT.getAttribute('aria-checked');
 
                 fetch(ordenTrabajoDetalleEstadoPaso._url, {
@@ -190,8 +172,6 @@ Promise.all([customElements.whenDefined('vaadin-text-field'),
             notification.open();
 
         });
-
-        console.log("Final");
 
     } else {
 
