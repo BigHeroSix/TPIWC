@@ -1,5 +1,4 @@
-import MarcaResourceClient from "../boundary/MarcaResourceClient.js";
-import ModalDialog from "../webcomponent/ModalDialog.js"
+
 
 class Background extends HTMLElement {
     constructor() {

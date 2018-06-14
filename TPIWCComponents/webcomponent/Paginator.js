@@ -216,6 +216,8 @@ crearEvento(first,pagesize,nombre){
             composed:true,
             detail:{
                 jsonData: d,
+                id: this.getAttribute("for")
+
             }
           
         }
@@ -227,7 +229,7 @@ crearEvento(first,pagesize,nombre){
         e.message || "No hay nada que mostrar";
     })
 
-    }else if(this._type=false)
+    }else if(this._type==false)
     {
         this._handler.getIncompletos(first,pagesize)
     .then((p)=>{
@@ -241,6 +243,8 @@ crearEvento(first,pagesize,nombre){
             composed:true,
             detail:{
                 jsonData: d,
+                id: this.getAttribute("for")
+
             }
           
         }
@@ -253,7 +257,7 @@ crearEvento(first,pagesize,nombre){
     })
 
     }
-    else 
+    else if(this._type==null)
     {
     this._handler.findByRange(first,pagesize)
     .then((p)=>{
@@ -287,9 +291,16 @@ crearEvento(first,pagesize,nombre){
 
     crearPaginador(first, pagesize) {
         if (this._count === 0) {
-            this._handler.count()
+            if(this._type==true){
+                this._handler.getCount()
                 .then(response => { return response.text() })
                 .then(data => { this._count = data });
+            }else if(this._type==false){
+                this._handler.Count()
+                .then(response => { return response.text() })
+                .then(data => { this._count = data });
+            }
+       
         }
         let divBotones = document.createElement("div");
         let numPaginadores = Math.ceil(this._count / pagesize);
