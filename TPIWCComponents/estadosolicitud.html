@@ -10,6 +10,7 @@
     <link rel="import" href="bower_components/vaadin-text-field/vaadin-text-field.html">
     <link rel="import" href="bower_components/vaadin-button/vaadin-button.html">
     <link rel="import" href="bower_components/vaadin-dialog/vaadin-dialog.html">
+    <link rel="import" href="bower_components/vaadin-notification/vaadin-notification.html">
     <script type="module" src="webcomponent/Table.js"></script>
     <script type="module" src="webcomponent/Background.js"></script>
 </head>
@@ -35,7 +36,7 @@
                 <br>
                 <br>
                 <h3>Detalle de solicitud</h3>
-                <wc-table maxHeight="300px">
+                <wc-table id="tablaEquipos" maxHeight="300px">
                     <wc-table-column header="Correlativo" value="codigoCorrelativo" width="20%"></wc-table-column>
                     <wc-table-column header="Modelo" value="idModelo.nombre" width="30%"></wc-table-column>
                     <wc-table-column header="Unidad" value="idUnidad.nombre" width="30%"></wc-table-column>
@@ -43,7 +44,7 @@
                 </wc-table>
                 <vaadin-dialog id="dialogo">
                     <template>
-                        <h3 class="titulo">Historial de Mantenimientos Terminados</h3>
+                        <h3>Historial de Mantenimientos Terminados</h3>
                         <vaadin-text-field id="txtCorrelativo" label="Correlativo" readonly></vaadin-text-field>
                         <vaadin-text-field id="txtModelo" label="Modelo" readonly></vaadin-text-field>
                         <vaadin-text-field id="txtUnidad" label="Unidad" readonly></vaadin-text-field>
@@ -57,11 +58,14 @@
                                 <wc-table-column header="Tipo Mantenimiento" value="idTipoMantenimiento.nombre"></wc-table-column>
                                 <wc-table-column header="Prioridad" value="idPrioridad.nombre" width="20%"></wc-table-column>
                             </wc-table>
+                            <h5 id="noregistros" class="oculto">No hay registros...</h5>
                         </div>
                     </template>
                 </vaadin-dialog>
         </wc-background>
         </div>
+        <vaadin-notification id="notificacion" duration="3000" position="top-end">
+        </vaadin-notification>
         <script src="controller/estadosolicitud.js" type="module"></script>
 </body>
 
